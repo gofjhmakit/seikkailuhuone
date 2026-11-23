@@ -1,0 +1,45 @@
+name: Deploy to GitHub Pages
+
+# Publishes the playable app to GitHub Pages. No build tooling is needed — the game
+# pages are already committed (built from design art by tools/build_*.py). This
+# workflow just copies the runtime files into a lean _site/ and uploads it, so the
+# source (design/, poc/, tools/, tests/, *.template.html) is NOT served.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stage the playable app into _site
+        run: |
+          mkdir -p _site/games
+          cp index.html seikkailu.css _site/
+          cp -r engine content assets _site/
+          cp games/*.html _site/games/
+          # drop the source template + stub pages (keep only built game pages)
+          rm -f _site/games/*.template.html _site/games/_stub.html
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
