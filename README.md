@@ -6,6 +6,10 @@ little games — all **calm**: point-and-click, find, tinker. **No speed, no tim
 no flashing.** Dragons, dinosaurs, volcanos, space, potions and silly monsters, with
 simple readable Finnish text (for a child learning to read) and plenty of sound.
 
+**▶ Play it in your browser: <https://gofjhmakit.github.io/seikkailuhuone/>**
+(deployed from `main` to GitHub Pages; best on a modern browser. On the actual Acer
+tablet it runs fully offline from the SD card.)
+
 Sibling project to [opijapelaa](https://github.com/gofjhmakit/opijapelaa) (the
 learn-and-play hub); same house style and device target.
 

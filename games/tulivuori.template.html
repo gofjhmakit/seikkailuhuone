@@ -62,30 +62,47 @@
   }
 
   /* ---------- poke ---------- */
-  function shudder() {
-    var vs = C.$("volc-shake");
-    A.tween({ duration: 110, from: 0, to: 1, ease: "linear",
-      onUpdate: function (t) { vs.setAttribute("transform", "translate(0," + (2 * Math.sin(Math.PI * t)) + ")"); },
+  function shudder(amp) {
+    var vs = C.$("volc-shake"); amp = amp || 2;
+    A.tween({ duration: 90 + Math.random() * 60, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { vs.setAttribute("transform", "translate(" + ((Math.random() - 0.5) * amp * 0.5).toFixed(2) + "," + (amp * Math.sin(Math.PI * t)).toFixed(2) + ")"); },
       onDone: function () { vs.setAttribute("transform", "translate(0,0)"); } });
+  }
+  function puffSmoke(n) {
+    var i; for (i = 0; i < n; i++) {
+      parts.emit(ORIGIN_X + (Math.random() - 0.5) * 30, ORIGIN_Y, 1, {
+        angle: -Math.PI / 2 + (Math.random() - 0.5) * 0.9, speed: 1 + Math.random() * 2,
+        life: 800 + Math.random() * 600, gravity: -0.012, color: (Math.random() < 0.5 ? "#7a6f86" : "#4a4150"), shape: "circle", size: 8 + Math.random() * 7 });
+    }
   }
   function poke() {
     if (busy) return;
-    AU.play("toks"); shudder();
-    pressure += 16;
+    AU.play("toks"); shudder(1.5 + Math.random() * 2);
+    if (Math.random() < 0.3) { puffSmoke(2 + (Math.random() * 2 | 0)); }      /* sometimes a smoke puff */
+    pressure += 14 + (Math.random() * 6 | 0);                                 /* varies pokes-to-erupt */
     if (pressure >= 100) { pressure = 100; updateGauge(); erupt(); }
-    else { updateGauge(); setHint("paina vielä!"); }
+    else {
+      updateGauge();
+      if (pressure >= 68 && Math.random() < 0.3) { AU.play("huu"); puffSmoke(3); setHint("poks... melkein!"); }  /* pre-eruption tease */
+      else { setHint(U.pick(["paina vielä!", "lisää painetta!", "jatka vaan!"])); }
+    }
   }
 
   /* ---------- eruption ---------- */
   function erupt() {
     busy = true;
-    setHint("PAM! se purkautuu!");
+    setHint(U.pick(["PAM! se purkautuu!", "BUM! purkaus!", "huiii! se lähtee!"]));
     AU.play("jyrina");
     AU.play(type === "savu" ? "huu" : (type === "kivet" ? "rojaus" : (type === "ilotulitus" ? "pling" : "pamaus")));
     var spec = G.particleSpec[type], i;
-    for (i = 0; i < spec.count; i++) {
-      var ang = -Math.PI / 2 + (Math.random() - 0.5) * spec.spread;
-      var spd = spec.speed[0] + Math.random() * (spec.speed[1] - spec.speed[0]);
+    /* flavour: 0 = normal, 1 = wide fan, 2 = tall narrow jet — a little different each time */
+    var flavour = Math.floor(Math.random() * 3);
+    var count = spec.count, spread = spec.spread, boost = 1;
+    if (flavour === 1) { spread = Math.min(3.14, spread * 1.5); }
+    if (flavour === 2) { spread = spec.spread * 0.55; boost = 1.4; count = Math.max(8, count - 4); }
+    for (i = 0; i < count; i++) {
+      var ang = -Math.PI / 2 + (Math.random() - 0.5) * spread;
+      var spd = (spec.speed[0] + Math.random() * (spec.speed[1] - spec.speed[0])) * boost;
       var life = spec.life[0] + Math.random() * (spec.life[1] - spec.life[0]);
       var sz = spec.size ? (spec.size[0] + Math.random() * (spec.size[1] - spec.size[0])) : (6 + Math.random() * 7);
       parts.emit(ORIGIN_X, ORIGIN_Y, 1, {
@@ -94,7 +111,7 @@
       });
     }
     reactCritters();
-    setTimeout(launch, 260);
+    setTimeout(launch, 220 + (Math.random() * 140 | 0));
   }
 
   /* ---------- launch a random object ---------- */
@@ -107,11 +124,11 @@
     while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
     var src = C.$("p-" + obj.id); if (!src) { busy = false; return; }
     var g = src.cloneNode(true); g.removeAttribute("id"); wrap.appendChild(g);
-    var endX = 320 + Math.random() * 384, endY = 452, peak = 150, spins = (Math.random() < 0.5 ? -1 : 1) * (360 + Math.random() * 360);
+    var endX = 300 + Math.random() * 424, endY = 452, peak = 110 + Math.random() * 100, spins = (Math.random() < 0.5 ? -1 : 1) * (360 + Math.random() * 540);
     AU.play("viuh");
     setObjT(wrap, ORIGIN_X, ORIGIN_Y, 0, 0.8);
     A.tween({
-      duration: 1350, from: 0, to: 1, ease: "linear",
+      duration: 1150 + Math.random() * 500, from: 0, to: 1, ease: "linear",
       onUpdate: function (t) {
         var x = ORIGIN_X + (endX - ORIGIN_X) * t;
         var y = ORIGIN_Y + (endY - ORIGIN_Y) * t - peak * Math.sin(Math.PI * t);
