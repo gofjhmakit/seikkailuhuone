@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Tulivuori</title>
+<link rel="stylesheet" href="../seikkailu.css">
+<style> #museum { position:absolute; left:0; top:0; width:1024px; height:600px; } </style>
+</head>
+<body>
+<div id="stage">
+  <svg id="scene" viewBox="0 0 1024 600" width="1024" height="600">
+    <!--SCENE_BG-->
+    <g id="launch" pointer-events="none"></g>
+    <text id="objname" x="512" y="120" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="40" font-weight="800" fill="#ffd264" opacity="0"></text>
+    <text id="hint" x="512" y="70" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="700" fill="#fff7e6" opacity="0.92">paina tulivuorta!</text>
+    <g id="controls"></g>
+  </svg>
+
+  <div id="museum" style="display:none;">
+    <svg id="musescene" viewBox="0 0 1024 600" width="1024" height="600">
+      <!--MUSEUM_BG-->
+      <text x="512" y="38" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="30" font-weight="800" fill="#ffd264">kokoelma</text>
+      <text id="museCount" x="840" y="38" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="700" fill="#fff7e6"></text>
+      <g id="slots"></g>
+      <g id="museControls"></g>
+    </svg>
+  </div>
+
+  <svg id="objsheet" width="0" height="0" viewBox="0 0 100 100" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--OBJSHEET--></svg>
+  <svg id="iconsheet" width="0" height="0" viewBox="0 0 64 64" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--ICONSHEET--></svg>
+</div>
+
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var G = Seik.logic.tulivuori, U = Seik.logic.util;
+
+  var ORIGIN_X = 512, ORIGIN_Y = 165;
+  var pressure = 0, type = "laava", night = false, busy = false;
+  var found = C.store.get("tulivuori_found", {});
+  var parts, hintEl, nameEl, chipEls = {};
+
+  function foundCount() { var n = 0, k; for (k in found) { if (found.hasOwnProperty(k)) n++; } return n; }
+  function setHint(t) { if (hintEl.firstChild) hintEl.firstChild.nodeValue = t; else hintEl.appendChild(document.createTextNode(t)); }
+
+  /* ---------- pressure gauge ---------- */
+  function gaugeRect() { var g = C.$("gauge-fill"); return g ? g.getElementsByTagName("rect")[0] : null; }
+  function updateGauge() {
+    var r = gaugeRect(); if (!r) return;
+    var top = 308, bottom = 510, maxH = bottom - top;
+    var h = Math.round(maxH * (pressure / 100));
+    r.setAttribute("y", bottom - h); r.setAttribute("height", h < 1 ? 1 : h);
+    var glow = C.$("volc-glow");
+    if (glow) glow.setAttribute("opacity", (night ? 0.3 : 0) + 0.9 * (pressure / 100));
+  }
+
+  /* ---------- poke ---------- */
+  function shudder() {
+    var vs = C.$("volc-shake");
+    A.tween({ duration: 110, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { vs.setAttribute("transform", "translate(0," + (2 * Math.sin(Math.PI * t)) + ")"); },
+      onDone: function () { vs.setAttribute("transform", "translate(0,0)"); } });
+  }
+  function poke() {
+    if (busy) return;
+    AU.play("toks"); shudder();
+    pressure += 16;
+    if (pressure >= 100) { pressure = 100; updateGauge(); erupt(); }
+    else { updateGauge(); setHint("paina vielä!"); }
+  }
+
+  /* ---------- eruption ---------- */
+  function erupt() {
+    busy = true;
+    setHint("PAM! se purkautuu!");
+    AU.play("jyrina");
+    AU.play(type === "savu" ? "huu" : (type === "kivet" ? "rojaus" : (type === "ilotulitus" ? "pling" : "pamaus")));
+    var spec = G.particleSpec[type], i;
+    for (i = 0; i < spec.count; i++) {
+      var ang = -Math.PI / 2 + (Math.random() - 0.5) * spec.spread;
+      var spd = spec.speed[0] + Math.random() * (spec.speed[1] - spec.speed[0]);
+      var life = spec.life[0] + Math.random() * (spec.life[1] - spec.life[0]);
+      var sz = spec.size ? (spec.size[0] + Math.random() * (spec.size[1] - spec.size[0])) : (6 + Math.random() * 7);
+      parts.emit(ORIGIN_X, ORIGIN_Y, 1, {
+        angle: ang, speed: spd, life: life, gravity: spec.gravity,
+        color: U.pick(spec.colors), shape: spec.shape, size: sz
+      });
+    }
+    reactCritters();
+    setTimeout(launch, 260);
+  }
+
+  /* ---------- launch a random object ---------- */
+  function setObjT(w, x, y, rot, s) {
+    w.setAttribute("transform", "translate(" + x + "," + y + ") scale(" + s + ") translate(-50,-50) rotate(" + rot + ",50,50)");
+  }
+  function launch() {
+    var obj = G.pickObject();
+    var wrap = C.$("launch");
+    while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
+    var src = C.$("p-" + obj.id); if (!src) { busy = false; return; }
+    var g = src.cloneNode(true); g.removeAttribute("id"); wrap.appendChild(g);
+    var endX = 320 + Math.random() * 384, endY = 452, peak = 150, spins = (Math.random() < 0.5 ? -1 : 1) * (360 + Math.random() * 360);
+    AU.play("viuh");
+    setObjT(wrap, ORIGIN_X, ORIGIN_Y, 0, 0.8);
+    A.tween({
+      duration: 1350, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) {
+        var x = ORIGIN_X + (endX - ORIGIN_X) * t;
+        var y = ORIGIN_Y + (endY - ORIGIN_Y) * t - peak * Math.sin(Math.PI * t);
+        setObjT(wrap, x, y, spins * t, 0.8);
+      },
+      onDone: function () { land(obj, endX, endY, wrap); }
+    });
+  }
+  function showName(nimi) {
+    nameEl.firstChild ? (nameEl.firstChild.nodeValue = nimi) : nameEl.appendChild(document.createTextNode(nimi));
+    nameEl.setAttribute("opacity", "1");
+    A.tween({ duration: 1600, from: 1, to: 1, onDone: function () { nameEl.setAttribute("opacity", "0"); } });
+  }
+  function land(obj, x, y, wrap) {
+    AU.play("kops");
+    var isNew = !found[obj.id];
+    showName(obj.nimi);
+    if (isNew) {
+      found[obj.id] = 1; C.store.set("tulivuori_found", found);
+      AU.play("loyto");
+      Seik.celebrate(U.pick(["Löysit uuden!", "Hieno!", "Hassu!", "Löytö!"]));
+      if (foundCount() >= G.objects.length) { var ph = C.$("volc-partyhat"); if (ph) ph.setAttribute("opacity", "1"); }
+    }
+    /* settle, then clear and reset for the next poke */
+    A.tween({ duration: isNew ? 1400 : 900, from: 1, to: 0, ease: "linear",
+      onUpdate: function (v) { wrap.setAttribute("opacity", v < 0.35 ? v / 0.35 : 1); },
+      onDone: function () {
+        while (wrap.firstChild) wrap.removeChild(wrap.firstChild);
+        wrap.setAttribute("opacity", "1");
+        pressure = 0; updateGauge(); busy = false; setHint("paina tulivuorta!");
+      } });
+  }
+
+  /* ---------- critters ---------- */
+  function bob(id, amp, delay, dur) {
+    var el = C.$(id); if (!el) return;
+    setTimeout(function () {
+      A.tween({ duration: dur || 600, from: 0, to: 1, ease: "linear",
+        onUpdate: function (t) { el.setAttribute("transform", "translate(0," + (amp * Math.sin(Math.PI * t)) + ")"); },
+        onDone: function () { el.setAttribute("transform", "translate(0,0)"); } });
+    }, delay || 0);
+  }
+  function reactCritters() {
+    bob("critter-dino", 14, 0, 650);     /* ducks down */
+    bob("critter-bird", -12, 40, 520);   /* flaps up */
+    bob("critter-peek", -12, 120, 700);  /* peeks up */
+    bob("critter-etana", -6, 520, 700);  /* the slow one, late */
+  }
+
+  /* ---------- controls (chips, day/night, kokoelma) built in SVG ---------- */
+  function svgText(x, y, str, size, fill) {
+    var t = C.svg("text", { x: x, y: y, "text-anchor": "middle", "font-family": "Comic Sans MS, sans-serif",
+      "font-size": size, "font-weight": "800", fill: fill });
+    t.appendChild(document.createTextNode(str)); return t;
+  }
+  function cloneIcon(iconId, cx, cy, scale) {
+    var src = C.$("pi-" + iconId); if (!src) return null;
+    var w = C.svg("g", { transform: "translate(" + cx + "," + cy + ") scale(" + scale + ") translate(-32,-32)" });
+    var c = src.cloneNode(true); c.removeAttribute("id"); w.appendChild(c); return w;
+  }
+  function selectType(id) {
+    type = id;
+    for (var k in chipEls) {
+      if (!chipEls.hasOwnProperty(k)) continue;
+      chipEls[k].rect.setAttribute("stroke", k === id ? "#ffd264" : "#5e3d1c");
+      chipEls[k].rect.setAttribute("stroke-width", k === id ? 7 : 4);
+      chipEls[k].ptr.setAttribute("opacity", k === id ? "1" : "0");
+    }
+  }
+  function buildControls() {
+    var ctr = C.$("controls"), i;
+    var xs = [150, 250, 350, 450];
+    for (i = 0; i < G.eruptions.length; i++) {
+      (function (e, x) {
+        var g = C.svg("g", { "class": "hot" });
+        var ptr = C.svg("polygon", { points: (x - 9) + ",506 " + (x + 9) + ",506 " + x + ",518", fill: "#ffd264", opacity: "0" });
+        var rect = C.svg("rect", { x: x - 38, y: 513, width: 76, height: 72, rx: 16, fill: "#f3e7cc", stroke: "#5e3d1c", "stroke-width": 4 });
+        g.appendChild(ptr); g.appendChild(rect);
+        var ic = cloneIcon(e.icon, x, 538, 0.62); if (ic) g.appendChild(ic);
+        g.appendChild(svgText(x, 578, e.nimi.length > 8 ? e.nimi.substr(0, 8) : e.nimi, 13, "#2a2440"));
+        C.tap(g, function () { AU.play("naps"); selectType(e.id); setHint(e.nimi); });
+        ctr.appendChild(g);
+        chipEls[e.id] = { rect: rect, ptr: ptr };
+      })(G.eruptions[i], xs[i]);
+    }
+    /* day / night toggle */
+    var dn = C.svg("g", { "class": "hot" });
+    dn.appendChild(C.svg("rect", { x: 872, y: 12, width: 56, height: 56, rx: 14, fill: "#241a33", stroke: "#ffd264", "stroke-width": 3 }));
+    var sunI = cloneIcon("icon-sun", 900, 40, 0.68), moonI = cloneIcon("icon-moon", 900, 40, 0.68);
+    moonI.setAttribute("opacity", "0"); dn.appendChild(sunI); dn.appendChild(moonI);
+    C.tap(dn, function () { toggleNight(sunI, moonI); });
+    C.$("controls").appendChild(dn);
+    /* kokoelma button */
+    var kb = C.svg("g", { "class": "hot" });
+    kb.appendChild(C.svg("rect", { x: 765, y: 496, width: 150, height: 52, rx: 16, fill: "#ffd264", stroke: "#c9922f", "stroke-width": 4 }));
+    kb.appendChild(svgText(840, 530, "kokoelma", 22, "#5e3d1c"));
+    C.tap(kb, openMuseum);
+    C.$("controls").appendChild(kb);
+    selectType("laava");
+  }
+  function toggleNight(sunI, moonI) {
+    night = !night; AU.play("pyyh");
+    var grad = C.$("sky"); var st = grad ? grad.getElementsByTagName("stop") : null;
+    if (st && st.length >= 2) {
+      st[0].setAttribute("stop-color", night ? "#342a4e" : "#a5d8ff");
+      st[1].setAttribute("stop-color", night ? "#241a33" : "#7cc0ff");
+    }
+    sunI.setAttribute("opacity", night ? "0" : "1");
+    moonI.setAttribute("opacity", night ? "1" : "0");
+    var sm = C.$("scene-sun"), mn = C.$("scene-moon"), stars = C.$("scene-stars");
+    if (sm) sm.setAttribute("opacity", night ? "0" : "1");
+    if (mn) mn.setAttribute("opacity", night ? "1" : "0");
+    if (stars) stars.setAttribute("opacity", night ? "1" : "0");
+    updateGauge();
+  }
+
+  /* ---------- museum ---------- */
+  function buildMuseum() {
+    var slots = C.$("slots"), i;
+    for (i = 0; i < G.objects.length; i++) {
+      var c = G.slotCenter(i), obj = G.objects[i];
+      if (found[obj.id]) {
+        var src = C.$("p-" + obj.id);
+        if (src) {
+          var w = C.svg("g", { transform: "translate(" + c.x + "," + (c.y - 6) + ") scale(0.66) translate(-50,-50)" });
+          var cl = src.cloneNode(true); cl.removeAttribute("id"); w.appendChild(cl); slots.appendChild(w);
+        }
+        slots.appendChild(svgText(c.x, c.y + 40, obj.nimi, 15, "#fff7e6"));
+      } else {
+        slots.appendChild(svgText(c.x, c.y + 10, "?", 40, "#4a4150"));
+      }
+    }
+    C.$("museCount").firstChild
+      ? (C.$("museCount").firstChild.nodeValue = foundCount() + " / " + G.objects.length + " löydetty")
+      : C.$("museCount").appendChild(document.createTextNode(foundCount() + " / " + G.objects.length + " löydetty"));
+  }
+  function openMuseum() {
+    AU.play("naps");
+    var slots = C.$("slots"); while (slots.firstChild) slots.removeChild(slots.firstChild);
+    buildMuseum();
+    C.$("museum").style.display = "block";
+  }
+  function closeMuseum() { AU.play("naps"); C.$("museum").style.display = "none"; }
+
+  function buildMuseControls() {
+    var g = C.svg("g", { "class": "hot" });
+    g.appendChild(C.svg("rect", { x: 30, y: 16, width: 140, height: 46, rx: 14, fill: "#ffd264", stroke: "#c9922f", "stroke-width": 4 }));
+    g.appendChild(svgText(100, 48, "takaisin", 20, "#5e3d1c"));
+    C.tap(g, closeMuseum);
+    C.$("museControls").appendChild(g);
+  }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["toks", "jyrina", "pamaus", "viuh", "kops", "huu", "rojaus", "pling", "loyto", "pyyh", "naps", "success"]);
+    C.addBackButton(); C.addMuteButton();
+
+    hintEl = C.$("hint"); nameEl = C.$("objname");
+    parts = A.Particles({ w: 1024, h: 600, parent: C.$("stage") });
+
+    buildControls(); buildMuseum(); buildMuseControls();
+    var vs = C.$("volc-shake"); if (vs) { vs.setAttribute("class", "hot"); C.tap(vs, poke); }
+    updateGauge();
+    if (foundCount() >= G.objects.length) { var ph = C.$("volc-partyhat"); if (ph) ph.setAttribute("opacity", "1"); }
+  });
+})();
+</script>
+</body>
+</html>

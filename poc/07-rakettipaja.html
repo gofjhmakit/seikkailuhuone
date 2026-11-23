@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Rakettipaja</title>
+<style>
+  html,body{margin:0;height:100%;background:#05060f;overflow:hidden;
+    font-family:"Comic Sans MS",system-ui,sans-serif;}
+  #stage{position:absolute;left:50%;top:50%;width:1024px;height:600px;
+    transform:translate(-50%,-50%);transform-origin:center center;
+    background:linear-gradient(#1a2250,#070a1a 75%);border-radius:18px;overflow:hidden;
+    box-shadow:0 0 60px rgba(0,0,0,0.6);}
+  .title{position:absolute;top:14px;left:0;right:0;text-align:center;color:#a5d8ff;
+    font-size:34px;font-weight:800;z-index:6;}
+  .hint{position:absolute;top:56px;left:0;right:0;text-align:center;color:#ffe066;font-size:22px;z-index:6;}
+  #stars{position:absolute;left:0;top:0;z-index:1;}
+  #fx{position:absolute;left:0;top:0;z-index:3;pointer-events:none;}
+  #rocket{position:absolute;left:50%;bottom:70px;margin-left:-70px;width:140px;height:300px;z-index:2;}
+  .ctl{position:absolute;bottom:40px;width:150px;height:84px;border:none;border-radius:16px;
+    color:#fff;font-size:22px;font-weight:800;cursor:pointer;box-shadow:0 6px 0 rgba(0,0,0,0.35);}
+  .ctl:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,0.35);}
+  #cNose{left:40px;background:#1971c2;} #cColor{left:210px;background:#2f9e44;} #cFins{left:380px;background:#e8590c;}
+  #launch{right:50px;bottom:36px;width:190px;height:150px;border:none;border-radius:20px;
+    background:#f03e3e;color:#fff;font-size:34px;font-weight:800;cursor:pointer;box-shadow:0 8px 0 #b02020;z-index:6;}
+  #launch:active{transform:translateY(5px);box-shadow:0 3px 0 #b02020;}
+  #flyer{position:absolute;left:50%;bottom:120px;margin-left:-30px;font-size:60px;z-index:2;opacity:0;}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="title">rakettipaja</div>
+  <div class="hint" id="hint">rakenna raketti ja paina lähtö!</div>
+  <canvas id="stars" width="1024" height="600"></canvas>
+  <canvas id="fx" width="1024" height="600"></canvas>
+  <svg id="rocket" viewBox="0 0 140 300"></svg>
+  <div id="flyer">&#128020;</div>
+  <button class="ctl" id="cNose">nokka</button>
+  <button class="ctl" id="cColor">väri</button>
+  <button class="ctl" id="cFins">siivet</button>
+  <button id="launch">lähtö!</button>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var AC=window.AudioContext||window.webkitAudioContext, ac=AC?new AC():null;
+  function tone(f0,f1,dur,type,vol){
+    if(!ac) return; if(ac.state==="suspended"){try{ac.resume();}catch(e){}}
+    var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+    o.type=type||"sine"; o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(1,f1),t+dur);
+    g.gain.setValueAtTime(vol||0.2,t); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur);
+  }
+  function whoosh(){
+    if(!ac) return; if(ac.state==="suspended"){try{ac.resume();}catch(e){}}
+    var n=Math.floor(ac.sampleRate*1.4),b=ac.createBuffer(1,n,ac.sampleRate),d=b.getChannelData(0);
+    for(var i=0;i<n;i++){ d[i]=(Math.random()*2-1)*(1-i/n); }
+    var s=ac.createBufferSource(),g=ac.createGain(),lp=ac.createBiquadFilter();
+    lp.type="lowpass"; lp.frequency.setValueAtTime(400,ac.currentTime);
+    lp.frequency.exponentialRampToValueAtTime(1800,ac.currentTime+1.2);
+    s.buffer=b; g.gain.value=0.25; s.connect(lp);lp.connect(g);g.connect(ac.destination); s.start();
+  }
+
+  var stage=document.getElementById("stage");
+  function fit(){ var s=Math.min(window.innerWidth/1024,window.innerHeight/600);
+    stage.style.transform="translate(-50%,-50%) scale("+s+")"; }
+  window.addEventListener("resize",fit); fit();
+
+  var rocket=document.getElementById("rocket"), hint=document.getElementById("hint");
+  var cfg={nose:0, color:0, fins:0}, launching=false;
+  var COLORS=["#f03e3e","#1971c2","#2f9e44","#7048e8"];
+
+  function draw(){
+    var col=COLORS[cfg.color], nose="";
+    if(cfg.nose===0) nose='<path d="M70 10 L96 70 L44 70 Z" fill="#ffd43b"/>';
+    else if(cfg.nose===1) nose='<path d="M44 70 Q70 2 96 70 Z" fill="#ffd43b"/>';
+    else nose='<rect x="52" y="24" width="36" height="46" rx="6" fill="#ffd43b"/>';
+    var fins="";
+    if(cfg.fins===0) fins='<path d="M44 190 L18 250 L44 240 Z" fill="#495057"/>'+
+                           '<path d="M96 190 L122 250 L96 240 Z" fill="#495057"/>';
+    else if(cfg.fins===1) fins='<path d="M44 190 L14 250 L44 236 Z" fill="#495057"/>'+
+                           '<path d="M96 190 L126 250 L96 236 Z" fill="#495057"/>'+
+                           '<rect x="64" y="236" width="12" height="24" fill="#495057"/>';
+    else fins='';
+    rocket.innerHTML=
+      nose+
+      '<rect x="44" y="70" width="52" height="175" rx="18" fill="'+col+'"/>'+
+      '<rect x="44" y="70" width="52" height="175" rx="18" fill="#fff" opacity="0.12"/>'+
+      '<circle cx="70" cy="120" r="16" fill="#a5d8ff" stroke="#fff" stroke-width="3"/>'+
+      '<rect x="52" y="170" width="36" height="20" rx="6" fill="#fff" opacity="0.5"/>'+
+      fins;
+  }
+  draw();
+
+  document.getElementById("cNose").onclick=function(){ if(launching)return; cfg.nose=(cfg.nose+1)%3; draw(); tone(500,600,0.08,"square",0.1); hint.textContent="vaihdoit nokan"; };
+  document.getElementById("cColor").onclick=function(){ if(launching)return; cfg.color=(cfg.color+1)%4; draw(); tone(600,700,0.08,"square",0.1); hint.textContent="vaihdoit värin"; };
+  document.getElementById("cFins").onclick=function(){ if(launching)return; cfg.fins=(cfg.fins+1)%3; draw(); tone(400,500,0.08,"square",0.1); hint.textContent="vaihdoit siivet"; };
+
+  // starfield (static until launch, then scrolls down calmly)
+  var scv=document.getElementById("stars"), sctx=scv.getContext("2d"), sky=[];
+  for(var i=0;i<40;i++){ sky.push({x:Math.random()*1024,y:Math.random()*600,r:0.5+Math.random()*2}); }
+  function drawSky(){ sctx.clearRect(0,0,1024,600); sctx.fillStyle="#fff";
+    for(var i=0;i<sky.length;i++){ sctx.globalAlpha=0.4+sky[i].r/3;
+      sctx.beginPath(); sctx.arc(sky[i].x,sky[i].y,sky[i].r,0,Math.PI*2); sctx.fill(); } sctx.globalAlpha=1; }
+  drawSky();
+
+  var fx=document.getElementById("fx"), fctx=fx.getContext("2d");
+  var flyer=document.getElementById("flyer");
+
+  document.getElementById("launch").onclick=function(){
+    if(launching) return; launching=true;
+    var chicken=(Math.random()<0.34);
+    hint.textContent=chicken?"pöö! kana karkasi!":"3... 2... 1... hurraa!";
+    whoosh(); tone(120,60,1.2,"sawtooth",0.18);
+    var t0=Date.now(), rocketY=0, parts=[];
+    function spawnFire(){ for(var k=0;k<3;k++){ parts.push({x:512+(Math.random()-0.5)*28,
+      y:530-rocketY,vx:(Math.random()-0.5)*2,vy:3+Math.random()*3,r:5+Math.random()*7,
+      c:["#ff6b00","#ffd43b","#ff3b30"][(Math.random()*3)|0],born:Date.now()}); } }
+
+    if(chicken){
+      flyer.style.opacity="1"; flyer.style.transition="bottom 2.4s ease-out, opacity 2.4s";
+      setTimeout(function(){ flyer.style.bottom="620px"; flyer.style.opacity="0"; },20);
+      tone(700,400,0.15,"square",0.12); setTimeout(function(){tone(620,360,0.15,"square",0.12);},160);
+    }
+
+    (function anim(){
+      var e=(Date.now()-t0)/1000;
+      rocketY=e*e*140;  // gentle ease-in climb
+      rocket.style.transform="translateY(-"+rocketY+"px)";
+      // scroll stars down softly
+      for(var i=0;i<sky.length;i++){ sky[i].y+=Math.min(6,e*2.5); if(sky[i].y>600){ sky[i].y=0; sky[i].x=Math.random()*1024; } }
+      drawSky();
+      // fire
+      if(e<1.4 && !chicken){ spawnFire(); }
+      fctx.clearRect(0,0,1024,600);
+      for(var p=parts.length-1;p>=0;p--){ var pa=parts[p], age=(Date.now()-pa.born)/600;
+        if(age>=1){ parts.splice(p,1); continue; }
+        pa.x+=pa.vx; pa.y+=pa.vy; fctx.globalAlpha=1-age; fctx.fillStyle=pa.c;
+        fctx.beginPath(); fctx.arc(pa.x,pa.y,pa.r*(1-age*0.5),0,Math.PI*2); fctx.fill(); }
+      fctx.globalAlpha=1;
+      if(rocketY<700){ (window.requestAnimationFrame||setTimeout)(anim,16); }
+      else { finish(); }
+    })();
+  };
+
+  function finish(){
+    fctx.clearRect(0,0,1024,600);
+    hint.textContent="raketti lensi avaruuteen!";
+    tone(660,990,0.3,"sine",0.14);
+    setTimeout(function(){
+      rocket.style.transition="transform .5s"; rocket.style.transform="translateY(0)";
+      for(var i=0;i<sky.length;i++){ sky[i].y=Math.random()*600; } drawSky();
+      setTimeout(function(){ rocket.style.transition=""; launching=false;
+        hint.textContent="rakenna uusi ja lennätä taas!"; },520);
+    },1400);
+  }
+})();
+</script>
+</body>
+</html>

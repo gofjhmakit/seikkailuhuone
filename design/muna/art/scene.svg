@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scene.svg · cosy dragon-nest cave · full scene viewBox 0 0 1024 600
+     ONE linearGradient (#cave back wall); hearth embers + warm glow are low-opacity SOLIDS.
+     No filters/blur/masks. The engine draws the egg/dragon on top of this scene.
+
+     PLACEMENT (engine):
+       egg.svg   -> transform="translate(382,158)"  (egg bottom lands on the nest rim, centre x512)
+       dragon.svg-> transform="translate(362,150)"  (feet on the nest, centre x512)
+     ENGINE HOOKS:
+       #warm-glow  opacity 0 -> ~0.3 while warming the egg (soft fade, NO pulse/flash)
+       #hearth     static cosy embers
+     CONTROL POSITIONS (engine draws these):
+       KOTI 44x44 (16,16) · title centred y~30 · hint centred y~70
+       KIRJA button ~150x50 (848,20) · UNI toggle 72x72 (40,512) · UUSI MUNA ~160x56 (848,520)
+       FOOD TRAY: 6 foods centred y548 at x270,360,450,540,630,720 (names drawn under each) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600">
+  <defs>
+    <linearGradient id="cave" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a4a7a"/>
+      <stop offset="1" stop-color="#241a33"/>
+    </linearGradient>
+  </defs>
+
+  <!-- cave wall -->
+  <rect x="0" y="0" width="1024" height="600" fill="url(#cave)"/>
+
+  <!-- cave opening (night sky) behind the nest -->
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path d="M360 270 L360 150 Q360 64 512 64 Q664 64 664 150 L664 270 Z" fill="#241a33" stroke="#4a4150" stroke-width="10"/>
+    <circle cx="452" cy="146" r="26" fill="#ffd264"/>
+    <circle cx="462" cy="140" r="21" fill="#241a33" opacity="0.6"/>
+    <path d="M588 120 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#cfe8ff"/>
+    <circle cx="612" cy="180" r="3" fill="#cfe8ff"/>
+    <circle cx="402" cy="200" r="3" fill="#cfe8ff"/>
+  </g>
+
+  <!-- cave floor -->
+  <rect x="0" y="470" width="1024" height="130" fill="#4a4150"/>
+  <path d="M0 470 L1024 470" stroke="#3b2611" stroke-width="5"/>
+
+  <!-- hanging lantern (cosy) -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <line x1="150" y1="40" x2="150" y2="150" stroke="#4a4150"/>
+    <ellipse cx="150" cy="170" rx="26" ry="20" fill="#ffb43d" opacity="0.25" stroke="none"/>
+    <rect x="136" y="150" width="28" height="34" rx="8" fill="#ffd264" stroke="#c9922f"/>
+    <circle cx="150" cy="167" r="7" fill="#fff7e6"/>
+  </g>
+
+  <!-- hearth embers (cosy, static) -->
+  <g id="hearth" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="150" cy="486" rx="74" ry="26" fill="#ff8a4c" opacity="0.12" stroke="none"/>
+    <path d="M110 500 q22 -16 44 0 q4 12 -8 16 l-30 0 q-10 -4 -6 -16 Z" fill="#7a6f86" stroke="#4a4150"/>
+    <path d="M150 500 q20 -14 40 0 q4 12 -8 14 l-26 0 q-8 -4 -6 -14 Z" fill="#7a6f86" stroke="#4a4150"/>
+    <circle cx="140" cy="494" r="6" fill="#ff8a4c"/>
+    <circle cx="162" cy="496" r="5" fill="#ffd264"/>
+  </g>
+
+  <!-- nest (egg/dragon sits here, drawn by engine on top) -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <ellipse cx="512" cy="462" rx="156" ry="48" fill="#5e3d1c" stroke="#3b2611"/>
+    <ellipse cx="512" cy="452" rx="124" ry="34" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <path d="M372 456 q140 -34 280 0 M384 440 q128 -26 256 0" fill="none" stroke="#5e3d1c" stroke-width="4"/>
+  </g>
+
+  <!-- warm glow (engine fades in while warming; behind the egg) -->
+  <ellipse id="warm-glow" cx="512" cy="400" rx="172" ry="150" fill="#ff8a4c" opacity="0"/>
+
+  <!-- food tray -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="236" y="566" width="552" height="30" rx="10" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <path d="M236 574 L788 574" stroke="#b07a3c" stroke-width="3"/>
+  </g>
+</svg>

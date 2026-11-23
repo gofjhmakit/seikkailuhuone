@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- tails.svg · 8 tails · shared space 0 0 400 440
+     TAIL ANCHOR = (285,300): each tail's root starts at the body's lower-right (~x278,y300)
+     and extends to the RIGHT. Z-order: draw tail AFTER wings, BEFORE legs/body (tail reads
+     as coming from behind the body). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" width="400" height="440">
+
+  <!-- 1 · tail-piikki · pointy · lava -->
+  <g id="tail-piikki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M276 288 q70 -8 102 -44 q-18 70 -86 86 Z" fill="#e8452f" stroke="#a82e1e"/>
+  </g>
+
+  <!-- 2 · tail-pompo · ball tip · gold -->
+  <g id="tail-pompo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q46 4 64 -8" fill="none" stroke="#c9922f" stroke-width="16"/>
+    <path d="M278 300 q46 4 64 -8" fill="none" stroke="#ffd264" stroke-width="9"/>
+    <circle cx="356" cy="288" r="26" fill="#ffd264" stroke="#c9922f"/>
+  </g>
+
+  <!-- 3 · tail-sakara · zigzag spikes · ember -->
+  <g id="tail-sakara" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 302 l96 -16" fill="none" stroke="#c75a2a" stroke-width="16"/>
+    <polygon points="300,290 312,262 322,288" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="326,286 338,258 348,284" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="352,282 364,254 374,280" fill="#ff8a4c" stroke="#c75a2a"/>
+  </g>
+
+  <!-- 4 · tail-kiemu · curly · teal -->
+  <g id="tail-kiemu" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q48 -2 60 -34 q10 -34 -18 -30 q-22 4 -8 26" fill="none" stroke="#46c4a8" stroke-width="15"/>
+  </g>
+
+  <!-- 5 · tail-viuhka · fan / fin · sky -->
+  <g id="tail-viuhka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q40 -6 56 -2 q22 -40 10 -70 q-6 34 -34 44 q-10 -30 -30 -18 q14 18 2 34 Z" fill="#7cc0ff" stroke="#3f84c4"/>
+  </g>
+
+  <!-- 6 · tail-topo · stubby · leaf -->
+  <g id="tail-topo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M276 288 q46 -2 52 18 q-6 22 -42 20 Z" fill="#3aa64a" stroke="#2b7d39"/>
+  </g>
+
+  <!-- 7 · tail-nuija · club tip · stone -->
+  <g id="tail-nuija" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q40 0 56 -14" fill="none" stroke="#4a4150" stroke-width="15"/>
+    <circle cx="352" cy="276" r="28" fill="#7a6f86" stroke="#4a4150"/>
+    <polygon points="352,246 360,232 366,250" fill="#7a6f86" stroke="#4a4150"/>
+    <polygon points="378,268 392,262 380,278" fill="#7a6f86" stroke="#4a4150"/>
+  </g>
+
+  <!-- 8 · tail-suti · brush tuft · amber -->
+  <g id="tail-suti" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q40 -2 54 -14" fill="none" stroke="#c77f1e" stroke-width="14"/>
+    <path d="M330 288 l26 -26 M338 292 l30 -14 M332 296 l30 2" fill="none" stroke="#ffb43d" stroke-width="10"/>
+  </g>
+
+</svg>

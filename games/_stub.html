@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Tulossa pian</title>
+<link rel="stylesheet" href="../seikkailu.css">
+</head>
+<body>
+<div id="stage">
+  <svg viewBox="0 0 1024 600" width="1024" height="600">
+    <rect x="0" y="0" width="1024" height="600" fill="#342a4e"/>
+    <text x="512" y="280" text-anchor="middle" font-family="Comic Sans MS, sans-serif"
+          font-size="56" font-weight="800" fill="#ffd264">Tulossa pian!</text>
+    <text x="512" y="350" text-anchor="middle" font-family="Comic Sans MS, sans-serif"
+          font-size="30" font-weight="700" fill="#fff7e6">T&#228;m&#228; peli rakennetaan viel&#228;.</text>
+  </svg>
+</div>
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  Seik.core.ready(function () {
+    Seik.core.initStage();
+    Seik.audio.setBase("../assets/audio/");
+    Seik.audio.setManifest({});
+    Seik.core.addBackButton();
+    Seik.core.addMuteButton();
+  });
+})();
+</script>
+</body>
+</html>

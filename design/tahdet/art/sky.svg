@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- sky.svg · calm night sky background · full scene viewBox 0 0 1024 600
+     ONE linearGradient (#sky). DEVICE: only 16 decorative stars (#bg-stars) — engine twinkles
+     a subset SLOWLY (~4s opacity ease, NO flash) or keeps them static. Puzzle stars are
+     separate (star.svg). Shooting star + owl glow are low-opacity solids. No filters/blur/mask.
+
+     ENGINE HOOKS:
+       #bg-stars  slow twinkle subset (no flash)
+       #shoot     one-shot slow drift L->R every ~9s (trail is a solid low-opacity line)
+       #owl / #owl-head  owl hoots + turns head on completion; rare blink
+     The numbered figure (star.svg clones + grown <line>s + finished fig-* glow) is drawn by
+     the engine on top, in the safe area (x~180-770, y~150-440).
+     CONTROLS (engine): KOTI 44x44 (16,16) · title y~26 · hint y~64 ·
+       TÄHTIKARTTA ~170x50 (838,20) · SEURAAVA ~160x56 (840,520) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#241a33"/>
+      <stop offset="1" stop-color="#342a4e"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1024" height="600" fill="url(#sky)"/>
+
+  <!-- crescent moon -->
+  <g>
+    <circle cx="130" cy="96" r="34" fill="#ffd264"/>
+    <circle cx="144" cy="88" r="28" fill="#241a33"/>
+  </g>
+
+  <!-- 16 decorative stars (slow twinkle subset) -->
+  <g id="bg-stars" fill="#cfe8ff">
+    <circle cx="250" cy="70" r="2"/>
+    <circle cx="370" cy="110" r="1.6"/>
+    <circle cx="470" cy="60" r="2.4"/>
+    <circle cx="640" cy="90" r="1.8"/>
+    <circle cx="760" cy="60" r="2.2"/>
+    <circle cx="880" cy="120" r="1.6"/>
+    <circle cx="930" cy="200" r="2"/>
+    <circle cx="90" cy="230" r="1.8"/>
+    <circle cx="190" cy="330" r="1.6"/>
+    <circle cx="150" cy="430" r="2"/>
+    <circle cx="860" cy="330" r="2.2"/>
+    <circle cx="930" cy="420" r="1.8"/>
+    <circle cx="560" cy="130" r="1.6"/>
+    <path d="M320 180 l2 6 l6 1 l-5 4 l1 6 l-4 -3 l-4 3 l1 -6 l-5 -4 l6 -1 Z" fill="#fff7e6"/>
+    <path d="M700 160 l2 6 l6 1 l-5 4 l1 6 l-4 -3 l-4 3 l1 -6 l-5 -4 l6 -1 Z" fill="#fff7e6"/>
+    <path d="M820 440 l2 6 l6 1 l-5 4 l1 6 l-4 -3 l-4 3 l1 -6 l-5 -4 l6 -1 Z" fill="#fff7e6"/>
+  </g>
+
+  <!-- shooting star (engine drifts; trail = solid low-opacity line) -->
+  <g id="shoot" opacity="0">
+    <line x1="-60" y1="120" x2="-20" y2="128" stroke="#cfe8ff" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+    <circle cx="-18" cy="128" r="5" fill="#fff7e6"/>
+  </g>
+
+  <!-- hill silhouette -->
+  <path d="M0 540 Q280 492 540 520 Q800 545 1024 506 L1024 600 L0 600 Z" fill="#241a33"/>
+
+  <!-- owl on the hill (hoots + turns head on completion) -->
+  <g id="owl" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M858 560 L858 540 M882 560 L882 540" stroke="#5e3d1c"/>
+    <ellipse cx="870" cy="528" rx="34" ry="38" fill="#5e3d1c" stroke="#3b2611"/>
+    <g id="owl-head">
+      <path d="M842 500 l-6 -18 l16 8 Z" fill="#5e3d1c" stroke="#3b2611"/>
+      <path d="M898 500 l6 -18 l-16 8 Z" fill="#5e3d1c" stroke="#3b2611"/>
+      <circle cx="856" cy="512" r="13" fill="#fff7e6" stroke="#3b2611"/>
+      <circle cx="884" cy="512" r="13" fill="#fff7e6" stroke="#3b2611"/>
+      <circle cx="856" cy="513" r="6" fill="#2a2440"/>
+      <circle cx="884" cy="513" r="6" fill="#2a2440"/>
+      <polygon points="870,520 864,530 876,530" fill="#ffb43d" stroke="#c77f1e"/>
+    </g>
+    <path d="M846 540 q24 16 48 0" fill="none" stroke="#3b2611"/>
+  </g>
+</svg>

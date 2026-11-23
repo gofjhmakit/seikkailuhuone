@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- base.svg · shared monster-local space 0 0 400 440 · symmetry axis x=200
+     Ground shadow. Draw FIRST (z=1), under every other part.
+     Scene placement: wrap the assembled monster <g> in transform="translate(312,95)". -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" width="400" height="440">
+  <g id="base-shadow">
+    <ellipse cx="200" cy="408" rx="100" ry="18" fill="#000000" opacity="0.20"/>
+  </g>
+</svg>

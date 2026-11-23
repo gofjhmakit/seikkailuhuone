@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- heads.svg · 8 heads · shared space 0 0 400 440
+     NECK ANCHOR = (200,170): every head's lowest mass reaches ~y168-174 so it overlaps
+     the body top (y172) and reads as connected. Head zone: crown ~y48, width x135..265.
+     Z-order: draw head AFTER body+pattern, BEFORE hat. All 8 groups are stacked at the
+     same anchor on purpose (this is a source sheet) — the engine uses ONE <g> at a time.
+     Copy the chosen <g id="head-*"> into the assembled monster. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" width="400" height="440">
+
+  <!-- 1 · head-liekki · dragon · ember -->
+  <g id="head-liekki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M168 66 l-10 -30 l26 20 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+    <path d="M232 66 l10 -30 l-26 20 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+    <ellipse cx="200" cy="114" rx="66" ry="60" fill="#ff8a4c" stroke="#c75a2a"/>
+    <ellipse cx="200" cy="142" rx="38" ry="24" fill="#fff7e6" stroke="#c75a2a"/>
+    <circle cx="188" cy="142" r="4" fill="#2a2440"/>
+    <circle cx="212" cy="142" r="4" fill="#2a2440"/>
+    <circle cx="178" cy="100" r="15" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="222" cy="100" r="15" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="180" cy="102" r="7" fill="#2a2440"/>
+    <circle cx="220" cy="102" r="7" fill="#2a2440"/>
+  </g>
+
+  <!-- 2 · head-narsku · dino long snout · leaf -->
+  <g id="head-narsku" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="188" cy="114" rx="56" ry="58" fill="#3aa64a" stroke="#2b7d39"/>
+    <path d="M226 110 q70 -4 76 26 q-30 24 -76 14 Z" fill="#3aa64a" stroke="#2b7d39"/>
+    <polygon points="252,142 260,158 268,142" fill="#ffffff" stroke="#2b7d39" stroke-width="2"/>
+    <polygon points="276,140 284,154 292,140" fill="#ffffff" stroke="#2b7d39" stroke-width="2"/>
+    <circle cx="176" cy="92" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="214" cy="90" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="178" cy="94" r="7" fill="#2a2440"/>
+    <circle cx="216" cy="92" r="7" fill="#2a2440"/>
+  </g>
+
+  <!-- 3 · head-tuijo · cyclops · teal -->
+  <g id="head-tuijo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="200" cy="112" r="62" fill="#46c4a8" stroke="#2e8a76"/>
+    <circle cx="200" cy="104" r="30" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="200" cy="108" r="15" fill="#2a2440"/>
+    <path d="M172 146 q28 20 56 0" fill="none" stroke="#2a2440" stroke-width="5"/>
+  </g>
+
+  <!-- 4 · head-nokka · bird beak · gold -->
+  <g id="head-nokka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="194" cy="114" r="58" fill="#ffd264" stroke="#c9922f"/>
+    <polygon points="244,96 316,110 244,120" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="244,120 300,126 244,138" fill="#ffb43d" stroke="#c77f1e"/>
+    <circle cx="178" cy="96" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="214" cy="96" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="180" cy="98" r="7" fill="#2a2440"/>
+    <circle cx="216" cy="98" r="7" fill="#2a2440"/>
+  </g>
+
+  <!-- 5 · head-kurno · frog wide mouth, eyes on top · leaf-dark -->
+  <g id="head-kurno" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="126" rx="72" ry="48" fill="#2b7d39" stroke="#1e5a28"/>
+    <circle cx="170" cy="82" r="22" fill="#2b7d39" stroke="#1e5a28"/>
+    <circle cx="230" cy="82" r="22" fill="#2b7d39" stroke="#1e5a28"/>
+    <circle cx="170" cy="80" r="12" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="230" cy="80" r="12" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="172" cy="82" r="6" fill="#2a2440"/>
+    <circle cx="228" cy="82" r="6" fill="#2a2440"/>
+    <path d="M150 132 q50 34 100 0" fill="none" stroke="#1e5a28" stroke-width="6"/>
+  </g>
+
+  <!-- 6 · head-moly · fuzzy monster, big mouth · sky -->
+  <g id="head-moly" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="164" cy="80" r="16" fill="#7cc0ff" stroke="#3f84c4"/>
+    <circle cx="200" cy="66" r="16" fill="#7cc0ff" stroke="#3f84c4"/>
+    <circle cx="236" cy="80" r="16" fill="#7cc0ff" stroke="#3f84c4"/>
+    <circle cx="200" cy="112" r="60" fill="#7cc0ff" stroke="#3f84c4"/>
+    <ellipse cx="200" cy="142" rx="34" ry="16" fill="#e8452f" stroke="#a82e1e"/>
+    <circle cx="178" cy="98" r="16" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="222" cy="98" r="16" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="180" cy="100" r="8" fill="#2a2440"/>
+    <circle cx="220" cy="100" r="8" fill="#2a2440"/>
+  </g>
+
+  <!-- 7 · head-piip · robot · stone · antenna id marked for wobble -->
+  <g id="head-piip" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="head-piip-antenna">
+      <line x1="200" y1="66" x2="200" y2="36" stroke="#4a4150" stroke-width="5"/>
+      <circle cx="200" cy="30" r="9" fill="#ffd264" stroke="#c9922f"/>
+    </g>
+    <rect x="146" y="64" width="108" height="108" rx="18" fill="#7a6f86" stroke="#4a4150"/>
+    <circle cx="176" cy="104" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="224" cy="104" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="176" cy="104" r="7" fill="#2a2440"/>
+    <circle cx="224" cy="104" r="7" fill="#2a2440"/>
+    <rect x="172" y="134" width="56" height="16" rx="6" fill="#2a2440"/>
+    <circle cx="156" cy="148" r="5" fill="#ffd264"/>
+    <circle cx="244" cy="148" r="5" fill="#ffd264"/>
+  </g>
+
+  <!-- 8 · head-napse · fanged beast · amber -->
+  <g id="head-napse" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M150 74 l-6 -32 l30 20 Z" fill="#ffb43d" stroke="#c77f1e"/>
+    <path d="M250 74 l6 -32 l-30 20 Z" fill="#ffb43d" stroke="#c77f1e"/>
+    <circle cx="200" cy="114" r="60" fill="#ffb43d" stroke="#c77f1e"/>
+    <path d="M156 136 q44 36 88 0" fill="none" stroke="#c77f1e" stroke-width="6"/>
+    <polygon points="172,138 180,158 188,138" fill="#ffffff" stroke="#c77f1e" stroke-width="2"/>
+    <polygon points="212,138 220,158 228,138" fill="#ffffff" stroke="#c77f1e" stroke-width="2"/>
+    <circle cx="178" cy="100" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="222" cy="100" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="180" cy="102" r="7" fill="#2a2440"/>
+    <circle cx="220" cy="102" r="7" fill="#2a2440"/>
+  </g>
+
+</svg>

@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 280" width="560" height="280" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ATLAS: 8 chest treasures, one per 140x140 cell. Each <g id> has a local origin
+       at its translate; engine recenters over the open chest. Random 1 of 8 per win. -->
+  <rect x="0" y="0" width="560" height="280" fill="#241a33"/>
+  <line x1="140" y1="0" x2="140" y2="280" stroke="#342a4e" stroke-width="2"/>
+  <line x1="280" y1="0" x2="280" y2="280" stroke="#342a4e" stroke-width="2"/>
+  <line x1="420" y1="0" x2="420" y2="280" stroke="#342a4e" stroke-width="2"/>
+  <line x1="0" y1="140" x2="560" y2="140" stroke="#342a4e" stroke-width="2"/>
+
+  <!-- #tr_coins : kultakolikot -->
+  <g id="tr_coins" transform="translate(20,20)">
+    <ellipse cx="50" cy="96" rx="48" ry="16" fill="#ffb43d" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="30" cy="70" r="20" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="66" cy="66" r="20" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="48" cy="46" r="18" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="30" cy="70" r="7" fill="none" stroke="#8a5a2b" stroke-width="2"/>
+    <circle cx="48" cy="46" r="6" fill="none" stroke="#8a5a2b" stroke-width="2"/>
+  </g>
+
+  <!-- #tr_starmap : tähtikartta -->
+  <g id="tr_starmap" transform="translate(180,30)">
+    <rect x="16" y="18" width="72" height="56" rx="4" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <ellipse cx="16" cy="46" rx="8" ry="30" fill="#b07a3c" stroke="#8a5a2b" stroke-width="3"/>
+    <ellipse cx="88" cy="46" rx="8" ry="30" fill="#b07a3c" stroke="#8a5a2b" stroke-width="3"/>
+    <path d="M52 32 l4 10 l11 1 l-8 7 l3 11 l-10 -6 l-10 6 l3 -11 l-8 -7 l11 -1 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="2"/>
+  </g>
+
+  <!-- #tr_egg : lohikäärmeenmuna -->
+  <g id="tr_egg" transform="translate(340,14)">
+    <ellipse cx="40" cy="62" rx="34" ry="46" fill="#46c4a8" stroke="#2b7d39" stroke-width="5"/>
+    <circle cx="30" cy="48" r="6" fill="#ffd264"/>
+    <circle cx="52" cy="68" r="5" fill="#ffd264"/>
+    <circle cx="44" cy="34" r="4" fill="#ffd264"/>
+  </g>
+
+  <!-- #tr_hat : hassu hattu -->
+  <g id="tr_hat" transform="translate(478,20)">
+    <polygon points="20,96 90,96 55,14" fill="#3a4a7a" stroke="#241a33" stroke-width="5"/>
+    <ellipse cx="55" cy="96" rx="48" ry="12" fill="#342a4e" stroke="#241a33" stroke-width="4"/>
+    <path d="M55 46 l4 10 l11 1 l-8 7 l3 11 l-10 -6 l-10 6 l3 -11 l-8 -7 l11 -1 Z" fill="#ffd264"/>
+  </g>
+
+  <!-- #tr_pearl : helmi -->
+  <g id="tr_pearl" transform="translate(24,168)">
+    <path d="M50 86 Q6 86 10 46 Q50 20 90 46 Q94 86 50 86 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="4"/>
+    <path d="M50 86 L30 50 M50 86 L50 44 M50 86 L70 50" fill="none" stroke="#e8452f" stroke-width="3"/>
+    <circle cx="50" cy="70" r="12" fill="#fff7e6" stroke="#b07a3c" stroke-width="2"/>
+  </g>
+
+  <!-- #tr_ship : lelulaiva -->
+  <g id="tr_ship" transform="translate(180,160)">
+    <path d="M10 70 L90 70 L78 96 L22 96 Z" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <line x1="50" y1="70" x2="50" y2="16" stroke="#b07a3c" stroke-width="5"/>
+    <path d="M50 20 L82 44 L50 60 Z" fill="#fff7e6" stroke="#3a4a7a" stroke-width="3"/>
+    <path d="M50 24 L24 44 L50 58 Z" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+  </g>
+
+  <!-- #tr_candy : karkkipussi -->
+  <g id="tr_candy" transform="translate(340,160)">
+    <path d="M18 36 Q40 20 62 36 L58 96 L22 96 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+    <path d="M18 36 L40 48 L62 36" fill="none" stroke="#8a5a2b" stroke-width="3"/>
+    <circle cx="34" cy="64" r="7" fill="#ffd264"/>
+    <circle cx="48" cy="76" r="7" fill="#7cc0ff"/>
+    <circle cx="34" cy="84" r="6" fill="#46c4a8"/>
+  </g>
+
+  <!-- #tr_wand : taikasauva -->
+  <g id="tr_wand" transform="translate(498,160)">
+    <line x1="28" y1="96" x2="66" y2="40" stroke="#b07a3c" stroke-width="7"/>
+    <path d="M70 18 l7 16 l17 2 l-13 11 l4 17 l-15 -9 l-15 9 l4 -17 l-13 -11 l17 -2 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="2"/>
+  </g>
+</svg>

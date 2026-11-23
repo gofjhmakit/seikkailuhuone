@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Game ideas — review</title>
+<style>
+  :root{
+    --bg1:#13101c; --bg2:#1c1430; --card:#211a33; --card2:#271f3d;
+    --ink:#f4eff9; --muted:#b7adcf; --faint:#8a7fa6;
+    --line:#352b4d; --line2:#453a60;
+    --gold:#ffd264; --ember:#ff8a4c; --star:#9ad7ff;
+    --s:#6bd49a; --m:#ffc658; --l:#ff9f6e;
+    --r1:#ffd43b; --r2:#cdd3dc; --r3:#e0a56b;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 80% -10%, #2a1d3f 0%, rgba(42,29,63,0) 60%),
+      radial-gradient(900px 500px at 10% 0%, #241a3a 0%, rgba(36,26,58,0) 55%),
+      linear-gradient(180deg,var(--bg1),var(--bg2));
+    background-attachment:fixed;
+    color:var(--ink);
+    font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+    line-height:1.5; padding:0 16px 80px;
+  }
+  .wrap{max-width:1080px;margin:0 auto;}
+
+  /* header */
+  header{padding:46px 0 10px;text-align:center;}
+  .kicker{letter-spacing:.22em;text-transform:uppercase;font-size:12px;color:var(--gold);font-weight:700;}
+  h1{font-size:40px;line-height:1.1;margin:10px 0 6px;font-weight:800;
+     background:linear-gradient(90deg,var(--gold),var(--ember) 55%,var(--star));
+     -webkit-background-clip:text;background-clip:text;color:transparent;}
+  .sub{color:var(--muted);font-size:16px;max-width:680px;margin:0 auto;}
+
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;margin:22px 0;}
+  .panel h2{margin:0 0 10px;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+  .panel p{margin:0;color:var(--muted);font-size:15px;}
+  .panel p + p{margin-top:10px;}
+
+  .meta{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin:16px 0 4px;color:var(--faint);font-size:13px;}
+  .meta b{color:var(--muted);font-weight:600;}
+
+  /* top picks */
+  .picks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .pick{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line2);
+        border-radius:14px;padding:14px 15px;position:relative;overflow:hidden;}
+  .pick .rank{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;}
+  .pick.p1 .rank{color:var(--r1);} .pick.p2 .rank{color:var(--r2);} .pick.p3 .rank{color:var(--r3);}
+  .pick h3{margin:4px 0 6px;font-size:18px;}
+  .pick small{color:var(--faint);}
+  .pick p{margin:8px 0 0;color:var(--muted);font-size:13.5px;}
+  .pick::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;}
+  .pick.p1::before{background:var(--r1);} .pick.p2::before{background:var(--r2);} .pick.p3::before{background:var(--r3);}
+
+  /* cards */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;margin:16px 0;overflow:hidden;}
+  .card.top{border-color:var(--line2);box-shadow:0 0 0 1px rgba(255,210,100,.12), 0 14px 40px -24px rgba(0,0,0,.8);}
+  .chead{display:flex;align-items:flex-start;gap:16px;padding:20px 22px 14px;}
+  .num{flex:0 0 auto;width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+       font-weight:800;font-size:20px;background:#1a1430;border:1px solid var(--line2);color:var(--gold);}
+  .ttl{flex:1 1 auto;min-width:0;}
+  .ttl h3{margin:0;font-size:23px;}
+  .ttl .gloss{color:var(--faint);font-size:14px;font-style:italic;}
+  .badges{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:0 0 auto;}
+  .effort{font-size:12px;font-weight:800;letter-spacing:.06em;padding:3px 10px;border-radius:999px;border:1px solid;}
+  .effort.s{color:var(--s);border-color:rgba(107,212,154,.4);background:rgba(107,212,154,.08);}
+  .effort.m{color:var(--m);border-color:rgba(255,198,88,.4);background:rgba(255,198,88,.08);}
+  .effort.l{color:var(--l);border-color:rgba(255,159,110,.4);background:rgba(255,159,110,.08);}
+  .rankpill{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:2px 9px;border-radius:999px;}
+  .rankpill.p1{color:#1a1430;background:var(--r1);}
+  .rankpill.p2{color:#1a1430;background:var(--r2);}
+  .rankpill.p3{color:#1a1430;background:var(--r3);}
+  .rankpill.hm{color:var(--gold);background:rgba(255,210,100,.14);border:1px solid rgba(255,210,100,.35);}
+
+  .pitch{padding:0 22px 14px;font-size:17px;color:var(--ink);}
+  .tags{padding:0 22px 16px;display:flex;flex-wrap:wrap;gap:7px;}
+  .tag{font-size:12px;color:var(--muted);background:#1a1430;border:1px solid var(--line);padding:3px 10px;border-radius:999px;}
+
+  .grid{padding:0 22px 8px;display:grid;grid-template-columns:1fr 1fr;gap:4px 26px;}
+  .field{padding:11px 0;border-top:1px solid var(--line);}
+  .field .k{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+  .field .v{font-size:14px;color:var(--muted);}
+  .field.wide{grid-column:1 / -1;}
+  .field .v .fi{color:var(--ink);font-style:italic;}
+
+  .tryrow{padding:14px 22px 20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+  button.try{cursor:pointer;font:inherit;font-weight:700;font-size:15px;color:#1a1430;
+    background:linear-gradient(90deg,var(--gold),var(--ember));border:none;padding:11px 20px;border-radius:12px;}
+  button.try:active{transform:translateY(1px);}
+  a.newtab{color:var(--star);text-decoration:none;font-size:14px;font-weight:600;}
+  a.newtab:hover{text-decoration:underline;}
+  .playhint{color:var(--faint);font-size:12.5px;}
+
+  .frameWrap{padding:0 22px 22px;display:none;}
+  .frameWrap.on{display:block;}
+  .frameWrap iframe{width:100%;aspect-ratio:1024/600;border:1px solid var(--line2);border-radius:12px;background:#0c0b10;display:block;}
+
+  /* build table */
+  table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px;}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top;}
+  th{color:var(--gold);font-size:12px;letter-spacing:.08em;text-transform:uppercase;}
+  td.id{color:var(--ink);font-weight:700;white-space:nowrap;}
+  td .fi{color:var(--muted);font-style:italic;}
+
+  footer{text-align:center;color:var(--faint);font-size:13px;margin-top:34px;}
+  code{background:#1a1430;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--star);font-size:12.5px;}
+
+  @media(max-width:720px){
+    h1{font-size:30px;}
+    .picks{grid-template-columns:1fr;}
+    .grid{grid-template-columns:1fr;}
+    .chead{flex-wrap:wrap;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">Lead Game Designer &middot; idea round</div>
+    <h1>8 game ideas for the tablet</h1>
+    <p class="sub">Calm point-and-click / find &amp; tinker toys in the spirit of the Moomin adventures &mdash;
+    dragons, dinos, volcanos, space. Pick the ones you like and we build those for real.</p>
+    <div class="meta">
+      <span><b>For:</b> boy, 5&ndash;7, learning to read (Finnish)</span>
+      <span><b>Device:</b> Acer Iconia B1 &middot; Android 4.1 &middot; 512&nbsp;MB &middot; 1024&times;600 &middot; offline</span>
+      <span><b>Rules:</b> no speed, no timers, no flashing</span>
+    </div>
+  </header>
+
+  <div class="panel">
+    <h2>Design north star</h2>
+    <p>A <b>calm tinkering toy you can&rsquo;t &ldquo;lose,&rdquo;</b> not a game. The child touches something and
+    <i>something fun happens</i> &mdash; a sound, a motion, a reveal, a bang. The heart is cause-and-effect delight
+    (&ldquo;what if I press this?&rdquo;) and the joy of finding things, with goofy moments and good audio.
+    Text is short, big and simple so a slow reader can actually read it. Replay comes from randomness and
+    combinations, never from levels. Art stays simple (SVG, flat color) &mdash; Moomin-storybook cosy, not Fortnite.</p>
+  </div>
+
+  <div class="panel">
+    <h2>How to read this page</h2>
+    <p>Each idea below has a live clickable prototype &mdash; hit <b>&ldquo;Try the prototype&rdquo;</b> and it loads right
+    inside the card. These run on your Mac and are polished previews; <b>sound starts on your first click</b>
+    (and may be funnier than it is pretty). Every prototype shows just <i>one</i> representative bit of the feel,
+    not the whole game. The <b>Device feasibility</b> line on each card notes what changes for the real tablet
+    build (ES5, no flexbox, pre-made WAV audio, cheap canvas). My top 3 are flagged.</p>
+  </div>
+
+  <div class="panel">
+    <h2>Top 3 recommendation</h2>
+    <div class="picks">
+      <div class="pick p1">
+        <div class="rank">&#9733; 1st pick</div>
+        <h3>06 &middot; Salahuone <small>The Secret Room</small></h3>
+        <p>The truest match to the Moomin point-and-click he already loves, plus the searching he enjoys.
+        Scales to many rooms &rarr; huge replay. Main cost is art/content (hence M&ndash;L), but it&rsquo;s the heart of the brief.</p>
+      </div>
+      <div class="pick p2">
+        <div class="rank">&#9733; 2nd pick</div>
+        <h3>05 &middot; Taikapata <small>The Potion Pot</small></h3>
+        <p>Best blend of his &ldquo;test &amp; try things&rdquo; instinct, funny booms and steam, big combinatorial replay,
+        and short readable ingredient words. Light&ndash;moderate build.</p>
+      </div>
+      <div class="pick p3">
+        <div class="rank">&#9733; 3rd pick</div>
+        <h3>08 &middot; Hirvi&ouml;paja <small>Silly Monster Maker</small></h3>
+        <p>Lightest on the weak GPU (pure SVG), endless funny dragon/dino combos, and the generated compound
+        names are great reading practice. A cheap, sure-win S-size piece.</p>
+      </div>
+    </div>
+    <p style="margin-top:14px;">Honourable mention: <b>01 &middot; Tulivuori</b> &mdash; his #1 theme and pure
+    cause-and-effect delight; a perfect small bonus piece or hub button.</p>
+  </div>
+
+  <div id="cards"></div>
+
+  <div class="panel">
+    <h2>Prototype &rarr; real tablet build</h2>
+    <p style="margin-bottom:6px;">What every prototype does for the Mac preview, and what the on-device build swaps it for:</p>
+    <table>
+      <thead><tr><th>Idea</th><th>Prototype uses</th><th>Real build swaps to</th></tr></thead>
+      <tbody>
+        <tr><td class="id">All</td><td>WebAudio synthesis</td><td>pre-made PCM WAV files (22&nbsp;kHz, <code>make_sound.py</code> style)</td></tr>
+        <tr><td class="id">All</td><td>modern CSS, emoji for gag objects</td><td>ES5, inline-SVG, no emoji in UI, <code>-webkit-</code> prefixes</td></tr>
+        <tr><td class="id">01, 05, 07</td><td>canvas particles</td><td>&le;24 particles, time-based + hard stop</td></tr>
+        <tr><td class="id">02, 07</td><td><code>requestAnimationFrame</code> loop</td><td>time-based + forced stop (no eternal rAF)</td></tr>
+        <tr><td class="id">03</td><td>60 DOM sand tiles</td><td>~24&ndash;32 tiles (keep the DOM light)</td></tr>
+        <tr><td class="id">04</td><td>46 CSS-animated stars</td><td>~20 stars, or paint them once on one canvas</td></tr>
+        <tr><td class="id">06</td><td>one page, hotspots</td><td>many rooms as thin HTML pages (hub style)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>
+    Files: <code>app2/poc/</code> (8 prototypes) &middot; <code>app2/poc/CONCEPTS.md</code> (full Finnish spec).<br>
+    Tell me which you&rsquo;d like built for real &mdash; one, two, or a little hub of several.
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+var DATA=[
+  {n:"01",slug:"01-tulivuori",fi:"Tulivuori",en:"The Volcano",effort:"m",rank:"hm",
+   pitch:"Poke the volcano over and over until the pressure blows &mdash; lava flies and a silly object shoots out of the crater.",
+   tags:["volcano","fire","explosion","cause &amp; effect"],
+   loop:"Tap the mountain; a meter fills and the glow grows. At full it erupts (lava particles + rumble) and a random object &mdash; boot, fish, chicken &mdash; launches out in an arc. It calms down and starts over.",
+   fit:"No reading required (just <span class='fi'>&ldquo;paina viel&auml;!&rdquo;</span> &mdash; press again). Fully self-paced; the eruption is a soft arc, not a strobe; the meter is wordless cause&rarr;effect feedback.",
+   fun:"Low filtered-noise rumble + boom; a different object every eruption. A click on each tap.",
+   replay:"Random flying object each time; easy to add eruption types (lava / smoke rings / rocks) and dozens of objects.",
+   dev:"Lava particles already time-based (&le;30 &rarr; drop to ~24). Emoji object &rarr; SVG. Audio &rarr; <code>rumble.wav</code>/<code>boom.wav</code>. Light canvas, fine."},
+
+  {n:"02",slug:"02-lohikaarmeen-muna",fi:"Lohik&auml;&auml;rmeen muna",en:"The Dragon Egg",effort:"m",rank:"",
+   pitch:"Warm the egg until it cracks open and a baby dragon hatches &mdash; then feed it.",
+   tags:["dragon","fire","nurture"],
+   loop:"Tap the egg &rarr; it warms (glow) and cracks spread; enough taps and it hatches. Then a <span class='fi'>&ldquo;ruoki&rdquo;</span> (feed) button makes the baby chomp, puff a little flame, and sometimes burp.",
+   fit:"The nurturing pace is entirely the child&rsquo;s. Very little text; hatching is a soft scale-up, no flashes; a clear reward (a baby!) with no rules to break.",
+   fun:"Little roar, chomping, a goofy <span class='fi'>&ldquo;hik! pikku r&ouml;yht&auml;ys&rdquo;</span> (burp); a flame puff.",
+   replay:"Different colours/species each hatch; feeding grows it; could add care states (sleeps, plays).",
+   dev:"The baby&rsquo;s wiggle loop must be time-based and <b>stoppable</b> (no eternal rAF). Cracks via SVG opacity (cheap). WAV: crack / roar / chomp."},
+
+  {n:"03",slug:"03-dinon-luut",fi:"Dinon luut",en:"Dino Bones",effort:"s",rank:"",
+   pitch:"Brush the sand away tile by tile and excavate a whole dinosaur skeleton.",
+   tags:["dino","searching","digging"],
+   loop:"Tap sand tiles; they wipe away with a brushing sound. Bones appear underneath; each new bone gives a chime and bumps a counter (0/5). Find them all &rarr; celebration. A silly rubber duck turns up along the way.",
+   fit:"Classic Moomin-style searching; no time limit, dig in peace; soft fade-out, no strobe; the 0/5 counter is light number-reading.",
+   fun:"Rustling brush; a chime on each find; <span class='fi'>&ldquo;hihi! ankka hiekassa!&rdquo;</span> (a duck in the sand!).",
+   replay:"Random skeleton + surprise objects + positions; many dig sites (T-rex, triceratops, mammoth).",
+   dev:"Prototype has 60 DOM tiles &rarr; device uses a coarser ~24&ndash;32 grid to keep the DOM light. Hit zones already cheap. WAV: scrape / chime."},
+
+  {n:"04",slug:"04-tahtitaivas",fi:"T&auml;htikuvio",en:"The Night Sky",effort:"m",rank:"",
+   pitch:"Connect the glowing stars in order and draw a dragon constellation across the sky.",
+   tags:["stars","space","connect-the-dots","numbers"],
+   loop:"The starfield twinkles calmly; tap the numbered stars in order 1&rarr;7 and lines grow star to star, forming a picture that lights up when done. A wrong star gets a gentle hint, no penalty.",
+   fit:"Number order is just-right reading/number practice for a slow reader; self-paced; the twinkle is slow (4s) and soft, not a flash; the reveal is the reward.",
+   fun:"Twinkle chimes, a line chime, a slow shooting star gliding past, an owl hooting when the figure completes.",
+   replay:"Many figures (dragon, dino, rocket, ship) and a random background.",
+   dev:"The 46 CSS-animated background stars strain the weak GPU &rarr; device uses ~20 slow-twinkle stars, or paints them once on a single canvas. Line growth already time-based. WAV: twinkle / chime / hoot."},
+
+  {n:"05",slug:"05-taikapata",fi:"Taikapata",en:"The Potion Pot",effort:"m",rank:"p2",
+   pitch:"Drop two ingredients in the pot, stir, and see what silly thing happens &mdash; a boom, steam, a frog, sparkles.",
+   tags:["experimenting","magic","explosion","silly"],
+   loop:"Pick ingredients (<span class='fi'>tuli, vesi, myrkky, t&auml;hti</span> &mdash; fire, water, poison, star); the liquid blends colour. <span class='fi'>&ldquo;Sekoita&rdquo;</span> (stir) bubbles and gives a combo-dependent reaction; <span class='fi'>&ldquo;tyhjenn&auml;&rdquo;</span> (empty) resets. He tests combos like a little alchemist.",
+   fit:"Pure &ldquo;try and see&rdquo; sandbox that he loves; no right or wrong; ingredient names are short readable words; reactions are soft, never a strobe.",
+   fun:"Glug pour, bubbling, a steam hiss, a boom, <span class='fi'>&ldquo;kvak! sammakko!&rdquo;</span> (a frog!).",
+   replay:"4 ingredients in the prototype; expands easily to 6&ndash;8 &rarr; dozens of combos; a &ldquo;book of discovered reactions&rdquo; nudges him to try them all.",
+   dev:"Bubbles &le;8, burst &le;24, time-based. Emoji results &rarr; SVG. WAV: glug / bubble / boom / ribbit / fizz. Colour-mixing is cheap arithmetic."},
+
+  {n:"06",slug:"06-salahuone",fi:"Salahuone",en:"The Secret Room",effort:"l",rank:"p1",
+   pitch:"Explore a cosy room Moomin-style &mdash; click things, they react, and find the key hidden behind the picture.",
+   tags:["point-and-click","searching","cosy","adventure"],
+   loop:"Lots of clickable things: a lamp (light on/off), a cat (jumps + meow), a cuckoo clock (door opens, <span class='fi'>&ldquo;kukkuu&rdquo;</span>), a chest (creaky lid), a window star, and a picture that swings aside to reveal a key. Goal: find the key.",
+   fit:"The most direct Moomin point-and-click match; searching and tinkering <i>are</i> the game; self-paced; short hint text; all motion soft.",
+   fun:"Creak, meow, cuckoo, a key chime &mdash; and the cat&rsquo;s jump gets giggles.",
+   replay:"Many rooms (thin HTML pages like the hub), a random key hiding spot, more objects, a light &ldquo;find 3 things&rdquo; list.",
+   dev:"One big inline-SVG + CSS-transform handles for hotspots = cheap. Rooms as their own pages (hub style). A WAV per sound effect, no flexbox. <b>Heaviest on art/content</b> &mdash; hence L."},
+
+  {n:"07",slug:"07-rakettipaja",fi:"Rakettipaja",en:"The Rocket Workshop",effort:"m",rank:"",
+   pitch:"Build your own rocket (nose, colour, fins) and hit launch &rarr; it rises on a tail of fire up through the stars.",
+   tags:["space","rocket","fire","building"],
+   loop:"Swap parts with buttons and the rocket redraws. A big <span class='fi'>&ldquo;l&auml;ht&ouml;!&rdquo;</span> (launch) lights the flame and the rocket climbs softly as the stars scroll down &mdash; or sometimes a silly chicken runs off instead. Then you build a new one.",
+   fit:"Building + a reward journey with no rush; no countdown stress (the ascent is soft easing); part names are readable; motion is calm.",
+   fun:"Whoosh (filtered noise), a low rumble, <span class='fi'>&ldquo;p&ouml;&ouml;! kana karkasi!&rdquo;</span> (the chicken got away!), a fanfare on arrival.",
+   replay:"Many part combos; a different destination each flight (moon, asteroid belt, planet); a sticker per planet.",
+   dev:"The continuous flight rAF is the biggest risk on old WebView &rarr; already time-based (<code>Date.now</code>) with a hard stop at the end; flame particles capped; stars on one canvas. Emoji chicken &rarr; SVG. WAV: whoosh / boom / fanfare."},
+
+  {n:"08",slug:"08-hassu-hirviopaja",fi:"Hassu hirvi&ouml;paja",en:"Silly Monster Maker",effort:"s",rank:"p3",
+   pitch:"Mix a head, body and tail into a silly creature that gets its own name and its own voice; &ldquo;surprise&rdquo; randomizes everything.",
+   tags:["dragons","dinos","building","silly","reading"],
+   loop:"Cycle head / body / tail with arrows (4 options each); the creature redraws and earns a compound name (<span class='fi'>liekkip&ouml;tk&ouml;piikki</span>). <span class='fi'>&ldquo;Huuda&rdquo;</span> (shout) plays a 3-note sound from the chosen parts; <span class='fi'>&ldquo;yll&auml;tys&rdquo;</span> (surprise) randomizes the whole thing.",
+   fit:"Endless silly experimentation with no rules; the made-up compound names are <b>excellent reading practice</b> (short syllables); everything soft; self-paced.",
+   fun:"Each part adds a note &rarr; odd little &ldquo;songs&rdquo;; mismatched creatures are funny; a name generator.",
+   replay:"4&times;4&times;4 = 64 creatures already in the prototype, expandable to hundreds; could add a &ldquo;save creature&rdquo; gallery.",
+   dev:"<b>Lightest of all</b> &mdash; just an SVG redraw per change, no canvas. Audio: WAV notes per part. Ideal for the weak GPU."}
+];
+
+var RANKLABEL={p1:"&#9733; 1st pick",p2:"&#9733; 2nd pick",p3:"&#9733; 3rd pick",hm:"&#9733; honourable mention"};
+var EFFORTLABEL={s:"Build: S",m:"Build: M",l:"Build: L"};
+
+function field(k,v,wide){
+  return '<div class="field'+(wide?' wide':'')+'"><div class="k">'+k+'</div><div class="v">'+v+'</div></div>';
+}
+
+var html="";
+for(var i=0;i<DATA.length;i++){
+  var d=DATA[i];
+  var top=(d.rank==="p1"||d.rank==="p2"||d.rank==="p3");
+  var rankPill=d.rank?'<span class="rankpill '+d.rank+'">'+RANKLABEL[d.rank]+'</span>':'';
+  var tagHtml="";
+  for(var t=0;t<d.tags.length;t++){ tagHtml+='<span class="tag">'+d.tags[t]+'</span>'; }
+
+  html+=''+
+  '<div class="card'+(top?' top':'')+'">'+
+    '<div class="chead">'+
+      '<div class="num">'+d.n+'</div>'+
+      '<div class="ttl"><h3>'+d.fi+'</h3><span class="gloss">'+d.en+'</span></div>'+
+      '<div class="badges">'+
+        '<span class="effort '+d.effort+'">'+EFFORTLABEL[d.effort]+'</span>'+
+        rankPill+
+      '</div>'+
+    '</div>'+
+    '<div class="pitch">'+d.pitch+'</div>'+
+    '<div class="tags">'+tagHtml+'</div>'+
+    '<div class="grid">'+
+      field("Core loop",d.loop,true)+
+      field("Why it fits",d.fit,false)+
+      field("Funny &amp; sound",d.fun,false)+
+      field("Replayability",d.replay,false)+
+      field("Device feasibility",d.dev,false)+
+    '</div>'+
+    '<div class="tryrow">'+
+      '<button class="try" data-slug="'+d.slug+'" data-i="'+i+'">&#9654;&nbsp; Try the prototype</button>'+
+      '<a class="newtab" href="poc/'+d.slug+'.html" target="_blank" rel="noopener">&#8599; open in a new tab</a>'+
+      '<span class="playhint">tap inside it &mdash; sound starts on your first click</span>'+
+    '</div>'+
+    '<div class="frameWrap" id="fw'+i+'"></div>'+
+  '</div>';
+}
+document.getElementById("cards").innerHTML=html;
+
+document.getElementById("cards").addEventListener("click",function(e){
+  var btn=e.target;
+  while(btn&&btn.className.indexOf("try")<0&&btn.tagName!=="BUTTON"){ btn=btn.parentNode; }
+  if(!btn||btn.tagName!=="BUTTON") return;
+  var i=btn.getAttribute("data-i"), slug=btn.getAttribute("data-slug");
+  var fw=document.getElementById("fw"+i);
+  if(fw.className.indexOf("on")>=0){
+    fw.className="frameWrap"; fw.innerHTML=""; btn.innerHTML="&#9654;&nbsp; Try the prototype";
+  }else{
+    fw.innerHTML='<iframe src="poc/'+slug+'.html" title="prototype" loading="lazy"></iframe>';
+    fw.className="frameWrap on"; btn.innerHTML="&#10005;&nbsp; Close prototype";
+    fw.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+});
+</script>
+</body>
+</html>

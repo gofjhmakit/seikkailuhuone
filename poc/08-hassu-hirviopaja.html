@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Hassu hirviöpaja</title>
+<style>
+  html,body{margin:0;height:100%;background:#0e0c16;overflow:hidden;
+    font-family:"Comic Sans MS",system-ui,sans-serif;}
+  #stage{position:absolute;left:50%;top:50%;width:1024px;height:600px;
+    transform:translate(-50%,-50%);transform-origin:center center;
+    background:radial-gradient(circle at 50% 40%,#2a2340,#120f1e 75%);
+    border-radius:18px;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,0.6);}
+  .title{position:absolute;top:14px;left:0;right:0;text-align:center;color:#b2f2bb;
+    font-size:34px;font-weight:800;}
+  .hint{position:absolute;top:56px;left:0;right:0;text-align:center;color:#ffd8a8;font-size:22px;}
+  #name{position:absolute;top:100px;left:0;right:0;text-align:center;color:#ffe066;font-size:30px;font-weight:800;}
+  #mon{position:absolute;left:50%;top:140px;margin-left:-260px;width:520px;height:340px;cursor:pointer;}
+  .arrow{position:absolute;width:70px;height:70px;border:none;border-radius:50%;
+    background:#4263eb;color:#fff;font-size:30px;font-weight:800;cursor:pointer;box-shadow:0 5px 0 #2b4bbf;}
+  .arrow:active{transform:translateY(3px);box-shadow:0 2px 0 #2b4bbf;}
+  .lab{position:absolute;color:#dee2e6;font-size:20px;width:120px;text-align:center;}
+  #surprise{position:absolute;left:50px;bottom:36px;width:200px;height:96px;border:none;border-radius:18px;
+    background:#f59f00;color:#3a2a00;font-size:26px;font-weight:800;cursor:pointer;box-shadow:0 7px 0 #c77f00;}
+  #shout{position:absolute;right:50px;bottom:36px;width:200px;height:96px;border:none;border-radius:18px;
+    background:#e64980;color:#fff;font-size:26px;font-weight:800;cursor:pointer;box-shadow:0 7px 0 #a61e4d;}
+  #surprise:active,#shout:active{transform:translateY(4px);}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="title">hassu hirviöpaja</div>
+  <div class="hint" id="hint">vaihda osia nuolista — tee hassu otus!</div>
+  <div id="name">&nbsp;</div>
+  <svg id="mon" viewBox="0 0 520 340"></svg>
+
+  <!-- head controls -->
+  <div class="lab" style="left:20px;top:150px;">pää</div>
+  <button class="arrow" id="hL" style="left:20px;top:180px;">&#8249;</button>
+  <button class="arrow" id="hR" style="left:100px;top:180px;">&#8250;</button>
+  <!-- body controls -->
+  <div class="lab" style="left:20px;top:280px;">keho</div>
+  <button class="arrow" id="bL" style="left:20px;top:310px;">&#8249;</button>
+  <button class="arrow" id="bR" style="left:100px;top:310px;">&#8250;</button>
+  <!-- tail controls -->
+  <div class="lab" style="right:20px;top:150px;">häntä</div>
+  <button class="arrow" id="tL" style="right:100px;top:180px;">&#8249;</button>
+  <button class="arrow" id="tR" style="right:20px;top:180px;">&#8250;</button>
+
+  <button id="surprise">yllätys!</button>
+  <button id="shout">huuda</button>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var AC=window.AudioContext||window.webkitAudioContext, ac=AC?new AC():null;
+  function tone(f0,f1,dur,type,vol,delay){
+    if(!ac) return; if(ac.state==="suspended"){try{ac.resume();}catch(e){}}
+    var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime+(delay||0);
+    o.type=type||"sine"; o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(1,f1),t+dur);
+    g.gain.setValueAtTime(vol||0.2,t); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur);
+  }
+
+  var stage=document.getElementById("stage");
+  function fit(){ var s=Math.min(window.innerWidth/1024,window.innerHeight/600);
+    stage.style.transform="translate(-50%,-50%) scale("+s+")"; }
+  window.addEventListener("resize",fit); fit();
+
+  var mon=document.getElementById("mon"), hint=document.getElementById("hint"), nameEl=document.getElementById("name");
+
+  var HC=["#2f9e44","#e8590c","#7048e8","#1c7ed6"];
+  var BC=["#7048e8","#2f9e44","#e64980","#f59f00"];
+  var TC=["#f03e3e","#15aabf","#fab005","#be4bdb"];
+  var HNOTE=[330,392,262,440], BNOTE=[196,247,165,220], TNOTE=[523,440,587,392];
+  var HNAME=["liekki","terä","möly","nokka"], BNAME=["pötkö","pallo","nukka","muna"], TNAME=["piikki","pömpö","sakara","kiemura"];
+
+  var cfg={h:0,b:0,t:0};
+
+  function head(i){
+    var c=HC[i];
+    if(i===0) // dragon
+      return '<path d="M300 60 l-14 -34 l26 20" fill="'+c+'"/><path d="M200 60 l14 -34 l-26 20" fill="'+c+'"/>'+
+        '<ellipse cx="250" cy="100" rx="78" ry="62" fill="'+c+'"/>'+
+        '<ellipse cx="250" cy="130" rx="40" ry="26" fill="#ffd8a8"/>'+
+        '<circle cx="222" cy="132" r="4" fill="#333"/><circle cx="278" cy="132" r="4" fill="#333"/>'+
+        '<circle cx="220" cy="86" r="14" fill="#fff"/><circle cx="280" cy="86" r="14" fill="#fff"/>'+
+        '<circle cx="222" cy="88" r="7" fill="#222"/><circle cx="278" cy="88" r="7" fill="#222"/>';
+    if(i===1) // dino long snout
+      return '<ellipse cx="250" cy="96" rx="70" ry="58" fill="'+c+'"/>'+
+        '<path d="M250 110 q90 -6 110 24 q-40 22 -110 10 Z" fill="'+c+'"/>'+
+        '<polygon points="300,124 310,138 320,124" fill="#fff"/><polygon points="330,122 340,136 350,122" fill="#fff"/>'+
+        '<circle cx="236" cy="74" r="13" fill="#fff"/><circle cx="238" cy="76" r="7" fill="#222"/>';
+    if(i===2) // cyclops
+      return '<circle cx="250" cy="96" r="72" fill="'+c+'"/>'+
+        '<circle cx="250" cy="92" r="30" fill="#fff"/><circle cx="250" cy="94" r="15" fill="#222"/>'+
+        '<path d="M214 140 q36 22 72 0" stroke="#222" stroke-width="5" fill="none" stroke-linecap="round"/>';
+    // bird
+    return '<circle cx="250" cy="96" r="66" fill="'+c+'"/>'+
+      '<polygon points="316,92 374,104 316,120" fill="#ff922b"/>'+
+      '<circle cx="230" cy="80" r="15" fill="#fff"/><circle cx="270" cy="80" r="15" fill="#fff"/>'+
+      '<circle cx="232" cy="82" r="7" fill="#222"/><circle cx="268" cy="82" r="7" fill="#222"/>';
+  }
+
+  function body(i){
+    var c=BC[i];
+    if(i===0) return '<ellipse cx="250" cy="250" rx="96" ry="78" fill="'+c+'"/>'+
+      '<ellipse cx="250" cy="264" rx="60" ry="48" fill="#fff" opacity="0.18"/>';
+    if(i===1){ var s='<circle cx="250" cy="250" r="86" fill="'+c+'"/>'; // spiky
+      for(var k=0;k<10;k++){ var a=k/10*Math.PI*2, x=250+Math.cos(a)*86, y=250+Math.sin(a)*86;
+        s+='<circle cx="'+x.toFixed(0)+'" cy="'+y.toFixed(0)+'" r="12" fill="'+c+'"/>'; } return s; }
+    if(i===2){ var f='<circle cx="250" cy="250" r="82" fill="'+c+'"/>'; // fuzzy
+      for(var j=0;j<16;j++){ var b=j/16*Math.PI*2, bx=250+Math.cos(b)*82, by=250+Math.sin(b)*82;
+        f+='<circle cx="'+bx.toFixed(0)+'" cy="'+by.toFixed(0)+'" r="16" fill="'+c+'"/>'; } return f; }
+    return '<ellipse cx="250" cy="250" rx="72" ry="92" fill="'+c+'"/>'; // egg
+  }
+
+  function tail(i){
+    var c=TC[i];
+    if(i===0) return '<path d="M336 280 q80 10 110 -40 q-30 60 -94 70 Z" fill="'+c+'"/>'; // pointy
+    if(i===1) return '<path d="M336 270 q40 0 60 10" stroke="'+c+'" stroke-width="14" fill="none"/>'+
+      '<circle cx="410" cy="280" r="26" fill="'+c+'"/>'; // ball
+    if(i===2){ var s='<path d="M336 270 l120 -6" stroke="'+c+'" stroke-width="12"/>'; // spiky
+      for(var k=0;k<5;k++){ var x=360+k*22; s+='<polygon points="'+x+',262 '+(x+10)+',240 '+(x+20)+',262" fill="'+c+'"/>'; } return s; }
+    return '<path d="M336 270 q60 -40 90 10 q-30 40 -50 10 q10 -24 30 -6" stroke="'+c+'" stroke-width="12" fill="none"/>'; // curly
+  }
+
+  function draw(){
+    mon.innerHTML=
+      '<ellipse cx="250" cy="332" rx="110" ry="16" fill="#000" opacity="0.25"/>'+
+      tail(cfg.t)+ body(cfg.b)+
+      '<rect x="212" y="316" width="22" height="22" rx="6" fill="#495057"/>'+
+      '<rect x="266" y="316" width="22" height="22" rx="6" fill="#495057"/>'+
+      head(cfg.h);
+    nameEl.textContent=HNAME[cfg.h]+BNAME[cfg.b]+TNAME[cfg.t];
+  }
+  draw();
+
+  function bump(){ mon.style.transition="transform .12s"; mon.style.transform="scale(1.04)";
+    setTimeout(function(){ mon.style.transform="none"; },130); }
+
+  function cyc(part,dir){ var n=4; cfg[part]=((cfg[part]+dir)%n+n)%n; draw(); bump();
+    tone(300,420,0.1,"square",0.12); hint.textContent="hassu otus!"; }
+
+  document.getElementById("hL").onclick=function(){ cyc("h",-1); };
+  document.getElementById("hR").onclick=function(){ cyc("h", 1); };
+  document.getElementById("bL").onclick=function(){ cyc("b",-1); };
+  document.getElementById("bR").onclick=function(){ cyc("b", 1); };
+  document.getElementById("tL").onclick=function(){ cyc("t",-1); };
+  document.getElementById("tR").onclick=function(){ cyc("t", 1); };
+  mon.onclick=function(){ shout(); };
+
+  document.getElementById("surprise").onclick=function(){
+    cfg.h=(Math.random()*4)|0; cfg.b=(Math.random()*4)|0; cfg.t=(Math.random()*4)|0;
+    draw(); bump(); hint.textContent="yllätys-otus!"; shout();
+  };
+
+  function shout(){
+    bump();
+    tone(HNOTE[cfg.h], HNOTE[cfg.h]*0.8, 0.18, "sawtooth", 0.14, 0.0);
+    tone(BNOTE[cfg.b], BNOTE[cfg.b]*1.2, 0.2, "triangle", 0.16, 0.16);
+    tone(TNOTE[cfg.t], TNOTE[cfg.t]*0.7, 0.22, "square", 0.12, 0.34);
+    hint.textContent="se ääntelee!";
+  }
+  document.getElementById("shout").onclick=shout;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- mammutti (mammoth) skeleton. Bone-zones: kallo selka kylki etujalka takajalka (N=5). -->
+  <g id="skeleton">
+    <ellipse id="digGlow" cx="480" cy="372" rx="320" ry="172" fill="#ffd264" opacity="0"/>
+    <g id="bz_selka">
+      <path d="M320 270 Q470 232 624 286" fill="none" stroke="#f3e7cc" stroke-width="17"/>
+    </g>
+    <g id="bz_kylki">
+      <path d="M376 286 Q370 364 388 414" fill="none" stroke="#f3e7cc" stroke-width="8"/>
+      <path d="M430 280 Q426 366 444 416" fill="none" stroke="#f3e7cc" stroke-width="8"/>
+      <path d="M484 282 Q484 366 500 414" fill="none" stroke="#f3e7cc" stroke-width="8"/>
+      <path d="M538 290 Q542 360 556 410" fill="none" stroke="#f3e7cc" stroke-width="8"/>
+    </g>
+    <g id="bz_etujalka">
+      <path d="M384 300 L378 430 L384 496" fill="none" stroke="#f3e7cc" stroke-width="17"/>
+    </g>
+    <g id="bz_takajalka">
+      <path d="M600 304 L610 430 L604 496" fill="none" stroke="#f3e7cc" stroke-width="17"/>
+    </g>
+    <g id="bz_kallo">
+      <path id="skull" d="M300 262 Q344 262 344 318 Q342 354 300 358 Q254 360 240 332 Q236 286 268 268 Q282 260 300 262 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="5"/>
+      <path d="M250 342 Q206 382 192 424 Q186 456 212 460" fill="none" stroke="#f3e7cc" stroke-width="13"/>
+      <path d="M272 348 Q240 390 230 426 Q226 452 246 456" fill="none" stroke="#f3e7cc" stroke-width="9"/>
+      <circle cx="278" cy="306" r="7" fill="#4a3219"/>
+    </g>
+  </g>
+</svg>

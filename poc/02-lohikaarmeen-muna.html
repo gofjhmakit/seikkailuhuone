@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Lohikäärmeen muna</title>
+<style>
+  html,body{margin:0;height:100%;background:#0e0f1a;overflow:hidden;
+    font-family:"Comic Sans MS",system-ui,sans-serif;}
+  #stage{position:absolute;left:50%;top:50%;width:1024px;height:600px;
+    transform:translate(-50%,-50%);transform-origin:center center;
+    background:radial-gradient(circle at 50% 40%,#3a2b4a,#141020 70%);
+    border-radius:18px;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,0.6);}
+  .title{position:absolute;top:18px;left:0;right:0;text-align:center;color:#ffe066;
+    font-size:38px;font-weight:800;text-shadow:0 3px 0 rgba(0,0,0,0.4);}
+  .hint{position:absolute;top:72px;left:0;right:0;text-align:center;color:#ffd8a8;font-size:26px;}
+  #nest{position:absolute;left:50%;bottom:30px;width:420px;height:160px;margin-left:-210px;
+    background:#5a3c22;border-radius:50%;box-shadow:inset 0 10px 20px rgba(0,0,0,0.35);}
+  #eggWrap{position:absolute;left:50%;bottom:90px;margin-left:-130px;width:260px;height:330px;cursor:pointer;}
+  svg{overflow:visible;}
+  #feed{position:absolute;right:40px;bottom:50px;width:150px;height:150px;border:none;
+    background:#d6336c;border-radius:50%;color:#fff;font-size:30px;font-weight:800;
+    cursor:pointer;display:none;box-shadow:0 8px 0 #a61e4d;}
+  #feed:active{transform:translateY(5px);box-shadow:0 3px 0 #a61e4d;}
+  .warm{position:absolute;left:50%;bottom:120px;margin-left:-150px;width:300px;height:300px;
+    border-radius:50%;background:radial-gradient(circle,rgba(255,140,40,0.35),transparent 70%);
+    opacity:0;transition:opacity .4s;pointer-events:none;}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="title">lohikäärmeen muna</div>
+  <div class="hint" id="hint">silitä munaa, niin se lämpenee</div>
+  <div class="warm" id="warm"></div>
+  <div id="nest"></div>
+
+  <div id="eggWrap">
+    <svg id="egg" width="260" height="330" viewBox="0 0 260 330">
+      <ellipse cx="130" cy="185" rx="118" ry="140" fill="#9ce0d0"/>
+      <ellipse cx="130" cy="185" rx="118" ry="140" fill="#b2f2e5" opacity="0.5"/>
+      <ellipse cx="95" cy="120" rx="34" ry="46" fill="#ffffff" opacity="0.25"/>
+      <circle cx="80" cy="230" r="14" fill="#63c7b2"/>
+      <circle cx="175" cy="150" r="10" fill="#63c7b2"/>
+      <circle cx="150" cy="255" r="9" fill="#63c7b2"/>
+      <g id="cracks" stroke="#2b5e53" stroke-width="5" fill="none" stroke-linecap="round">
+        <path class="ck" d="M60 150 L95 170 L80 200 L110 215" opacity="0"/>
+        <path class="ck" d="M190 200 L160 215 L175 245 L145 255" opacity="0"/>
+        <path class="ck" d="M110 80 L130 115 L105 135 L135 160" opacity="0"/>
+        <path class="ck" d="M70 250 L105 258 L120 290 L150 295" opacity="0"/>
+      </g>
+    </svg>
+
+    <svg id="dragon" width="300" height="340" viewBox="0 0 300 340"
+         style="display:none;position:absolute;left:-20px;bottom:0;">
+      <ellipse cx="150" cy="235" rx="95" ry="80" fill="#7048e8"/>
+      <ellipse cx="150" cy="255" rx="62" ry="48" fill="#b197fc"/>
+      <path d="M70 180 Q40 120 85 140 Q70 175 95 185 Z" fill="#7048e8"/>
+      <path d="M230 180 Q260 120 215 140 Q230 175 205 185 Z" fill="#7048e8"/>
+      <circle cx="150" cy="160" r="66" fill="#845ef7"/>
+      <path d="M120 100 L132 128 L108 128 Z" fill="#5f3dc4"/>
+      <path d="M180 100 L168 128 L192 128 Z" fill="#5f3dc4"/>
+      <circle cx="128" cy="155" r="17" fill="#fff"/><circle cx="172" cy="155" r="17" fill="#fff"/>
+      <circle id="eyeL" cx="131" cy="158" r="8" fill="#222"/>
+      <circle id="eyeR" cx="169" cy="158" r="8" fill="#222"/>
+      <ellipse cx="150" cy="192" rx="22" ry="14" fill="#5f3dc4"/>
+      <circle cx="142" cy="190" r="4" fill="#2b1a66"/><circle cx="158" cy="190" r="4" fill="#2b1a66"/>
+      <g id="puff" opacity="0">
+        <circle cx="150" cy="200" r="16" fill="#ff922b"/>
+        <circle cx="150" cy="178" r="12" fill="#ffd43b"/>
+        <circle cx="150" cy="160" r="8" fill="#ffe066"/>
+      </g>
+    </svg>
+  </div>
+
+  <button id="feed">ruoki</button>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var AC=window.AudioContext||window.webkitAudioContext, ac=AC?new AC():null;
+  function tone(f0,f1,dur,type,vol){
+    if(!ac) return; if(ac.state==="suspended"){try{ac.resume();}catch(e){}}
+    var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+    o.type=type||"sine"; o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(1,f1),t+dur);
+    g.gain.setValueAtTime(vol||0.2,t); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur);
+  }
+  function roar(){ tone(180,70,0.5,"sawtooth",0.22); tone(90,50,0.6,"triangle",0.14); }
+
+  var stage=document.getElementById("stage");
+  function fit(){ var s=Math.min(window.innerWidth/1024,window.innerHeight/600);
+    stage.style.transform="translate(-50%,-50%) scale("+s+")"; }
+  window.addEventListener("resize",fit); fit();
+
+  var eggWrap=document.getElementById("eggWrap"), egg=document.getElementById("egg");
+  var dragon=document.getElementById("dragon"), hint=document.getElementById("hint");
+  var warm=document.getElementById("warm"), feed=document.getElementById("feed");
+  var cracks=document.getElementById("cracks").getElementsByClassName("ck");
+  var puff=document.getElementById("puff");
+  var taps=0, hatched=false;
+
+  eggWrap.addEventListener("click", function(){
+    if(hatched) return;
+    taps++;
+    warm.style.opacity="1"; setTimeout(function(){ warm.style.opacity="0"; },500);
+    egg.style.transform="translateX("+((taps%2)?-6:6)+"px) rotate("+((taps%2)?-3:3)+"deg)";
+    setTimeout(function(){ egg.style.transform="none"; },120);
+    tone(300+taps*40,260,0.14,"sine",0.12);
+    var show=Math.min(cracks.length,Math.floor(taps/2));
+    for(var i=0;i<cracks.length;i++){ cracks[i].setAttribute("opacity", i<show?"1":"0"); }
+    if(taps<8){ hint.textContent="lämmintä! jatka vielä"; }
+    if(taps>=8){ hatch(); }
+  });
+
+  function hatch(){
+    hatched=true; hint.textContent="se kuoriutui! ruoki vauvaa";
+    egg.style.transition="opacity .5s,transform .5s";
+    egg.style.opacity="0"; egg.style.transform="scale(0.6)";
+    dragon.style.display="block"; dragon.style.transform="scale(0.2)";
+    dragon.style.transition="transform .6s cubic-bezier(.2,1.4,.4,1)";
+    setTimeout(function(){ dragon.style.transform="scale(1)"; },30);
+    roar(); setTimeout(firePuff,500);
+    feed.style.display="block";
+    wiggle();
+  }
+
+  var wig=0;
+  function wiggle(){
+    if(!hatched) return;
+    wig+=0.05;
+    dragon.style.transform="scale(1) translateY("+(Math.sin(wig)*5)+"px)";
+    (window.requestAnimationFrame||setTimeout)(wiggle,40);
+  }
+
+  function firePuff(){
+    puff.setAttribute("opacity","1");
+    tone(400,900,0.2,"square",0.1);
+    setTimeout(function(){ puff.setAttribute("opacity","0"); },420);
+  }
+
+  var fed=0;
+  feed.addEventListener("click", function(){
+    if(!hatched) return;
+    fed++;
+    tone(240,180,0.1,"triangle",0.14); tone(180,120,0.12,"triangle",0.12);
+    firePuff();
+    if(fed%3===0){ hint.textContent="hik! pikku röyhtäys"; roar(); }
+    else { hint.textContent="nam nam! kiitos"; }
+  });
+})();
+</script>
+</body>
+</html>

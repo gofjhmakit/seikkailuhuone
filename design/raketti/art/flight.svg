@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ===================== SPACE ===================== -->
+  <rect x="0" y="0" width="1024" height="600" fill="#241a33"/>
+
+  <!-- ===================== STARFIELD (#starfield: 18 nodes; engine scrolls DOWN + wraps, OR repaint on one canvas) ===================== -->
+  <g id="starfield">
+    <circle cx="80" cy="60" r="3" fill="#cfe8ff"/>
+    <circle cx="190" cy="140" r="2.5" fill="#cfe8ff"/>
+    <circle cx="300" cy="80" r="3" fill="#7cc0ff"/>
+    <circle cx="430" cy="170" r="2.5" fill="#cfe8ff"/>
+    <circle cx="560" cy="60" r="3" fill="#cfe8ff"/>
+    <circle cx="690" cy="150" r="2.5" fill="#7cc0ff"/>
+    <circle cx="820" cy="90" r="3" fill="#cfe8ff"/>
+    <circle cx="940" cy="170" r="2.5" fill="#cfe8ff"/>
+    <circle cx="120" cy="250" r="2.5" fill="#cfe8ff"/>
+    <circle cx="360" cy="300" r="3" fill="#7cc0ff"/>
+    <circle cx="620" cy="270" r="2.5" fill="#cfe8ff"/>
+    <circle cx="880" cy="320" r="3" fill="#cfe8ff"/>
+    <circle cx="240" cy="400" r="2.5" fill="#cfe8ff"/>
+    <circle cx="760" cy="410" r="2.5" fill="#7cc0ff"/>
+    <path d="M500 230 l4 10 l10 1 l-8 7 l3 11 l-9 -6 l-9 6 l3 -11 l-8 -7 l10 -1 Z" fill="#cfe8ff"/>
+    <path d="M160 350 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#ffd264"/>
+    <path d="M840 240 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#cfe8ff"/>
+    <path d="M660 360 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== DESTINATION SLOT (engine injects a destination sprite on arrival) ===================== -->
+  <g id="destinationSlot"></g>
+
+  <!-- ===================== HOME PLANET (launch origin, bottom) ===================== -->
+  <ellipse cx="512" cy="840" rx="740" ry="320" fill="#3aa64a"/>
+  <ellipse cx="512" cy="830" rx="740" ry="320" fill="none" stroke="#7cc0ff" stroke-width="10" opacity="0.5"/>
+  <path d="M300 556 q40 -26 90 -8 M640 548 q50 -24 104 -4" fill="none" stroke="#2b7d39" stroke-width="8"/>
+
+  <!-- ===================== ROCKET SLOT (engine injects the assembled rocket; climbs up, time-based, hard-stop) ===================== -->
+  <g id="rocketSlot"></g>
+
+  <!-- ===================== NAV ===================== -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+  <g id="navWorkshop" class="hot">
+    <rect x="382" y="540" width="260" height="42" rx="10" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="414,561 394,561 404,549" fill="#5e3d1c"/>
+    <polygon points="404,549 404,573 394,561" fill="#5e3d1c"/>
+    <text x="520" y="568" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#2a2440" text-anchor="middle">takaisin pajaan</text>
+  </g>
+</svg>

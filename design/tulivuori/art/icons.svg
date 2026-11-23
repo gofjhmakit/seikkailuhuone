@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- icons.svg · UI icons · shared box 0 0 64 64, centred ~(32,32)
+     For the eruption-type chips, day/night toggle, home and collection buttons.
+     Copy the chosen <g id="icon-*"> into the engine's buttons. Flat, palette, no filters. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+
+  <!-- icon-laava · little erupting cone -->
+  <g id="icon-laava" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M14 52 L26 24 Q32 18 38 24 L50 52 Z" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <ellipse cx="32" cy="26" rx="12" ry="4" fill="#2a1a10"/>
+    <path d="M26 26 q-2 -14 -8 -18 M38 26 q2 -14 8 -18 M32 24 q0 -16 0 -20" fill="none" stroke="#ff8a4c" stroke-width="4"/>
+    <circle cx="18" cy="10" r="3" fill="#ffd264"/>
+    <circle cx="46" cy="10" r="3" fill="#ffb43d"/>
+  </g>
+
+  <!-- icon-savu · smoke rings -->
+  <g id="icon-savu" stroke-linejoin="round" stroke-width="4" fill="none">
+    <ellipse cx="32" cy="46" rx="18" ry="7" stroke="#7a6f86"/>
+    <ellipse cx="32" cy="32" rx="14" ry="6" stroke="#7a6f86"/>
+    <ellipse cx="32" cy="20" rx="10" ry="5" stroke="#4a4150"/>
+  </g>
+
+  <!-- icon-kivet · rock chunks -->
+  <g id="icon-kivet" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <polygon points="18,44 30,30 40,40 32,50 20,50" fill="#7a6f86" stroke="#4a4150"/>
+    <polygon points="38,24 50,20 54,32 44,36" fill="#7a6f86" stroke="#4a4150"/>
+    <polygon points="12,22 22,18 24,28 14,30" fill="#4a4150" stroke="#4a4150"/>
+  </g>
+
+  <!-- icon-ilotulitus · soft firework burst -->
+  <g id="icon-ilotulitus" stroke-linecap="round" stroke-width="4">
+    <g stroke="#ffd264">
+      <line x1="32" y1="32" x2="32" y2="12"/>
+      <line x1="32" y1="32" x2="52" y2="32"/>
+      <line x1="32" y1="32" x2="12" y2="32"/>
+      <line x1="32" y1="32" x2="32" y2="52"/>
+      <line x1="32" y1="32" x2="46" y2="18"/>
+      <line x1="32" y1="32" x2="18" y2="18"/>
+      <line x1="32" y1="32" x2="46" y2="46"/>
+      <line x1="32" y1="32" x2="18" y2="46"/>
+    </g>
+    <circle cx="32" cy="10" r="3" fill="#cfe8ff"/>
+    <circle cx="54" cy="32" r="3" fill="#46c4a8"/>
+    <circle cx="10" cy="32" r="3" fill="#ff8a4c"/>
+    <circle cx="32" cy="32" r="4" fill="#ffd264"/>
+  </g>
+
+  <!-- icon-sun -->
+  <g id="icon-sun" stroke-linecap="round">
+    <g stroke="#ffd264" stroke-width="5">
+      <line x1="32" y1="8" x2="32" y2="18"/>
+      <line x1="32" y1="46" x2="32" y2="56"/>
+      <line x1="8" y1="32" x2="18" y2="32"/>
+      <line x1="46" y1="32" x2="56" y2="32"/>
+      <line x1="15" y1="15" x2="22" y2="22"/>
+      <line x1="49" y1="15" x2="42" y2="22"/>
+      <line x1="15" y1="49" x2="22" y2="42"/>
+      <line x1="49" y1="49" x2="42" y2="42"/>
+    </g>
+    <circle cx="32" cy="32" r="14" fill="#ffd264" stroke="#c9922f" stroke-width="4"/>
+  </g>
+
+  <!-- icon-moon -->
+  <g id="icon-moon">
+    <circle cx="32" cy="32" r="18" fill="#ffd264"/>
+    <circle cx="40" cy="27" r="15" fill="#342a4e"/>
+  </g>
+
+  <!-- icon-koti · house -->
+  <g id="icon-koti" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M32 14 L54 34 L48 34 L48 52 L16 52 L16 34 L10 34 Z" fill="#ffb43d" stroke="#c77f1e"/>
+    <rect x="28" y="38" width="12" height="14" rx="2" fill="#5e3d1c"/>
+  </g>
+
+  <!-- icon-kokoelma · shelf of finds -->
+  <g id="icon-kokoelma" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="10" y="12" width="44" height="40" rx="6" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <line x1="10" y1="32" x2="54" y2="32" stroke="#5e3d1c"/>
+    <circle cx="22" cy="23" r="6" fill="#ff8a4c"/>
+    <rect x="34" y="18" width="12" height="10" rx="2" fill="#46c4a8"/>
+    <polygon points="24,48 18,38 30,38" fill="#ffd264"/>
+    <circle cx="42" cy="43" r="6" fill="#7cc0ff"/>
+  </g>
+
+</svg>

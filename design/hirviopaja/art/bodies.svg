@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- bodies.svg · 8 bodies · shared space 0 0 400 440
+     BODY CENTRE = (200,260). Silhouette roughly x112..288, top y~172 (meets neck anchor),
+     bottom y~358 (legs tuck under). Z-order: draw body AFTER legs/tail/horns/wings, BEFORE
+     pattern+head. Low-opacity solid patches fake highlights (no filters). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" width="400" height="440">
+
+  <!-- 1 · body-potko · plump oval · teal -->
+  <g id="body-potko" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="264" rx="86" ry="92" fill="#46c4a8" stroke="#2e8a76"/>
+    <ellipse cx="200" cy="284" rx="50" ry="58" fill="#fff7e6" opacity="0.18"/>
+  </g>
+
+  <!-- 2 · body-pallo · ball · gold -->
+  <g id="body-pallo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="200" cy="268" r="90" fill="#ffd264" stroke="#c9922f"/>
+    <circle cx="178" cy="246" r="28" fill="#fff7e6" opacity="0.20"/>
+  </g>
+
+  <!-- 3 · body-nukka · fuzzy · leaf -->
+  <g id="body-nukka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="140" cy="236" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="140" cy="300" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="260" cy="236" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="260" cy="300" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="168" cy="198" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="232" cy="198" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="168" cy="334" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="232" cy="334" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="200" cy="266" r="78" fill="#3aa64a" stroke="#2b7d39"/>
+  </g>
+
+  <!-- 4 · body-muna · tall egg · cream -->
+  <g id="body-muna" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="262" rx="72" ry="96" fill="#fff7e6" stroke="#d9c89a"/>
+    <ellipse cx="182" cy="236" rx="22" ry="34" fill="#ffffff" opacity="0.5"/>
+  </g>
+
+  <!-- 5 · body-okki · spiky · ember -->
+  <g id="body-okki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <polygon points="200,170 214,206 186,206" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="118,228 154,214 150,250" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="282,228 246,214 250,250" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="118,308 154,322 150,286" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="282,308 246,322 250,286" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="200,360 214,324 186,324" fill="#ff8a4c" stroke="#c75a2a"/>
+    <circle cx="200" cy="266" r="80" fill="#ff8a4c" stroke="#c75a2a"/>
+  </g>
+
+  <!-- 6 · body-kuori · armour plates · stone -->
+  <g id="body-kuori" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="264" rx="86" ry="90" fill="#7a6f86" stroke="#4a4150"/>
+    <path d="M118 240 q82 -28 164 0" fill="none" stroke="#4a4150" stroke-width="5"/>
+    <path d="M120 284 q80 -24 160 0" fill="none" stroke="#4a4150" stroke-width="5"/>
+    <path d="M128 324 q72 -20 144 0" fill="none" stroke="#4a4150" stroke-width="5"/>
+  </g>
+
+  <!-- 7 · body-mohko · jelly blob · sky -->
+  <g id="body-mohko" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M200 174 q70 -6 84 60 q14 70 -24 104 q-60 34 -120 0 q-38 -34 -24 -104 q14 -66 84 -60 Z" fill="#7cc0ff" stroke="#3f84c4"/>
+    <ellipse cx="178" cy="238" rx="24" ry="30" fill="#ffffff" opacity="0.22"/>
+  </g>
+
+  <!-- 8 · body-tolkki · barrel with stripes · amber -->
+  <g id="body-tolkki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="120" y="180" width="160" height="168" rx="42" fill="#ffb43d" stroke="#c77f1e"/>
+    <rect x="124" y="226" width="152" height="24" fill="#fff7e6" opacity="0.5"/>
+    <rect x="124" y="282" width="152" height="24" fill="#fff7e6" opacity="0.5"/>
+  </g>
+
+</svg>

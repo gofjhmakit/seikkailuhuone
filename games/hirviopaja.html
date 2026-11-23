@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Hirvi&#246;paja</title>
+<link rel="stylesheet" href="../seikkailu.css">
+<style>
+  #gallery { position:absolute; left:0; top:0; width:1024px; height:600px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- main workshop scene -->
+  <svg id="scene" viewBox="0 0 1024 600" width="1024" height="600">
+    
+  <defs>
+    <linearGradient id="ws-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a4a7a"/>
+      <stop offset="1" stop-color="#342a4e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- back wall -->
+  <rect x="0" y="0" width="1024" height="600" fill="#342a4e"/>
+
+  <!-- arched window with night sky, moon and stars (behind the monster) -->
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path d="M330 300 L330 150 Q330 70 512 70 Q694 70 694 150 L694 300 Z" fill="url(#ws-sky)" stroke="#5e3d1c" stroke-width="10"/>
+    <circle cx="452" cy="150" r="30" fill="#ffd264"/>
+    <circle cx="462" cy="144" r="24" fill="#342a4e" opacity="0.55"/>
+    <path d="M560 120 l4 11 l12 1 l-9 8 l3 12 l-10 -7 l-10 7 l3 -12 l-9 -8 l12 -1 Z" fill="#cfe8ff"/>
+    <circle cx="612" cy="170" r="4" fill="#cfe8ff"/>
+    <circle cx="398" cy="210" r="4" fill="#cfe8ff"/>
+    <path d="M330 300 L694 300" stroke="#5e3d1c" stroke-width="10"/>
+  </g>
+
+  <!-- bunting across the top -->
+  <g stroke="none">
+    <path d="M40 46 Q512 86 984 46" fill="none" stroke="#7a6f86" stroke-width="3"/>
+    <polygon points="120,52 150,52 135,78" fill="#e8452f"/>
+    <polygon points="230,58 260,58 245,84" fill="#ffd264"/>
+    <polygon points="340,62 370,62 355,88" fill="#46c4a8"/>
+    <polygon points="450,64 480,64 465,90" fill="#ff8a4c"/>
+    <polygon points="544,64 574,64 559,90" fill="#7cc0ff"/>
+    <polygon points="654,62 684,62 669,88" fill="#ffd264"/>
+    <polygon points="764,58 794,58 779,84" fill="#e8452f"/>
+    <polygon points="874,52 904,52 889,78" fill="#46c4a8"/>
+  </g>
+
+  <!-- little corner shelves with potion jars (above the slot columns) -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <!-- left shelf -->
+    <rect x="18" y="92" width="150" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="40" y="52" width="30" height="40" rx="8" fill="#46c4a8" stroke="#2e8a76"/>
+    <rect x="44" y="66" width="22" height="26" rx="6" fill="#cfe8ff" opacity="0.45"/>
+    <rect x="42" y="44" width="26" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="108" y="48" width="32" height="44" rx="8" fill="#ff8a4c" stroke="#c75a2a"/>
+    <rect x="112" y="64" width="24" height="28" rx="6" fill="#ffd264" opacity="0.45"/>
+    <rect x="110" y="40" width="28" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <!-- right shelf -->
+    <rect x="856" y="92" width="150" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="884" y="48" width="32" height="44" rx="8" fill="#7cc0ff" stroke="#3f84c4"/>
+    <rect x="888" y="64" width="24" height="28" rx="6" fill="#cfe8ff" opacity="0.5"/>
+    <rect x="886" y="40" width="28" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="952" y="52" width="30" height="40" rx="8" fill="#ffb43d" stroke="#c77f1e"/>
+    <rect x="956" y="66" width="22" height="26" rx="6" fill="#fff7e6" opacity="0.45"/>
+    <rect x="954" y="44" width="26" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c"/>
+  </g>
+
+  <!-- hanging lamp, centre-top, cosy warm pool (fake glow = low-opacity solid) -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <line x1="512" y1="46" x2="512" y2="96" stroke="#4a4150"/>
+    <path d="M486 96 q26 -28 52 0 Z" fill="#ffb43d" stroke="#c77f1e"/>
+    <circle cx="512" cy="104" r="8" fill="#ffd264"/>
+  </g>
+
+  <!-- stage / pedestal where the monster stands -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="512" cy="500" rx="150" ry="30" fill="#ffd264" opacity="0.10"/>
+    <path d="M402 516 L622 516 L600 486 L424 486 Z" fill="#7a6f86" stroke="#4a4150"/>
+    <rect x="412" y="508" width="200" height="16" rx="8" fill="#5e3d1c" stroke="#3b2611"/>
+  </g>
+
+  <!-- wood floor strip -->
+  <g>
+    <rect x="0" y="560" width="1024" height="40" fill="#5e3d1c"/>
+    <path d="M0 560 L1024 560" stroke="#3b2611" stroke-width="4"/>
+  </g>
+
+    <g id="monster" transform="translate(312,95)"><g id="monsterInner"></g></g>
+    <rect x="262" y="16" width="500" height="58" rx="18" fill="#241a33" opacity="0.82" stroke="#ffd264" stroke-width="3"/>
+    <text id="mname" x="512" y="56" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="34" font-weight="800" fill="#ffd264">nimi</text>
+    <text id="hint" x="512" y="98" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6">vaihda osia nuolista</text>
+    <g id="controls"></g>
+  </svg>
+
+  <!-- gallery overlay (hidden until opened) -->
+  <div id="gallery" style="display:none;">
+    <svg id="galscene" viewBox="0 0 1024 600" width="1024" height="600">
+      <rect x="0" y="0" width="1024" height="600" fill="#2b2140"/>
+      <text x="512" y="50" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="32" font-weight="800" fill="#ffd264">galleria</text>
+      <g id="galMonster" transform="translate(312,95)"><g id="galInner"></g></g>
+      <text id="galname" x="512" y="548" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="30" font-weight="800" fill="#ffd264"></text>
+      <text id="galempty" x="512" y="300" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="26" font-weight="700" fill="#fff7e6" style="display:none;">Ei viel&#228; otuksia. Tee ja tallenna!</text>
+      <g id="galControls"></g>
+    </svg>
+  </div>
+
+  <!-- hidden source sheet: every part group, ids prefixed p- -->
+  <svg id="partsheet" width="0" height="0" viewBox="0 0 400 440" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><g id="p-base-shadow">
+    <ellipse cx="200" cy="408" rx="100" ry="18" fill="#000000" opacity="0.20"/>
+  </g>
+<g id="p-wing-none"></g>
+<g id="p-wing-nahka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="p-wing-nahka-flap">
+      <path d="M160 220 q-70 -70 -108 -78 q10 26 2 44 q22 -4 30 12 q-18 2 -14 22 q22 -6 30 10 q-16 6 -8 24 q40 -24 76 -30 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+      <path d="M240 220 q70 -70 108 -78 q-10 26 -2 44 q-22 -4 -30 12 q18 2 14 22 q-22 -6 -30 10 q16 6 8 24 q-40 -24 -76 -30 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+    </g>
+  </g>
+<g id="p-wing-hoyhen" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="p-wing-hoyhen-flap">
+      <path d="M160 222 q-56 -24 -96 -70 q10 40 6 66 q18 -16 34 -6 q-10 -22 2 -38 q14 20 32 16 q-8 -20 6 -34 q10 24 16 42 Z" fill="#cfe8ff" stroke="#8fb8db"/>
+      <path d="M240 222 q56 -24 96 -70 q-10 40 -6 66 q-18 -16 -34 -6 q10 -22 -2 -38 q-14 20 -32 16 q8 -20 -6 -34 q-10 24 -16 42 Z" fill="#cfe8ff" stroke="#8fb8db"/>
+    </g>
+  </g>
+<g id="p-wing-perho" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="p-wing-perho-flap">
+      <ellipse cx="108" cy="176" rx="46" ry="38" fill="#ffd264" stroke="#c9922f"/>
+      <ellipse cx="124" cy="244" rx="34" ry="30" fill="#ffb43d" stroke="#c77f1e"/>
+      <ellipse cx="292" cy="176" rx="46" ry="38" fill="#ffd264" stroke="#c9922f"/>
+      <ellipse cx="276" cy="244" rx="34" ry="30" fill="#ffb43d" stroke="#c77f1e"/>
+      <circle cx="108" cy="176" r="10" fill="#e8452f"/>
+      <circle cx="292" cy="176" r="10" fill="#e8452f"/>
+    </g>
+  </g>
+<g id="p-wing-surri" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="p-wing-surri-flap">
+      <ellipse cx="146" cy="192" rx="34" ry="20" fill="#cfe8ff" stroke="#8fb8db" opacity="0.92"/>
+      <ellipse cx="254" cy="192" rx="34" ry="20" fill="#cfe8ff" stroke="#8fb8db" opacity="0.92"/>
+    </g>
+  </g>
+<g id="p-wing-porro" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="p-wing-porro-flap">
+      <path d="M160 220 q-20 -40 -54 -40 q-36 0 -34 34 q-30 6 -18 36 q40 6 60 -6 q28 -8 46 -24 Z" fill="#fff7e6" stroke="#d9c89a"/>
+      <path d="M240 220 q20 -40 54 -40 q36 0 34 34 q30 6 18 36 q-40 6 -60 -6 q-28 -8 -46 -24 Z" fill="#fff7e6" stroke="#d9c89a"/>
+    </g>
+  </g>
+<g id="p-wing-pyorre" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="p-wing-pyorre-blade">
+      <ellipse cx="200" cy="150" rx="18" ry="52" fill="#46c4a8" stroke="#2e8a76"/>
+      <ellipse cx="200" cy="150" rx="52" ry="18" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+    <circle cx="200" cy="150" r="14" fill="#c9922f" stroke="#8a5a2b"/>
+  </g>
+<g id="p-tail-piikki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M276 288 q70 -8 102 -44 q-18 70 -86 86 Z" fill="#e8452f" stroke="#a82e1e"/>
+  </g>
+<g id="p-tail-pompo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q46 4 64 -8" fill="none" stroke="#c9922f" stroke-width="16"/>
+    <path d="M278 300 q46 4 64 -8" fill="none" stroke="#ffd264" stroke-width="9"/>
+    <circle cx="356" cy="288" r="26" fill="#ffd264" stroke="#c9922f"/>
+  </g>
+<g id="p-tail-sakara" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 302 l96 -16" fill="none" stroke="#c75a2a" stroke-width="16"/>
+    <polygon points="300,290 312,262 322,288" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="326,286 338,258 348,284" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="352,282 364,254 374,280" fill="#ff8a4c" stroke="#c75a2a"/>
+  </g>
+<g id="p-tail-kiemu" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q48 -2 60 -34 q10 -34 -18 -30 q-22 4 -8 26" fill="none" stroke="#46c4a8" stroke-width="15"/>
+  </g>
+<g id="p-tail-viuhka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q40 -6 56 -2 q22 -40 10 -70 q-6 34 -34 44 q-10 -30 -30 -18 q14 18 2 34 Z" fill="#7cc0ff" stroke="#3f84c4"/>
+  </g>
+<g id="p-tail-topo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M276 288 q46 -2 52 18 q-6 22 -42 20 Z" fill="#3aa64a" stroke="#2b7d39"/>
+  </g>
+<g id="p-tail-nuija" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q40 0 56 -14" fill="none" stroke="#4a4150" stroke-width="15"/>
+    <circle cx="352" cy="276" r="28" fill="#7a6f86" stroke="#4a4150"/>
+    <polygon points="352,246 360,232 366,250" fill="#7a6f86" stroke="#4a4150"/>
+    <polygon points="378,268 392,262 380,278" fill="#7a6f86" stroke="#4a4150"/>
+  </g>
+<g id="p-tail-suti" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M278 300 q40 -2 54 -14" fill="none" stroke="#c77f1e" stroke-width="14"/>
+    <path d="M330 288 l26 -26 M338 292 l30 -14 M332 296 l30 2" fill="none" stroke="#ffb43d" stroke-width="10"/>
+  </g>
+<g id="p-leg-tassu" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="150" y="338" width="30" height="52" rx="14" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="220" y="338" width="30" height="52" rx="14" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <ellipse cx="165" cy="396" rx="26" ry="16" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <ellipse cx="235" cy="396" rx="26" ry="16" fill="#8a5a2b" stroke="#5e3d1c"/>
+  </g>
+<g id="p-leg-toppo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="146" y="352" width="40" height="46" rx="18" fill="#7a6f86" stroke="#4a4150"/>
+    <rect x="214" y="352" width="40" height="46" rx="18" fill="#7a6f86" stroke="#4a4150"/>
+  </g>
+<g id="p-leg-kavio" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="152" y="338" width="26" height="46" rx="10" fill="#5e3d1c" stroke="#3b2611"/>
+    <rect x="222" y="338" width="26" height="46" rx="10" fill="#5e3d1c" stroke="#3b2611"/>
+    <path d="M148 384 l34 0 l-4 16 l-26 0 Z" fill="#3b2611" stroke="#3b2611"/>
+    <path d="M218 384 l34 0 l-4 16 l-26 0 Z" fill="#3b2611" stroke="#3b2611"/>
+  </g>
+<g id="p-leg-kynsi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="150" y="338" width="30" height="46" rx="12" fill="#2b7d39" stroke="#1e5a28"/>
+    <rect x="220" y="338" width="30" height="46" rx="12" fill="#2b7d39" stroke="#1e5a28"/>
+    <path d="M146 388 l10 10 M165 390 l0 12 M184 388 l-10 10" fill="none" stroke="#1e5a28" stroke-width="6"/>
+    <path d="M216 388 l10 10 M235 390 l0 12 M254 388 l-10 10" fill="none" stroke="#1e5a28" stroke-width="6"/>
+  </g>
+<g id="p-leg-jousi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="p-leg-jousi-l">
+      <path d="M165 340 q-20 10 0 20 q20 10 0 20 q-20 10 0 20" fill="none" stroke="#2e8a76" stroke-width="7"/>
+      <ellipse cx="165" cy="396" rx="24" ry="12" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+    <g id="p-leg-jousi-r">
+      <path d="M235 340 q-20 10 0 20 q20 10 0 20 q-20 10 0 20" fill="none" stroke="#2e8a76" stroke-width="7"/>
+      <ellipse cx="235" cy="396" rx="24" ry="12" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+  </g>
+<g id="p-leg-pyora" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="158" y="338" width="14" height="30" rx="6" fill="#4a4150" stroke="#4a4150"/>
+    <rect x="228" y="338" width="14" height="30" rx="6" fill="#4a4150" stroke="#4a4150"/>
+    <g id="p-leg-pyora-l">
+      <circle cx="165" cy="384" r="28" fill="#7a6f86" stroke="#4a4150"/>
+      <circle cx="165" cy="384" r="9" fill="#c9922f" stroke="#8a5a2b"/>
+    </g>
+    <g id="p-leg-pyora-r">
+      <circle cx="235" cy="384" r="28" fill="#7a6f86" stroke="#4a4150"/>
+      <circle cx="235" cy="384" r="9" fill="#c9922f" stroke="#8a5a2b"/>
+    </g>
+  </g>
+<g id="p-horn-none"></g>
+<g id="p-horn-sarvi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M170 86 q-26 -24 -22 -58 q18 10 24 30 q6 18 10 30 Z" fill="#fff7e6" stroke="#d9c89a"/>
+    <path d="M230 86 q26 -24 22 -58 q-18 10 -24 30 q-6 18 -10 30 Z" fill="#fff7e6" stroke="#d9c89a"/>
+  </g>
+<g id="p-horn-kruunu" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <polygon points="150,78 162,34 176,78" fill="#ffd264" stroke="#c9922f"/>
+    <polygon points="176,78 188,24 200,78" fill="#ffd264" stroke="#c9922f"/>
+    <polygon points="200,78 212,24 224,78" fill="#ffd264" stroke="#c9922f"/>
+    <polygon points="224,78 236,34 250,78" fill="#ffd264" stroke="#c9922f"/>
+  </g>
+<g id="p-horn-tunto" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="p-horn-tunto-l">
+      <path d="M172 82 q-18 -30 -28 -46" fill="none" stroke="#2e8a76" stroke-width="6"/>
+      <circle cx="140" cy="30" r="12" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+    <g id="p-horn-tunto-r">
+      <path d="M228 82 q18 -30 28 -46" fill="none" stroke="#2e8a76" stroke-width="6"/>
+      <circle cx="260" cy="30" r="12" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+  </g>
+<g id="p-horn-torvi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M182 80 q18 -58 18 -66 q0 8 18 66 Z" fill="#ffb43d" stroke="#c77f1e"/>
+    <path d="M190 58 q10 -4 20 0 M188 40 q12 -4 24 0" fill="none" stroke="#c77f1e" stroke-width="4"/>
+  </g>
+<g id="p-horn-kohmy" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M150 80 a18 18 0 0 1 36 0 Z" fill="#7a6f86" stroke="#4a4150"/>
+    <path d="M182 74 a20 20 0 0 1 40 0 Z" fill="#7a6f86" stroke="#4a4150"/>
+    <path d="M214 80 a18 18 0 0 1 36 0 Z" fill="#7a6f86" stroke="#4a4150"/>
+  </g>
+<g id="p-horn-harja" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M166 82 l10 -34 l12 30 l12 -40 l12 40 l12 -30 l10 34 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+  </g>
+<g id="p-body-potko" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="264" rx="86" ry="92" fill="#46c4a8" stroke="#2e8a76"/>
+    <ellipse cx="200" cy="284" rx="50" ry="58" fill="#fff7e6" opacity="0.18"/>
+  </g>
+<g id="p-body-pallo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="200" cy="268" r="90" fill="#ffd264" stroke="#c9922f"/>
+    <circle cx="178" cy="246" r="28" fill="#fff7e6" opacity="0.20"/>
+  </g>
+<g id="p-body-nukka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="140" cy="236" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="140" cy="300" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="260" cy="236" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="260" cy="300" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="168" cy="198" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="232" cy="198" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="168" cy="334" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="232" cy="334" r="18" fill="#3aa64a" stroke="#2b7d39"/>
+    <circle cx="200" cy="266" r="78" fill="#3aa64a" stroke="#2b7d39"/>
+  </g>
+<g id="p-body-muna" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="262" rx="72" ry="96" fill="#fff7e6" stroke="#d9c89a"/>
+    <ellipse cx="182" cy="236" rx="22" ry="34" fill="#ffffff" opacity="0.5"/>
+  </g>
+<g id="p-body-okki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <polygon points="200,170 214,206 186,206" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="118,228 154,214 150,250" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="282,228 246,214 250,250" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="118,308 154,322 150,286" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="282,308 246,322 250,286" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="200,360 214,324 186,324" fill="#ff8a4c" stroke="#c75a2a"/>
+    <circle cx="200" cy="266" r="80" fill="#ff8a4c" stroke="#c75a2a"/>
+  </g>
+<g id="p-body-kuori" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="264" rx="86" ry="90" fill="#7a6f86" stroke="#4a4150"/>
+    <path d="M118 240 q82 -28 164 0" fill="none" stroke="#4a4150" stroke-width="5"/>
+    <path d="M120 284 q80 -24 160 0" fill="none" stroke="#4a4150" stroke-width="5"/>
+    <path d="M128 324 q72 -20 144 0" fill="none" stroke="#4a4150" stroke-width="5"/>
+  </g>
+<g id="p-body-mohko" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M200 174 q70 -6 84 60 q14 70 -24 104 q-60 34 -120 0 q-38 -34 -24 -104 q14 -66 84 -60 Z" fill="#7cc0ff" stroke="#3f84c4"/>
+    <ellipse cx="178" cy="238" rx="24" ry="30" fill="#ffffff" opacity="0.22"/>
+  </g>
+<g id="p-body-tolkki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="120" y="180" width="160" height="168" rx="42" fill="#ffb43d" stroke="#c77f1e"/>
+    <rect x="124" y="226" width="152" height="24" fill="#fff7e6" opacity="0.5"/>
+    <rect x="124" y="282" width="152" height="24" fill="#fff7e6" opacity="0.5"/>
+  </g>
+<g id="p-pat-none"></g>
+<g id="p-pat-pilkku">
+    <circle cx="200" cy="238" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="168" cy="262" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="232" cy="262" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="186" cy="294" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="214" cy="294" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="200" cy="322" r="9" fill="#2a2440" opacity="0.55"/>
+  </g>
+<g id="p-pat-raita" stroke-linecap="round">
+    <path d="M150 244 q50 -14 100 0" fill="none" stroke="#2a2440" stroke-width="9" opacity="0.5"/>
+    <path d="M144 276 q56 -14 112 0" fill="none" stroke="#2a2440" stroke-width="9" opacity="0.5"/>
+    <path d="M150 308 q50 -14 100 0" fill="none" stroke="#2a2440" stroke-width="9" opacity="0.5"/>
+  </g>
+<g id="p-pat-tapla" stroke-linejoin="round" stroke-width="3">
+    <circle cx="176" cy="244" r="20" fill="#fff7e6" stroke="#d9c89a"/>
+    <circle cx="226" cy="286" r="24" fill="#fff7e6" stroke="#d9c89a"/>
+    <circle cx="170" cy="306" r="16" fill="#fff7e6" stroke="#d9c89a"/>
+  </g>
+<g id="p-pat-tahti" stroke-linejoin="round" stroke-width="3">
+    <path d="M200 226 l6 16 l17 1 l-13 11 l5 17 l-15 -10 l-15 10 l5 -17 l-13 -11 l17 -1 Z" fill="#ffd264" stroke="#c9922f"/>
+    <path d="M170 288 l5 13 l14 1 l-11 9 l4 14 l-12 -8 l-12 8 l4 -14 l-11 -9 l14 -1 Z" fill="#ffd264" stroke="#c9922f"/>
+    <path d="M232 296 l5 13 l14 1 l-11 9 l4 14 l-12 -8 l-12 8 l4 -14 l-11 -9 l14 -1 Z" fill="#ffd264" stroke="#c9922f"/>
+  </g>
+<g id="p-pat-ruutu">
+    <rect x="176" y="238" width="20" height="20" fill="#2a2440" opacity="0.5"/>
+    <rect x="204" y="238" width="20" height="20" fill="#2a2440" opacity="0.28"/>
+    <rect x="162" y="266" width="20" height="20" fill="#2a2440" opacity="0.28"/>
+    <rect x="190" y="266" width="20" height="20" fill="#2a2440" opacity="0.5"/>
+    <rect x="218" y="266" width="20" height="20" fill="#2a2440" opacity="0.28"/>
+    <rect x="176" y="294" width="20" height="20" fill="#2a2440" opacity="0.28"/>
+    <rect x="204" y="294" width="20" height="20" fill="#2a2440" opacity="0.5"/>
+  </g>
+<g id="p-pat-sydan" stroke-linejoin="round" stroke-width="3">
+    <path d="M200 244 q-10 -14 -22 -4 q-10 10 22 30 q32 -20 22 -30 q-12 -10 -22 4 Z" fill="#e8452f" stroke="#a82e1e"/>
+    <path d="M178 300 q-7 -10 -16 -3 q-7 7 16 22 q23 -15 16 -22 q-9 -7 -16 3 Z" fill="#e8452f" stroke="#a82e1e"/>
+    <path d="M230 300 q-7 -10 -16 -3 q-7 7 16 22 q23 -15 16 -22 q-9 -7 -16 3 Z" fill="#e8452f" stroke="#a82e1e"/>
+  </g>
+<g id="p-head-liekki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M168 66 l-10 -30 l26 20 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+    <path d="M232 66 l10 -30 l-26 20 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+    <ellipse cx="200" cy="114" rx="66" ry="60" fill="#ff8a4c" stroke="#c75a2a"/>
+    <ellipse cx="200" cy="142" rx="38" ry="24" fill="#fff7e6" stroke="#c75a2a"/>
+    <circle cx="188" cy="142" r="4" fill="#2a2440"/>
+    <circle cx="212" cy="142" r="4" fill="#2a2440"/>
+    <circle cx="178" cy="100" r="15" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="222" cy="100" r="15" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="180" cy="102" r="7" fill="#2a2440"/>
+    <circle cx="220" cy="102" r="7" fill="#2a2440"/>
+  </g>
+<g id="p-head-narsku" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="188" cy="114" rx="56" ry="58" fill="#3aa64a" stroke="#2b7d39"/>
+    <path d="M226 110 q70 -4 76 26 q-30 24 -76 14 Z" fill="#3aa64a" stroke="#2b7d39"/>
+    <polygon points="252,142 260,158 268,142" fill="#ffffff" stroke="#2b7d39" stroke-width="2"/>
+    <polygon points="276,140 284,154 292,140" fill="#ffffff" stroke="#2b7d39" stroke-width="2"/>
+    <circle cx="176" cy="92" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="214" cy="90" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="178" cy="94" r="7" fill="#2a2440"/>
+    <circle cx="216" cy="92" r="7" fill="#2a2440"/>
+  </g>
+<g id="p-head-tuijo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="200" cy="112" r="62" fill="#46c4a8" stroke="#2e8a76"/>
+    <circle cx="200" cy="104" r="30" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="200" cy="108" r="15" fill="#2a2440"/>
+    <path d="M172 146 q28 20 56 0" fill="none" stroke="#2a2440" stroke-width="5"/>
+  </g>
+<g id="p-head-nokka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="194" cy="114" r="58" fill="#ffd264" stroke="#c9922f"/>
+    <polygon points="244,96 316,110 244,120" fill="#ff8a4c" stroke="#c75a2a"/>
+    <polygon points="244,120 300,126 244,138" fill="#ffb43d" stroke="#c77f1e"/>
+    <circle cx="178" cy="96" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="214" cy="96" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="180" cy="98" r="7" fill="#2a2440"/>
+    <circle cx="216" cy="98" r="7" fill="#2a2440"/>
+  </g>
+<g id="p-head-kurno" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="126" rx="72" ry="48" fill="#2b7d39" stroke="#1e5a28"/>
+    <circle cx="170" cy="82" r="22" fill="#2b7d39" stroke="#1e5a28"/>
+    <circle cx="230" cy="82" r="22" fill="#2b7d39" stroke="#1e5a28"/>
+    <circle cx="170" cy="80" r="12" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="230" cy="80" r="12" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="172" cy="82" r="6" fill="#2a2440"/>
+    <circle cx="228" cy="82" r="6" fill="#2a2440"/>
+    <path d="M150 132 q50 34 100 0" fill="none" stroke="#1e5a28" stroke-width="6"/>
+  </g>
+<g id="p-head-moly" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="164" cy="80" r="16" fill="#7cc0ff" stroke="#3f84c4"/>
+    <circle cx="200" cy="66" r="16" fill="#7cc0ff" stroke="#3f84c4"/>
+    <circle cx="236" cy="80" r="16" fill="#7cc0ff" stroke="#3f84c4"/>
+    <circle cx="200" cy="112" r="60" fill="#7cc0ff" stroke="#3f84c4"/>
+    <ellipse cx="200" cy="142" rx="34" ry="16" fill="#e8452f" stroke="#a82e1e"/>
+    <circle cx="178" cy="98" r="16" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="222" cy="98" r="16" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="180" cy="100" r="8" fill="#2a2440"/>
+    <circle cx="220" cy="100" r="8" fill="#2a2440"/>
+  </g>
+<g id="p-head-piip" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="p-head-piip-antenna">
+      <line x1="200" y1="66" x2="200" y2="36" stroke="#4a4150" stroke-width="5"/>
+      <circle cx="200" cy="30" r="9" fill="#ffd264" stroke="#c9922f"/>
+    </g>
+    <rect x="146" y="64" width="108" height="108" rx="18" fill="#7a6f86" stroke="#4a4150"/>
+    <circle cx="176" cy="104" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="224" cy="104" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="176" cy="104" r="7" fill="#2a2440"/>
+    <circle cx="224" cy="104" r="7" fill="#2a2440"/>
+    <rect x="172" y="134" width="56" height="16" rx="6" fill="#2a2440"/>
+    <circle cx="156" cy="148" r="5" fill="#ffd264"/>
+    <circle cx="244" cy="148" r="5" fill="#ffd264"/>
+  </g>
+<g id="p-head-napse" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M150 74 l-6 -32 l30 20 Z" fill="#ffb43d" stroke="#c77f1e"/>
+    <path d="M250 74 l6 -32 l-30 20 Z" fill="#ffb43d" stroke="#c77f1e"/>
+    <circle cx="200" cy="114" r="60" fill="#ffb43d" stroke="#c77f1e"/>
+    <path d="M156 136 q44 36 88 0" fill="none" stroke="#c77f1e" stroke-width="6"/>
+    <polygon points="172,138 180,158 188,138" fill="#ffffff" stroke="#c77f1e" stroke-width="2"/>
+    <polygon points="212,138 220,158 228,138" fill="#ffffff" stroke="#c77f1e" stroke-width="2"/>
+    <circle cx="178" cy="100" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="222" cy="100" r="14" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="180" cy="102" r="7" fill="#2a2440"/>
+    <circle cx="220" cy="102" r="7" fill="#2a2440"/>
+  </g>
+<g id="p-hat-none"></g>
+<g id="p-hat-silinteri" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="64" rx="54" ry="12" fill="#2a2440" stroke="#16122a"/>
+    <rect x="168" y="14" width="64" height="52" rx="6" fill="#2a2440" stroke="#16122a"/>
+    <rect x="168" y="48" width="64" height="12" fill="#e8452f"/>
+  </g>
+<g id="p-hat-lippis" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M152 60 q48 -52 96 0 Z" fill="#e8452f" stroke="#a82e1e"/>
+    <path d="M196 60 q44 2 60 14 q-4 -10 -18 -14 Z" fill="#e8452f" stroke="#a82e1e"/>
+    <circle cx="200" cy="18" r="6" fill="#ffd264"/>
+  </g>
+<g id="p-hat-kruunu" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M156 62 l0 -34 l20 16 l24 -28 l24 28 l20 -16 l0 34 Z" fill="#ffd264" stroke="#c9922f"/>
+    <circle cx="200" cy="40" r="5" fill="#e8452f"/>
+    <circle cx="170" cy="48" r="4" fill="#46c4a8"/>
+    <circle cx="230" cy="48" r="4" fill="#46c4a8"/>
+  </g>
+<g id="p-hat-juhla" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M200 6 l34 56 l-68 0 Z" fill="#46c4a8" stroke="#2e8a76"/>
+    <circle cx="200" cy="6" r="8" fill="#ffd264" stroke="#c9922f"/>
+    <circle cx="188" cy="40" r="4" fill="#fff7e6"/>
+    <circle cx="210" cy="30" r="4" fill="#fff7e6"/>
+  </g>
+<g id="p-hat-kypara" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M150 64 q0 -58 50 -58 q50 0 50 58 Z" fill="#7cc0ff" stroke="#3f84c4"/>
+    <rect x="148" y="58" width="104" height="12" rx="6" fill="#3f84c4" stroke="#3f84c4"/>
+    <rect x="194" y="10" width="12" height="40" rx="5" fill="#fff7e6"/>
+  </g>
+<g id="p-hat-kukka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M200 60 l0 -22" fill="none" stroke="#2b7d39" stroke-width="5"/>
+    <circle cx="178" cy="34" r="12" fill="#ffd264" stroke="#c9922f"/>
+    <circle cx="222" cy="34" r="12" fill="#ffd264" stroke="#c9922f"/>
+    <circle cx="200" cy="18" r="12" fill="#ffd264" stroke="#c9922f"/>
+    <circle cx="200" cy="34" r="9" fill="#ffb43d" stroke="#c77f1e"/>
+    <g id="p-hat-kukka-bee">
+      <ellipse cx="238" cy="14" rx="9" ry="6" fill="#ffd264" stroke="#2a2440" stroke-width="2"/>
+      <path d="M236 10 l0 8 M240 10 l0 8" stroke="#2a2440" stroke-width="2"/>
+      <ellipse cx="236" cy="9" rx="5" ry="3" fill="#cfe8ff" stroke="#8fb8db" stroke-width="1"/>
+    </g>
+  </g></svg>
+</div>
+
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var G = Seik.logic.hirviopaja, U = Seik.logic.util;
+
+  var sel = {};                                  /* current selection per slot */
+  (function () { for (var k in G.defaults) { if (G.defaults.hasOwnProperty(k)) sel[k] = G.defaults[k]; } })();
+
+  var monsterInner, hintEl, nameEl, tapCount = 0;
+  var TIMBRE = { saw: "sawtooth", tri: "triangle", square: "square" };
+
+  /* ---------- build / rebuild the monster from a selection ---------- */
+  function stripIds(node) {
+    if (node.removeAttribute) { node.removeAttribute("id"); }
+    var ch = node.childNodes, i;
+    for (i = 0; i < ch.length; i++) { if (ch[i].nodeType === 1) stripIds(ch[i]); }
+  }
+  function assemble(target, s) {
+    while (target.firstChild) { target.removeChild(target.firstChild); }
+    for (var i = 0; i < G.zOrder.length; i++) {
+      var z = G.zOrder[i];
+      var id = (z === "base-shadow") ? "base-shadow" : s[z];
+      var src = C.$("p-" + id);
+      if (!src) { continue; }
+      var c = src.cloneNode(true);
+      stripIds(c);
+      target.appendChild(c);
+    }
+  }
+
+  /* ---------- gentle animations (bounded, time-based, no loops left running) ---------- */
+  function popMonster() {
+    A.tween({
+      duration: 220, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) {
+        var s = 1 + 0.09 * Math.sin(Math.PI * t);
+        C.$("monsterInner").setAttribute("transform",
+          "translate(200,300) scale(" + s + ") translate(-200,-300)");
+      }
+    });
+  }
+  function hop(big) {
+    var h = big ? 46 : 26;
+    A.tween({
+      duration: big ? 520 : 380, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) {
+        var dy = h * Math.sin(Math.PI * t);
+        C.$("monster").setAttribute("transform", "translate(312," + (95 - dy) + ")");
+      },
+      onDone: function () { C.$("monster").setAttribute("transform", "translate(312,95)"); }
+    });
+  }
+
+  /* ---------- the 3-note voice (pre-baked WAV notes; synth fallback on modern) ---------- */
+  function playVoice(s) {
+    var notes = G.voice(s), i;
+    for (i = 0; i < notes.length; i++) {
+      (function (n, delay) {
+        setTimeout(function () {
+          AU.playOnce("voice_" + n.id, {
+            f0: n.hz, f1: n.hz * (n.timbre === "tri" ? 1.12 : 0.85),
+            type: TIMBRE[n.timbre], dur: n.dur, vol: 0.18
+          });
+        }, delay);
+      })(notes[i], i * 185);
+    }
+  }
+
+  /* ---------- update helpers ---------- */
+  function refresh() {
+    assemble(C.$("monsterInner"), sel);
+    nameEl.firstChild ? (nameEl.firstChild.nodeValue = G.makeName(sel)) : nameEl.appendChild(document.createTextNode(G.makeName(sel)));
+  }
+  function setHint(t) {
+    if (hintEl.firstChild) { hintEl.firstChild.nodeValue = t; }
+    else { hintEl.appendChild(document.createTextNode(t)); }
+  }
+  function swap(slot, dir) {
+    sel[slot] = G.cycle(slot, sel[slot], dir);
+    refresh();
+    AU.play("naps"); setTimeout(function () { AU.play("pulp"); }, 70);
+    popMonster();
+    setHint("vaihda " + G.labels[slot].toLowerCase() + "!");
+  }
+
+  /* ---------- SVG control builders ---------- */
+  function svgText(x, y, str, size, fill) {
+    var t = C.svg("text", { x: x, y: y, "text-anchor": "middle",
+      "font-family": "Comic Sans MS, sans-serif", "font-size": size, "font-weight": "800", fill: fill });
+    t.appendChild(document.createTextNode(str));
+    return t;
+  }
+  function arrowButton(cx, cy, left, onTap) {
+    var g = C.svg("g", { "class": "hot" });
+    g.appendChild(C.svg("circle", { cx: cx, cy: cy, r: 34, fill: "#ffd264", stroke: "#c9922f", "stroke-width": 4 }));
+    var tri = left
+      ? (cx + 10) + "," + (cy - 15) + " " + (cx + 10) + "," + (cy + 15) + " " + (cx - 13) + "," + cy
+      : (cx - 10) + "," + (cy - 15) + " " + (cx - 10) + "," + (cy + 15) + " " + (cx + 13) + "," + cy;
+    g.appendChild(C.svg("polygon", { points: tri, fill: "#5e3d1c" }));
+    C.tap(g, onTap);
+    return g;
+  }
+  function actionButton(cx, label, onTap) {
+    var g = C.svg("g", { "class": "hot" });
+    g.appendChild(C.svg("rect", { x: cx - 85, y: 530, width: 170, height: 56, rx: 16,
+      fill: "#ffd264", stroke: "#c9922f", "stroke-width": 4 }));
+    g.appendChild(svgText(cx, 567, label, 22, "#5e3d1c"));
+    C.tap(g, onTap);
+    return g;
+  }
+
+  var CYC = [
+    { slot: "head", lx: 85, ly: 120, px: 48, nx: 124, ay: 150 },
+    { slot: "body", lx: 85, ly: 228, px: 48, nx: 124, ay: 258 },
+    { slot: "leg",  lx: 85, ly: 336, px: 48, nx: 124, ay: 366 },
+    { slot: "pat",  lx: 85, ly: 444, px: 48, nx: 124, ay: 474 },
+    { slot: "tail", lx: 939, ly: 120, px: 900, nx: 976, ay: 150 },
+    { slot: "wing", lx: 939, ly: 228, px: 900, nx: 976, ay: 258 },
+    { slot: "horn", lx: 939, ly: 336, px: 900, nx: 976, ay: 366 },
+    { slot: "hat",  lx: 939, ly: 444, px: 900, nx: 976, ay: 474 }
+  ];
+
+  function buildControls() {
+    var ctr = C.$("controls"), i;
+    for (i = 0; i < CYC.length; i++) {
+      (function (c) {
+        ctr.appendChild(svgText(c.lx, c.ly, G.labels[c.slot], 22, "#fff7e6"));
+        ctr.appendChild(arrowButton(c.px, c.ay, true, function () { swap(c.slot, -1); }));
+        ctr.appendChild(arrowButton(c.nx, c.ay, false, function () { swap(c.slot, 1); }));
+      })(CYC[i]);
+    }
+    ctr.appendChild(actionButton(210, "YLLÄTYS", surprise));
+    ctr.appendChild(actionButton(415, "HUUDA", shout));
+    ctr.appendChild(actionButton(620, "TALLENNA", save));
+    ctr.appendChild(actionButton(820, "GALLERIA", openGallery));
+  }
+
+  /* ---------- actions ---------- */
+  function shout() { playVoice(sel); hop(false); setHint("se ääntelee!"); }
+  function surprise() {
+    sel = G.randomSel(); refresh();
+    AU.play("taika"); playVoice(sel); popMonster(); hop(false);
+    setHint("yllätys-otus!");
+  }
+  function tapMonster() {
+    tapCount++;
+    if (tapCount >= 5) {
+      tapCount = 0; AU.play("poo"); hop(true); setHint("pöö!");
+    } else {
+      playVoice(sel); hop(false); setHint("huu!");
+    }
+  }
+
+  /* ---------- gallery (paged, one saved monster at a time) ---------- */
+  var KEY = "hirvio_gallery", MAX = 8, galIdx = 0;
+  function loadGallery() { return C.store.get(KEY, []); }
+  function saveGallery(arr) { C.store.set(KEY, arr); }
+  function save() {
+    var arr = loadGallery();
+    arr.push({ sel: sel, name: G.makeName(sel) });
+    while (arr.length > MAX) { arr.shift(); }
+    saveGallery(arr);
+    AU.play("tallenna");
+    Seik.celebrate(U.pick(["Hieno otus!", "Mahtava!", "Hassu!", "Upea otus!"]));
+  }
+  function renderGallery() {
+    var arr = loadGallery();
+    var inner = C.$("galInner"), nameT = C.$("galname"), empty = C.$("galempty");
+    while (inner.firstChild) { inner.removeChild(inner.firstChild); }
+    if (!arr.length) {
+      empty.style.display = "block"; nameT.textContent = "";
+      C.$("galMonster").style.display = "none";
+      return;
+    }
+    empty.style.display = "none"; C.$("galMonster").style.display = "";
+    if (galIdx >= arr.length) { galIdx = arr.length - 1; }
+    if (galIdx < 0) { galIdx = 0; }
+    assemble(inner, arr[galIdx].sel);
+    nameT.textContent = arr[galIdx].name + "  (" + (galIdx + 1) + "/" + arr.length + ")";
+  }
+  function buildGalControls() {
+    var gc = C.$("galControls");
+    gc.appendChild(arrowButton(60, 300, true, function () { galIdx--; renderGallery(); AU.play("naps"); }));
+    gc.appendChild(arrowButton(964, 300, false, function () { galIdx++; renderGallery(); AU.play("naps"); }));
+    gc.appendChild(actionButton(210, "OTA TÄMÄ", function () {
+      var arr = loadGallery(); if (!arr.length) { return; }
+      sel = {}; for (var k in arr[galIdx].sel) { if (arr[galIdx].sel.hasOwnProperty(k)) sel[k] = arr[galIdx].sel[k]; }
+      closeGallery(); refresh(); AU.play("pulp"); setHint("vaihda osia nuolista");
+    }));
+    gc.appendChild(actionButton(620, "POISTA", function () {
+      var arr = loadGallery(); if (!arr.length) { return; }
+      arr.splice(galIdx, 1); saveGallery(arr); renderGallery(); AU.play("naps");
+    }));
+    gc.appendChild(actionButton(820, "TAKAISIN", closeGallery));
+  }
+  function openGallery() { AU.play("naps"); galIdx = 0; renderGallery(); C.$("gallery").style.display = "block"; }
+  function closeGallery() { C.$("gallery").style.display = "none"; }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["naps", "pulp", "taika", "tallenna", "poo", "fiuh", "success"]);
+    C.addBackButton();
+    C.addMuteButton();
+
+    monsterInner = C.$("monsterInner");
+    hintEl = C.$("hint");
+    nameEl = C.$("mname");
+
+    buildControls();
+    buildGalControls();
+    C.tap(C.$("monster"), tapMonster);
+
+    refresh();
+    setHint("vaihda osia nuolista");
+  });
+})();
+</script>
+</body>
+</html>

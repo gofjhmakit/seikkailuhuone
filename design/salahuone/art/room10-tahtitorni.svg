@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ===================== TOWER SHELL (night) ===================== -->
+  <rect x="0" y="0" width="1024" height="452" fill="#241a33"/>
+  <rect x="0" y="452" width="1024" height="148" fill="#4a4150"/>
+  <rect x="0" y="444" width="1024" height="12" fill="#342a4e"/>
+  <circle cx="120" cy="120" r="2.5" fill="#cfe8ff"/>
+  <circle cx="860" cy="70" r="2.5" fill="#cfe8ff"/>
+  <circle cx="940" cy="150" r="2.5" fill="#cfe8ff"/>
+  <circle cx="60" cy="300" r="2.5" fill="#cfe8ff"/>
+
+  <!-- ===================== SKY DOME — MAIN GOAL (#skyDome / #domeSlots / #domeBurst) ===================== -->
+  <g id="skyDome" class="hot">
+    <path d="M296 200 A216 178 0 0 1 728 200 Z" fill="#14122a" stroke="#7a6f86" stroke-width="8"/>
+    <line x1="512" y1="24" x2="512" y2="200" stroke="#7a6f86" stroke-width="5" opacity="0.6"/>
+    <line x1="360" y1="70" x2="664" y2="70" stroke="#7a6f86" stroke-width="5" opacity="0.6"/>
+    <path d="M400 46 A150 130 0 0 1 624 46" fill="none" stroke="#7a6f86" stroke-width="5" opacity="0.6"/>
+    <circle cx="430" cy="110" r="2.5" fill="#cfe8ff"/>
+    <circle cx="560" cy="86" r="2.5" fill="#cfe8ff"/>
+    <circle cx="600" cy="140" r="2.5" fill="#cfe8ff"/>
+    <g id="domeBurst" opacity="0">
+      <path d="M512 120 l10 26 l28 2 l-21 18 l7 27 l-24 -15 l-24 15 l7 -27 l-21 -18 l28 -2 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="3"/>
+    </g>
+    <g id="domeSlots">
+      <circle cx="360" cy="168" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+      <circle cx="436" cy="150" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+      <circle cx="512" cy="144" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+      <circle cx="588" cy="150" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+      <circle cx="664" cy="168" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== MOON GLOBE (#moonGlobe / #moonGlow) ===================== -->
+  <g id="moonGlobe" class="hot">
+    <circle id="moonGlow" cx="150" cy="380" r="74" fill="#ffd264" opacity="0.18"/>
+    <rect x="144" y="420" width="12" height="46" fill="#7a6f86"/>
+    <ellipse cx="150" cy="468" rx="36" ry="10" fill="#4a4150"/>
+    <circle cx="150" cy="380" r="46" fill="#ffd264" stroke="#ffb43d" stroke-width="4"/>
+    <circle cx="134" cy="366" r="8" fill="#ffb43d"/>
+    <circle cx="166" cy="392" r="6" fill="#ffb43d"/>
+    <circle cx="156" cy="356" r="5" fill="#ffb43d"/>
+  </g>
+
+  <!-- ===================== STAR JAR (#starJar) ===================== -->
+  <g id="starJar" class="hot">
+    <path d="M268 470 Q262 402 300 402 Q338 402 332 470 Z" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="5" opacity="0.6"/>
+    <rect x="276" y="392" width="48" height="12" rx="4" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <path d="M292 440 l4 9 l10 1 l-7 7 l2 10 l-9 -5 l-9 5 l2 -10 l-7 -7 l10 -1 Z" fill="#ffd264"/>
+    <circle cx="312" cy="428" r="4" fill="#ffd264"/>
+    <circle cx="286" cy="420" r="3" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== TELESCOPE (#telescope / #scope) ===================== -->
+  <g id="telescope" class="hot">
+    <line x1="520" y1="470" x2="480" y2="516" stroke="#5e3d1c" stroke-width="8"/>
+    <line x1="520" y1="470" x2="560" y2="516" stroke="#5e3d1c" stroke-width="8"/>
+    <line x1="520" y1="470" x2="520" y2="520" stroke="#5e3d1c" stroke-width="8"/>
+    <g id="scope">
+      <rect x="470" y="356" width="120" height="40" rx="14" fill="#7a6f86" stroke="#4a4150" stroke-width="5" transform="rotate(-28 530 376)"/>
+      <ellipse cx="582" cy="328" rx="16" ry="22" fill="#7cc0ff" stroke="#4a4150" stroke-width="5" transform="rotate(-28 582 328)"/>
+      <circle cx="520" cy="470" r="12" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== CONSTELLATION CHART (#chart / #chartLines) ===================== -->
+  <g id="chart" class="hot">
+    <rect x="800" y="80" width="190" height="210" rx="8" fill="#14122a" stroke="#b07a3c" stroke-width="6"/>
+    <g id="chartLines">
+      <line x1="828" y1="150" x2="876" y2="128" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <line x1="876" y1="128" x2="918" y2="150" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <line x1="918" y1="150" x2="948" y2="196" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <line x1="876" y1="128" x2="892" y2="196" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <line x1="892" y1="196" x2="856" y2="240" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <circle cx="828" cy="150" r="4" fill="#cfe8ff"/>
+      <circle cx="876" cy="128" r="4" fill="#cfe8ff"/>
+      <circle cx="918" cy="150" r="4" fill="#cfe8ff"/>
+      <circle cx="948" cy="196" r="4" fill="#cfe8ff"/>
+      <circle cx="892" cy="196" r="4" fill="#cfe8ff"/>
+      <circle cx="856" cy="240" r="4" fill="#cfe8ff"/>
+    </g>
+  </g>
+
+  <!-- ===================== MODEL ROCKET (#rocket / #rocketBody / #rocketFlame) ===================== -->
+  <g id="rocket" class="hot">
+    <ellipse cx="880" cy="500" rx="46" ry="10" fill="#4a4150"/>
+    <g id="rocketBody">
+      <path d="M880 360 Q906 392 906 452 L854 452 Q854 392 880 360 Z" fill="#f3e7cc" stroke="#8a5a2b" stroke-width="5"/>
+      <path d="M880 360 Q890 378 894 398 L866 398 Q870 378 880 360 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+      <circle cx="880" cy="420" r="11" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="4"/>
+      <path d="M854 452 L836 484 L854 484 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+      <path d="M906 452 L924 484 L906 484 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+      <g id="rocketFlame" opacity="0">
+        <path d="M866 484 q14 30 28 0 q-4 18 -14 22 q-10 -4 -14 -22 Z" fill="#ff8a4c"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===================== BABY DRAGON (waiting) (#towerDragon / #towerDragonFlame) ===================== -->
+  <g id="towerDragon" class="hot">
+    <ellipse cx="230" cy="548" rx="86" ry="36" fill="#3aa64a" stroke="#2b7d39" stroke-width="5"/>
+    <ellipse cx="230" cy="558" rx="60" ry="18" fill="#ffd264" opacity="0.35"/>
+    <polygon points="198,518 210,490 224,518" fill="#2b7d39"/>
+    <polygon points="232,516 246,486 260,516" fill="#2b7d39"/>
+    <path d="M276 536 q40 -28 76 -6 q-32 4 -34 32 Z" fill="#2b7d39"/>
+    <circle cx="168" cy="512" r="34" fill="#3aa64a" stroke="#2b7d39" stroke-width="5"/>
+    <polygon points="156,476 148,452 172,472" fill="#ffd264" stroke="#2b7d39" stroke-width="3"/>
+    <circle cx="156" cy="506" r="6" fill="#fff7e6"/>
+    <circle cx="156" cy="506" r="3" fill="#2a2440"/>
+    <path d="M136 524 q-18 2 -26 -6 q16 -2 20 -12 Z" fill="#3aa64a" stroke="#2b7d39" stroke-width="4"/>
+    <circle cx="134" cy="520" r="3" fill="#2b7d39"/>
+    <g id="towerDragonFlame" opacity="0">
+      <path d="M112 520 q-30 -4 -44 6 q24 2 24 10 q-20 0 -4 10 q14 -8 30 -6 Z" fill="#ff8a4c"/>
+    </g>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: DOWN → ULLAKKO (#navDown) ===================== -->
+  <g id="navDown" class="hot">
+    <rect x="860" y="548" width="100" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="910" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">ullakko</text>
+    <circle cx="978" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="964,532 992,532 978,552" fill="#5e3d1c"/>
+  </g>
+</svg>

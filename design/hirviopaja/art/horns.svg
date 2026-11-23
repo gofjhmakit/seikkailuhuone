@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- horns.svg · 6 horns + none · shared space 0 0 400 440
+     CROWN ANCHOR = (200,70); pair pivots (165,70) left & (235,70) right. Horns emerge from
+     the top of the head. Z-order: draw horns BEFORE the head (z=5) so the head covers the
+     bases and the tips stick up above the crown. horn-none is empty. horn-tunto balls are
+     marked for a gentle wobble. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" width="400" height="440">
+
+  <!-- 0 · horn-none -->
+  <g id="horn-none"></g>
+
+  <!-- 1 · horn-sarvi · curved pair · cream -->
+  <g id="horn-sarvi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M170 86 q-26 -24 -22 -58 q18 10 24 30 q6 18 10 30 Z" fill="#fff7e6" stroke="#d9c89a"/>
+    <path d="M230 86 q26 -24 22 -58 q-18 10 -24 30 q-6 18 -10 30 Z" fill="#fff7e6" stroke="#d9c89a"/>
+  </g>
+
+  <!-- 2 · horn-kruunu · spiky crown row · gold -->
+  <g id="horn-kruunu" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <polygon points="150,78 162,34 176,78" fill="#ffd264" stroke="#c9922f"/>
+    <polygon points="176,78 188,24 200,78" fill="#ffd264" stroke="#c9922f"/>
+    <polygon points="200,78 212,24 224,78" fill="#ffd264" stroke="#c9922f"/>
+    <polygon points="224,78 236,34 250,78" fill="#ffd264" stroke="#c9922f"/>
+  </g>
+
+  <!-- 3 · horn-tunto · antennae with balls · teal -->
+  <g id="horn-tunto" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="horn-tunto-l">
+      <path d="M172 82 q-18 -30 -28 -46" fill="none" stroke="#2e8a76" stroke-width="6"/>
+      <circle cx="140" cy="30" r="12" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+    <g id="horn-tunto-r">
+      <path d="M228 82 q18 -30 28 -46" fill="none" stroke="#2e8a76" stroke-width="6"/>
+      <circle cx="260" cy="30" r="12" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+  </g>
+
+  <!-- 4 · horn-torvi · single big horn · amber -->
+  <g id="horn-torvi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M182 80 q18 -58 18 -66 q0 8 18 66 Z" fill="#ffb43d" stroke="#c77f1e"/>
+    <path d="M190 58 q10 -4 20 0 M188 40 q12 -4 24 0" fill="none" stroke="#c77f1e" stroke-width="4"/>
+  </g>
+
+  <!-- 5 · horn-kohmy · bumps / knobs · stone -->
+  <g id="horn-kohmy" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M150 80 a18 18 0 0 1 36 0 Z" fill="#7a6f86" stroke="#4a4150"/>
+    <path d="M182 74 a20 20 0 0 1 40 0 Z" fill="#7a6f86" stroke="#4a4150"/>
+    <path d="M214 80 a18 18 0 0 1 36 0 Z" fill="#7a6f86" stroke="#4a4150"/>
+  </g>
+
+  <!-- 6 · horn-harja · mohawk ridge · ember -->
+  <g id="horn-harja" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M166 82 l10 -34 l12 30 l12 -40 l12 40 l12 -30 l10 34 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+  </g>
+
+</svg>

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Dinon luut</title>
+<link rel="stylesheet" href="../seikkailu.css">
+<style> #museum { position:absolute; left:0; top:0; width:1024px; height:600px; } </style>
+</head>
+<body>
+<div id="stage">
+  <svg id="digscene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+    <!--DIG_BG-->
+    <text id="counterText" x="512" y="49" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#2a2440">luut: 0/0</text>
+    <text id="hint" x="512" y="130" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#2a2440">harjaa hiekkaa!</text>
+  </svg>
+
+  <div id="museum" style="display:none;">
+    <svg id="musescene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+      <!--MUSEUM_BG-->
+      <text id="museCount" x="512" y="110" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6"></text>
+    </svg>
+  </div>
+
+  <svg id="spritesheet" width="0" height="0" viewBox="0 0 480 240" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--SPRITESHEET--></svg>
+</div>
+
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var L = Seik.logic.luut, U = Seik.logic.util;
+  var NAMES = ["tyrannosaurus", "triceratops", "mammutti", "pitkakaula", "raptori"];
+  var JAWHINGE = { tyrannosaurus: [300, 296], raptori: [296, 330] };
+
+  var cur, cleared, zonesFound, foundN, zoneTiles, surpriseByTile, complete, busy;
+  var parts, hintEl, counterEl, surpriseNodes = [];
+
+  function setHint(t) { if (hintEl.firstChild) hintEl.firstChild.nodeValue = t; else hintEl.appendChild(document.createTextNode(t)); }
+  function setCounter() { var t = "luut: " + foundN + "/" + cur.zones.length; if (counterEl.firstChild) counterEl.firstChild.nodeValue = t; else counterEl.appendChild(document.createTextNode(t)); }
+  function tileCenter(id) { var p = L.rcOf(id), b = L.tileBox(p.r, p.c); return { x: b.x + b.w / 2, y: b.y + b.h / 2 }; }
+
+  /* ---------- start / reset a dig ---------- */
+  function startDig() {
+    complete = false; busy = false; cleared = {}; zonesFound = {}; foundN = 0; surpriseByTile = {};
+    var i, n;
+    for (i = 0; i < NAMES.length; i++) { var w = C.$("skelwrap-" + NAMES[i]); if (w) w.style.display = "none"; }
+    cur = L.pickSkeleton();
+    var wrap = C.$("skelwrap-" + cur.id); if (wrap) wrap.style.display = "";
+    var glow = C.$(cur.id + "-digGlow"); if (glow) glow.setAttribute("opacity", "0");
+    var skull = C.$(cur.id + "-skull"); if (skull) skull.setAttribute("transform", "");
+    var jaw = C.$(cur.id + "-jaw"); if (jaw) jaw.setAttribute("transform", "");
+    /* reset sand */
+    for (var r = 0; r < L.grid.rows; r++) { for (var c = 0; c < L.grid.cols; c++) { var t = C.$(L.tileId(r, c)); if (t) { t.setAttribute("opacity", "1"); t.style.display = ""; } } }
+    /* precompute zone -> tiles */
+    zoneTiles = {};
+    for (i = 0; i < cur.zones.length; i++) { zoneTiles[cur.zones[i].name] = L.tilesForZone(cur.zones[i].bbox); }
+    /* clear old surprises, place new ones */
+    for (i = 0; i < surpriseNodes.length; i++) { try { surpriseNodes[i].parentNode.removeChild(surpriseNodes[i]); } catch (e) {} }
+    surpriseNodes = [];
+    var picks = L.pickSurprises(), used = {};
+    for (i = 0; i < picks.length; i++) {
+      var tid; do { tid = L.tileId(U.randInt(0, 3), U.randInt(0, 6)); } while (used[tid]);
+      used[tid] = 1; surpriseByTile[tid] = picks[i];
+      var src = C.$("sp-sfx_" + picks[i].id);
+      if (src) {
+        var ctr = tileCenter(tid);
+        var g = C.svg("g", { transform: "translate(" + (ctr.x - picks[i].ac[0]) + "," + (ctr.y - picks[i].ac[1]) + ")" });
+        var cl = src.cloneNode(true); cl.removeAttribute("id"); g.appendChild(cl);
+        C.$("digContents").appendChild(g); surpriseNodes.push(g);
+      }
+    }
+    setCounter(); setHint("harjaa hiekkaa!");
+  }
+
+  /* ---------- brush a tile ---------- */
+  function dust(ctr) {
+    var i; for (i = 0; i < 8; i++) {
+      parts.emit(ctr.x, ctr.y, 1, { angle: -Math.PI / 2 + (Math.random() - 0.5) * 2.2, speed: 2 + Math.random() * 3,
+        life: 500 + Math.random() * 300, gravity: 0.1, color: (Math.random() < 0.5 ? "#ffd264" : "#b07a3c"), shape: "circle", size: 5 + Math.random() * 5 });
+    }
+  }
+  function brush(tid) {
+    if (complete || cleared[tid]) return;
+    cleared[tid] = true;
+    var tile = C.$(tid), ctr = tileCenter(tid);
+    AU.play("brush"); dust(ctr);
+    if (tile) A.tween({ duration: 180, from: 1, to: 0, ease: "linear",
+      onUpdate: function (v) { tile.setAttribute("opacity", "" + v); },
+      onDone: function () { tile.style.display = "none"; } });
+    if (surpriseByTile[tid]) { var s = surpriseByTile[tid]; AU.play(s.snd); setHint(s.line); }
+    /* zones newly uncovered? */
+    var i, j;
+    for (i = 0; i < cur.zones.length; i++) {
+      var z = cur.zones[i]; if (zonesFound[z.name]) continue;
+      var tiles = zoneTiles[z.name], all = true;
+      for (j = 0; j < tiles.length; j++) { if (!cleared[tiles[j]]) { all = false; break; } }
+      if (all) {
+        zonesFound[z.name] = true; foundN++;
+        AU.play("chime"); setCounter();
+        if (!surpriseByTile[tid]) setHint("löysit luun!");
+        popZone(cur.id + "-bz_" + z.name, z.bbox);
+      }
+    }
+    if (foundN >= cur.zones.length) { setTimeout(finish, 350); }
+  }
+  function popZone(id, bbox) {
+    var el = C.$(id); if (!el) return;
+    var cx = bbox[0] + bbox[2] / 2, cy = bbox[1] + bbox[3] / 2;
+    A.tween({ duration: 260, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { var s = 1 + 0.1 * Math.sin(Math.PI * t); el.setAttribute("transform", "translate(" + cx + "," + cy + ") scale(" + s + ") translate(" + (-cx) + "," + (-cy) + ")"); },
+      onDone: function () { el.setAttribute("transform", ""); } });
+  }
+
+  /* ---------- completion ---------- */
+  function finish() {
+    if (complete) return; complete = true; busy = true;
+    var glow = C.$(cur.id + "-digGlow");
+    if (glow) A.tween({ duration: 500, from: 0, to: 0.3, onUpdate: function (v) { glow.setAttribute("opacity", "" + v); } });
+    var skull = C.$(cur.id + "-skull");
+    if (skull) A.tween({ duration: 500, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { skull.setAttribute("transform", "rotate(" + (-6 * Math.sin(Math.PI * t)) + " 258 272)"); },
+      onDone: function () { skull.setAttribute("transform", ""); } });
+    var jaw = C.$(cur.id + "-jaw"), hinge = JAWHINGE[cur.id];
+    if (jaw && hinge) A.tween({ duration: 650, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { jaw.setAttribute("transform", "rotate(" + (-16 * Math.sin(Math.PI * t)) + " " + hinge[0] + " " + hinge[1] + ")"); },
+      onDone: function () { jaw.setAttribute("transform", ""); } });
+    AU.play("roar");
+    setHint("valmis! tämä on " + cur.nimi + ".");
+    setTimeout(function () {
+      Seik.celebrate(U.pick(["sinä kaivoit dinon!", "hienoa!", "mahtavaa!", "valmis luuranko!"]));
+      addFound(cur.id); busy = false;
+    }, 650);
+  }
+
+  /* ---------- loytokirja (museum) ---------- */
+  var KEY = "luut_found";
+  function loadFound() { return C.store.get(KEY, {}); }
+  function addFound(id) { var f = loadFound(); f[id] = 1; C.store.set(KEY, f); }
+  function renderMuseum() {
+    var f = loadFound(), i, n = 0;
+    for (i = 0; i < NAMES.length; i++) {
+      var slot = C.$("slot" + (i + 1)), q = C.$("q" + (i + 1));
+      while (slot && slot.firstChild) slot.removeChild(slot.firstChild);
+      if (f[NAMES[i]]) {
+        n++;
+        if (q) q.setAttribute("opacity", "0");
+        var src = C.$(NAMES[i] + "-skeleton");
+        if (src && slot) {
+          var cardCx = 118 + 196 * i, cardCy = 232;
+          var g = C.svg("g", { transform: "translate(" + cardCx + "," + cardCy + ") scale(0.17) translate(-512,-350)" });
+          var cl = src.cloneNode(true); cl.removeAttribute("id"); stripIds(cl); g.appendChild(cl); slot.appendChild(g);
+        }
+      } else if (q) { q.setAttribute("opacity", "1"); }
+    }
+    var mc = C.$("museCount"), t = "olet löytänyt " + n + " / 5 dinoa";
+    if (mc.firstChild) mc.firstChild.nodeValue = t; else mc.appendChild(document.createTextNode(t));
+  }
+  function stripIds(node) { if (node.removeAttribute) node.removeAttribute("id"); var ch = node.childNodes, i; for (i = 0; i < ch.length; i++) { if (ch[i].nodeType === 1) stripIds(ch[i]); } }
+  function openMuseum() { AU.play("page"); renderMuseum(); C.$("museum").style.display = "block"; }
+  function closeMuseum() { AU.play("page"); C.$("museum").style.display = "none"; }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["brush", "chime", "clink", "duck", "roar", "page", "tap", "success"]);
+    C.addMuteButton();
+    hintEl = C.$("hint"); counterEl = C.$("counterText");
+    parts = A.Particles({ w: 1024, h: 600, parent: C.$("stage") });
+    /* tiles */
+    for (var r = 0; r < L.grid.rows; r++) {
+      for (var c = 0; c < L.grid.cols; c++) {
+        (function (id) { var t = C.$(id); if (t) { t.setAttribute("class", "hot"); C.tap(t, function () { brush(id); }); } })(L.tileId(r, c));
+      }
+    }
+    /* nav (dig scene + museum share #navHome) */
+    var nh = C.$("navHome"); if (nh) C.tap(nh, function () { AU.play("tap"); C.hub(); });
+    var nb = C.$("navBook"); if (nb) C.tap(nb, openMuseum);
+    var nn = C.$("navNew"); if (nn) C.tap(nn, function () { AU.play("page"); startDig(); });
+    var nbk = C.$("navBack"); if (nbk) C.tap(nbk, closeMuseum);
+    var nhm = C.$("navHomeM"); if (nhm) C.tap(nhm, function () { AU.play("tap"); C.hub(); });
+    startDig();
+  });
+})();
+</script>
+</body>
+</html>

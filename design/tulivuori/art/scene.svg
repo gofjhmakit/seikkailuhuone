@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scene.svg · the living volcano · full scene viewBox 0 0 1024 600
+     ONE linearGradient (#sky) in the whole game; everything else flat. No filters/blur/mask.
+     Glow + light pools are low-opacity SOLID shapes. Particles are canvas (engine, <=24).
+
+     ENGINE HOOKS (ids):
+       #volc-shake    wrap: poke shudder (translateY +2px ~90ms)
+       #volc-glow     crater glow: opacity 0 -> ~0.9 by pressure; brighter at night
+       #volc-partyhat hidden; show when museum complete
+       ERUPTION ORIGIN = (512,165)
+       #scene-sun / #scene-moon  day<->night swap (show one)
+       #scene-stars   night only: fade in (opacity 0->1), NO twinkle
+       #sky stops     day default; engine swaps to night (#342a4e -> #241a33)
+       #scene-hills   tint darker at night (optional)
+       #gauge-fill    pressure gauge: scale height 0..1 from bottom (y=510 anchor)
+       critters: #critter-dino (duck), #critter-bird (flap up), #critter-peek (pop up),
+                 #critter-etana (late slow bob)
+
+     CONTROL POSITIONS (engine draws these, NOT baked here):
+       KOTI 44x44 (16,16) · title centred y~30 · hint centred y~70
+       day/night toggle 56x56 (952,24)
+       eruption-type chips (~84x84, centre y552): laava x150 · savurenkaat x250 ·
+         kivet x350 · ilotulitus x450 ; lever points to the selected chip
+       KOKOELMA button ~150x56 at (840,524) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a5d8ff"/>
+      <stop offset="1" stop-color="#7cc0ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- sky -->
+  <rect x="0" y="0" width="1024" height="600" fill="url(#sky)"/>
+
+  <!-- night stars (engine fades in; static) -->
+  <g id="scene-stars" opacity="0">
+    <path d="M140 90 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#cfe8ff"/>
+    <path d="M840 70 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#cfe8ff"/>
+    <circle cx="300" cy="60" r="3" fill="#cfe8ff"/>
+    <circle cx="520" cy="46" r="3" fill="#cfe8ff"/>
+    <circle cx="690" cy="110" r="3" fill="#cfe8ff"/>
+    <circle cx="210" cy="150" r="3" fill="#cfe8ff"/>
+    <circle cx="910" cy="150" r="3" fill="#cfe8ff"/>
+    <circle cx="430" cy="92" r="2.5" fill="#cfe8ff"/>
+  </g>
+
+  <!-- sun (day) -->
+  <g id="scene-sun" stroke-linecap="round">
+    <g stroke="#ffd264" stroke-width="6">
+      <line x1="150" y1="40" x2="150" y2="18"/>
+      <line x1="150" y1="134" x2="150" y2="156"/>
+      <line x1="103" y1="87" x2="81" y2="87"/>
+      <line x1="197" y1="87" x2="219" y2="87"/>
+      <line x1="117" y1="54" x2="101" y2="38"/>
+      <line x1="183" y1="54" x2="199" y2="38"/>
+    </g>
+    <circle cx="150" cy="87" r="34" fill="#ffd264" stroke="#c9922f" stroke-width="4"/>
+  </g>
+
+  <!-- moon (night) -->
+  <g id="scene-moon" opacity="0">
+    <circle cx="880" cy="96" r="34" fill="#ffd264"/>
+    <circle cx="894" cy="88" r="28" fill="#a5d8ff"/>
+  </g>
+
+  <!-- distant hills -->
+  <g id="scene-hills" stroke-linejoin="round">
+    <path d="M-20 440 Q180 350 420 440 Z" fill="#2b7d39"/>
+    <path d="M560 440 Q820 340 1060 440 Z" fill="#2b7d39"/>
+  </g>
+
+  <!-- ground -->
+  <rect x="0" y="430" width="1024" height="170" fill="#5e3d1c"/>
+  <path d="M0 430 L1024 430" stroke="#3b2611" stroke-width="5"/>
+  <rect x="0" y="470" width="1024" height="130" fill="#4a4150" opacity="0.35"/>
+
+  <!-- VOLCANO -->
+  <g id="volc-shake" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <ellipse cx="512" cy="468" rx="240" ry="26" fill="#3b2611"/>
+    <path d="M300 470 L430 206 Q512 156 594 206 L724 470 Z" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <path d="M300 470 L430 206 Q470 176 512 176 L512 470 Z" fill="#b07a3c" opacity="0.5" stroke="none"/>
+    <path d="M470 206 L452 300 L498 380 L470 470 L556 470 L520 360 L560 280 L544 206 Z" fill="#5e3d1c" opacity="0.6" stroke="none"/>
+    <path d="M478 190 q-10 90 -36 150" fill="none" stroke="#ff8a4c" stroke-width="7"/>
+    <path d="M548 190 q14 70 40 150" fill="none" stroke="#ffb43d" stroke-width="7"/>
+    <ellipse cx="512" cy="186" rx="64" ry="18" fill="#2a1a10" stroke="#3b2611"/>
+    <ellipse id="volc-glow" cx="512" cy="184" rx="50" ry="13" fill="#ff8a4c" opacity="0"/>
+    <g id="volc-partyhat" opacity="0">
+      <path d="M512 150 l22 36 l-44 0 Z" fill="#46c4a8" stroke="#2e8a76"/>
+      <circle cx="512" cy="150" r="7" fill="#ffd264" stroke="#c9922f"/>
+    </g>
+  </g>
+
+  <!-- foreground rocks -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <path d="M120 470 q40 -30 80 0 q6 20 -10 26 l-66 0 q-14 -8 -4 -26 Z" fill="#7a6f86" stroke="#4a4150"/>
+    <path d="M636 452 q44 -34 92 0 q8 22 -10 30 l-76 0 q-16 -8 -6 -30 Z" fill="#7a6f86" stroke="#4a4150"/>
+    <path d="M300 556 q30 -22 60 0 q6 16 -8 20 l-46 0 q-10 -6 -6 -20 Z" fill="#4a4150" stroke="#4a4150"/>
+  </g>
+
+  <!-- critter: baby dino peeking behind the right rock (drawn before the rock-top cover) -->
+  <g id="critter-peek" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="712" cy="448" rx="20" ry="18" fill="#46c4a8" stroke="#2e8a76"/>
+    <circle cx="706" cy="442" r="5" fill="#ffffff" stroke="#2a2440" stroke-width="2"/>
+    <circle cx="720" cy="442" r="5" fill="#ffffff" stroke="#2a2440" stroke-width="2"/>
+    <circle cx="706" cy="443" r="2.5" fill="#2a2440"/>
+    <circle cx="720" cy="443" r="2.5" fill="#2a2440"/>
+  </g>
+  <path d="M636 452 q44 -34 92 0 q8 22 -10 30 l-76 0 q-16 -8 -6 -30 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- critter: green dino (left) -->
+  <g id="critter-dino" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M150 466 q-6 -40 36 -44 q50 -4 54 34 q2 22 -18 30 l-58 0 q-14 -8 -14 -20 Z" fill="#3aa64a" stroke="#2b7d39"/>
+    <polygon points="176,424 184,406 192,424" fill="#2b7d39"/>
+    <polygon points="196,422 204,404 212,422" fill="#2b7d39"/>
+    <circle cx="224" cy="440" r="7" fill="#ffffff" stroke="#2a2440" stroke-width="2"/>
+    <circle cx="226" cy="441" r="3.5" fill="#2a2440"/>
+    <rect x="160" y="484" width="12" height="16" rx="5" fill="#2b7d39"/>
+    <rect x="196" y="484" width="12" height="16" rx="5" fill="#2b7d39"/>
+  </g>
+
+  <!-- critter: bird on the right rock -->
+  <g id="critter-bird" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="690" cy="430" rx="22" ry="18" fill="#ffb43d" stroke="#c77f1e"/>
+    <path d="M684 428 q-16 -4 -22 6 q14 6 24 0 Z" fill="#ff8a4c" stroke="#c77f1e"/>
+    <polygon points="710,428 728,432 710,438" fill="#ff8a4c" stroke="#c77f1e"/>
+    <circle cx="700" cy="424" r="5" fill="#ffffff" stroke="#2a2440" stroke-width="2"/>
+    <circle cx="701" cy="425" r="2.5" fill="#2a2440"/>
+  </g>
+
+  <!-- critter: snail (foreground, the slow one) -->
+  <g id="critter-etana" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M330 552 q-4 -14 14 -14 q26 0 30 0 q6 10 -2 14 Z" fill="#b07a3c" stroke="#5e3d1c"/>
+    <circle cx="356" cy="540" r="16" fill="#ffd264" stroke="#c9922f"/>
+    <path d="M356 540 q8 -2 8 -8 q0 -6 -6 -6 q-5 0 -4 5" fill="none" stroke="#c9922f" stroke-width="4"/>
+    <line x1="334" y1="540" x2="330" y2="528" stroke="#5e3d1c"/>
+    <line x1="340" y1="540" x2="338" y2="526" stroke="#5e3d1c"/>
+    <circle cx="330" cy="526" r="3" fill="#2a2440"/>
+    <circle cx="338" cy="524" r="3" fill="#2a2440"/>
+  </g>
+
+  <!-- pressure gauge (paine) · engine grows #gauge-fill from the bottom -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="40" y="300" width="42" height="216" rx="20" fill="#241a33" stroke="#4a4150"/>
+    <g id="gauge-fill">
+      <rect x="46" y="400" width="30" height="110" rx="14" fill="#ff8a4c"/>
+    </g>
+    <text x="61" y="290" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="bold" fill="#f3e7cc">paine</text>
+  </g>
+</svg>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- figures.svg · 8 finished constellation line-arts · viewBox 0 0 1024 600
+     Each <g id="fig-*"> is the COMPLETED figure at its real stage coords (gold lines + lit
+     star dots). Engine shows one on completion / scales it down for the tahtikartta. The
+     interactive numbered stars use star.svg at the coords in DESIGN/ART. Low-opacity solid
+     wide line = the gentle glow (NO blur). Flat, palette, no filters. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600">
+  <g id="fig-lohikaarme" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <polyline points="770,175 685,215 590,235 515,160 465,290 360,335 270,300" stroke="#ffd264" stroke-width="11" opacity="0.18"/>
+    <polyline points="770,175 685,215 590,235 515,160 465,290 360,335 270,300" stroke="#ffd264" stroke-width="4"/>
+    <circle cx="770" cy="175" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="685" cy="215" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="590" cy="235" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="515" cy="160" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="465" cy="290" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="360" cy="335" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="270" cy="300" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+  </g>
+  <g id="fig-dino" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <polyline points="180,370 320,280 450,245 575,170 620,205 510,300 455,440 290,435 180,370" stroke="#ffd264" stroke-width="11" opacity="0.18"/>
+    <polyline points="180,370 320,280 450,245 575,170 620,205 510,300 455,440 290,435 180,370" stroke="#ffd264" stroke-width="4"/>
+    <circle cx="180" cy="370" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="320" cy="280" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="450" cy="245" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="575" cy="170" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="620" cy="205" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="510" cy="300" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="455" cy="440" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="290" cy="435" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+  </g>
+  <g id="fig-raketti" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <polyline points="512,150 558,250 612,385 548,365 512,425 476,365 412,385 466,250 512,150" stroke="#ffd264" stroke-width="11" opacity="0.18"/>
+    <polyline points="512,150 558,250 612,385 548,365 512,425 476,365 412,385 466,250 512,150" stroke="#ffd264" stroke-width="4"/>
+    <circle cx="512" cy="150" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="558" cy="250" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="612" cy="385" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="548" cy="365" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="512" cy="425" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="476" cy="365" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="412" cy="385" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="466" cy="250" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+  </g>
+  <g id="fig-laiva" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <polyline points="350,410 500,420 650,410 605,365 500,180 395,365 350,410" stroke="#ffd264" stroke-width="11" opacity="0.18"/>
+    <polyline points="350,410 500,420 650,410 605,365 500,180 395,365 350,410" stroke="#ffd264" stroke-width="4"/>
+    <circle cx="350" cy="410" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="500" cy="420" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="650" cy="410" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="605" cy="365" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="500" cy="180" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="395" cy="365" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+  </g>
+  <g id="fig-kissa" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <polyline points="410,175 465,215 560,215 615,175 600,300 512,350 425,300 410,175" stroke="#ffd264" stroke-width="11" opacity="0.18"/>
+    <polyline points="410,175 465,215 560,215 615,175 600,300 512,350 425,300 410,175" stroke="#ffd264" stroke-width="4"/>
+    <circle cx="410" cy="175" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="465" cy="215" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="560" cy="215" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="615" cy="175" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="600" cy="300" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="512" cy="350" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="425" cy="300" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+  </g>
+  <g id="fig-kala" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <polyline points="360,290 470,245 600,215 560,290 600,365 470,335 360,290" stroke="#ffd264" stroke-width="11" opacity="0.18"/>
+    <polyline points="360,290 470,245 600,215 560,290 600,365 470,335 360,290" stroke="#ffd264" stroke-width="4"/>
+    <circle cx="360" cy="290" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="470" cy="245" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="600" cy="215" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="560" cy="290" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="600" cy="365" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="470" cy="335" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+  </g>
+  <g id="fig-talo" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <polyline points="410,430 614,430 614,315 650,315 512,215 374,315 410,315 410,430" stroke="#ffd264" stroke-width="11" opacity="0.18"/>
+    <polyline points="410,430 614,430 614,315 650,315 512,215 374,315 410,315 410,430" stroke="#ffd264" stroke-width="4"/>
+    <circle cx="410" cy="430" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="614" cy="430" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="614" cy="315" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="650" cy="315" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="512" cy="215" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="374" cy="315" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="410" cy="315" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+  </g>
+  <g id="fig-sydan" stroke-linejoin="round" stroke-linecap="round" fill="none">
+    <polyline points="512,440 425,360 372,292 425,232 512,285 599,232 652,292 599,360 512,440" stroke="#ffd264" stroke-width="11" opacity="0.18"/>
+    <polyline points="512,440 425,360 372,292 425,232 512,285 599,232 652,292 599,360 512,440" stroke="#ffd264" stroke-width="4"/>
+    <circle cx="512" cy="440" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="425" cy="360" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="372" cy="292" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="425" cy="232" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="512" cy="285" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="599" cy="232" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="652" cy="292" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+    <circle cx="599" cy="360" r="7" fill="#ffd264" stroke="#fff7e6" stroke-width="2"/>
+  </g>
+</svg>

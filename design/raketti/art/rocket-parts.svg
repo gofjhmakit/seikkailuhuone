@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 340" width="200" height="340" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ROCKET PARTS LIBRARY — shared anchor frame (local 0..200 x 0..340).
+       Body x50..150 (centre 100), y60..260. Nose anchor base = (50,60)-(150,60).
+       Fins anchor = body bottom corners (50,260)/(150,260). Flame anchor = (100,260).
+       All noses share the top anchor and all fins share the bottom anchor, so ANY
+       nose + body + fins line up exactly. Noses/fins overlap here on purpose (this is
+       a parts library, not a finished rocket) — the engine shows ONE of each. -->
+
+  <!-- ===== BODY (engine sets fill = chosen väri) ===== -->
+  <rect id="body" x="50" y="60" width="100" height="200" rx="18" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+  <!-- ===== WINDOW (fixed) ===== -->
+  <g id="window">
+    <circle cx="100" cy="130" r="22" fill="#7cc0ff" stroke="#fff7e6" stroke-width="5"/>
+    <circle cx="100" cy="130" r="22" fill="none" stroke="#4a4150" stroke-width="2"/>
+  </g>
+
+  <!-- ===== NOSES (base on (50,60)-(150,60)) ===== -->
+  <g id="nose_terava">
+    <polygon points="50,60 150,60 100,6" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+  </g>
+  <g id="nose_pyorea">
+    <path d="M50 60 A50 52 0 0 1 150 60 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+  </g>
+  <g id="nose_littea">
+    <polygon points="58,60 142,60 128,30 72,30" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+  </g>
+  <g id="nose_kruunu">
+    <path d="M50 60 L66 24 L84 60 L100 16 L116 60 L134 24 L150 60 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+  </g>
+  <g id="nose_tahti">
+    <polygon points="50,60 150,60 100,22" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <path d="M100 2 l5 13 l14 1 l-11 9 l4 13 l-12 -8 l-12 8 l4 -13 l-11 -9 l14 -1 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="2"/>
+  </g>
+
+  <!-- ===== FINS (left+right pairs at body bottom corners) ===== -->
+  <g id="fins_kolmio">
+    <polygon points="50,220 50,268 14,278" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <polygon points="150,220 150,268 186,278" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+  <g id="fins_pyorea">
+    <path d="M50 222 Q16 250 44 276 L50 276 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <path d="M150 222 Q184 250 156 276 L150 276 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+  <g id="fins_nuoli">
+    <polygon points="50,210 50,268 20,300 44,268" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <polygon points="150,210 150,268 180,300 156,268" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+  <g id="fins_isot">
+    <polygon points="50,196 50,268 8,302" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <polygon points="150,196 150,268 192,302" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+  <g id="fins_pienet">
+    <polygon points="50,246 50,268 32,282" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <polygon points="150,246 150,268 168,282" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+
+  <!-- ===== FLAME (hidden; engine shows at launch + emits <=24 particles from here) ===== -->
+  <g id="flame" opacity="0">
+    <path d="M74 260 q26 54 52 0 q-4 44 -26 56 q-22 -12 -26 -56 Z" fill="#ff8a4c"/>
+    <path d="M84 260 q16 40 32 0 q-3 30 -16 40 q-13 -10 -16 -40 Z" fill="#ffb43d"/>
+    <path d="M92 260 q8 26 16 0 q-2 18 -8 26 q-6 -8 -8 -26 Z" fill="#ffd264"/>
+  </g>
+</svg>

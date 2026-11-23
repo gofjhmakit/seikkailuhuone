@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- egg.svg · the dragon egg · viewBox 0 0 260 330, centred ~(130,185)
+     Neutral warm speckled egg (keeps the hatched colour a surprise). No gradients/filters.
+     ENGINE: #egg-whole wobbles on tap; reveal #cracks children in stages (opacity 0->1,
+     c1..c5) as warmth builds; at hatch hide #egg-whole and show #egg-shell-top /
+     #egg-shell-bottom (halves fall aside, bottom cradles the baby). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 330" width="260" height="330">
+
+  <g id="egg-whole" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <ellipse cx="130" cy="185" rx="106" ry="132" fill="#f3e7cc" stroke="#d9c89a"/>
+    <ellipse cx="95" cy="118" rx="28" ry="42" fill="#fff7e6" opacity="0.5" stroke="none"/>
+    <!-- speckles -->
+    <circle cx="78" cy="232" r="13" fill="#ffb43d" opacity="0.55"/>
+    <circle cx="176" cy="150" r="9" fill="#c77f1e" opacity="0.5"/>
+    <circle cx="150" cy="258" r="8" fill="#ffb43d" opacity="0.55"/>
+    <circle cx="96" cy="188" r="7" fill="#c77f1e" opacity="0.45"/>
+    <circle cx="188" cy="226" r="10" fill="#ffb43d" opacity="0.5"/>
+    <!-- crack stages (engine fades these in one by one) -->
+    <g id="cracks" stroke="#8a5a2b" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path id="c1" d="M66 150 L96 168 L82 196 L112 210" opacity="0"/>
+      <path id="c2" d="M194 198 L164 212 L178 242 L150 252" opacity="0"/>
+      <path id="c3" d="M112 76 L132 112 L108 132 L136 158" opacity="0"/>
+      <path id="c4" d="M72 252 L106 258 L120 292 L152 296" opacity="0"/>
+      <path id="c5" d="M150 100 L176 120 L160 150 L190 168" opacity="0"/>
+    </g>
+  </g>
+
+  <!-- broken halves (hidden until hatch) -->
+  <g id="egg-shell-bottom" opacity="0" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <path d="M24 185 L50 196 L72 182 L96 198 L120 184 L144 198 L168 184 L190 196 L214 184 L236 185 Q236 300 130 317 Q24 300 24 185 Z" fill="#f3e7cc" stroke="#d9c89a"/>
+    <circle cx="150" cy="258" r="8" fill="#ffb43d" opacity="0.55" stroke="none"/>
+  </g>
+  <g id="egg-shell-top" opacity="0" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <path d="M24 185 Q24 60 130 53 Q236 60 236 185 L214 174 L190 188 L168 174 L144 188 L120 174 L96 188 L72 172 L50 186 Z" fill="#f3e7cc" stroke="#d9c89a"/>
+    <ellipse cx="95" cy="118" rx="28" ry="42" fill="#fff7e6" opacity="0.5" stroke="none"/>
+  </g>
+</svg>

@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600">
+  <defs>
+    <linearGradient id="ws-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a4a7a" />
+      <stop offset="1" stop-color="#342a4e" />
+    </linearGradient>
+  </defs>
+
+  
+  <rect x="0" y="0" width="1024" height="600" fill="#342a4e" />
+
+  
+  <g stroke-linejoin="round" stroke-linecap="round">
+    <path d="M330 300 L330 150 Q330 70 512 70 Q694 70 694 150 L694 300 Z" fill="url(#ws-sky)" stroke="#5e3d1c" stroke-width="10" />
+    <circle cx="452" cy="150" r="30" fill="#ffd264" />
+    <circle cx="462" cy="144" r="24" fill="#342a4e" opacity="0.55" />
+    <path d="M560 120 l4 11 l12 1 l-9 8 l3 12 l-10 -7 l-10 7 l3 -12 l-9 -8 l12 -1 Z" fill="#cfe8ff" />
+    <circle cx="612" cy="170" r="4" fill="#cfe8ff" />
+    <circle cx="398" cy="210" r="4" fill="#cfe8ff" />
+    <path d="M330 300 L694 300" stroke="#5e3d1c" stroke-width="10" />
+  </g>
+
+  
+  <g stroke="none">
+    <path d="M40 46 Q512 86 984 46" fill="none" stroke="#7a6f86" stroke-width="3" />
+    <polygon points="120,52 150,52 135,78" fill="#e8452f" />
+    <polygon points="230,58 260,58 245,84" fill="#ffd264" />
+    <polygon points="340,62 370,62 355,88" fill="#46c4a8" />
+    <polygon points="450,64 480,64 465,90" fill="#ff8a4c" />
+    <polygon points="544,64 574,64 559,90" fill="#7cc0ff" />
+    <polygon points="654,62 684,62 669,88" fill="#ffd264" />
+    <polygon points="764,58 794,58 779,84" fill="#e8452f" />
+    <polygon points="874,52 904,52 889,78" fill="#46c4a8" />
+  </g>
+
+  
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    
+    <rect x="18" y="92" width="150" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c" />
+    <rect x="40" y="52" width="30" height="40" rx="8" fill="#46c4a8" stroke="#2e8a76" />
+    <rect x="44" y="66" width="22" height="26" rx="6" fill="#cfe8ff" opacity="0.45" />
+    <rect x="42" y="44" width="26" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c" />
+    <rect x="108" y="48" width="32" height="44" rx="8" fill="#ff8a4c" stroke="#c75a2a" />
+    <rect x="112" y="64" width="24" height="28" rx="6" fill="#ffd264" opacity="0.45" />
+    <rect x="110" y="40" width="28" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c" />
+    
+    <rect x="856" y="92" width="150" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c" />
+    <rect x="884" y="48" width="32" height="44" rx="8" fill="#7cc0ff" stroke="#3f84c4" />
+    <rect x="888" y="64" width="24" height="28" rx="6" fill="#cfe8ff" opacity="0.5" />
+    <rect x="886" y="40" width="28" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c" />
+    <rect x="952" y="52" width="30" height="40" rx="8" fill="#ffb43d" stroke="#c77f1e" />
+    <rect x="956" y="66" width="22" height="26" rx="6" fill="#fff7e6" opacity="0.45" />
+    <rect x="954" y="44" width="26" height="10" rx="4" fill="#8a5a2b" stroke="#5e3d1c" />
+  </g>
+
+  
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <line x1="512" y1="46" x2="512" y2="96" stroke="#4a4150" />
+    <path d="M486 96 q26 -28 52 0 Z" fill="#ffb43d" stroke="#c77f1e" />
+    <circle cx="512" cy="104" r="8" fill="#ffd264" />
+  </g>
+
+  
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="512" cy="500" rx="150" ry="30" fill="#ffd264" opacity="0.10" />
+    <path d="M402 516 L622 516 L600 486 L424 486 Z" fill="#7a6f86" stroke="#4a4150" />
+    <rect x="412" y="508" width="200" height="16" rx="8" fill="#5e3d1c" stroke="#3b2611" />
+  </g>
+
+  
+  <g>
+    <rect x="0" y="560" width="1024" height="40" fill="#5e3d1c" />
+    <path d="M0 560 L1024 560" stroke="#3b2611" stroke-width="4" />
+  </g>
+<g id="monster" transform="translate(312,95)"><g id="base-shadow">
+    <ellipse cx="200" cy="408" rx="100" ry="18" fill="#000000" opacity="0.20" />
+  </g>
+<g id="wing-nahka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="wing-nahka-flap">
+      <path d="M160 220 q-70 -70 -108 -78 q10 26 2 44 q22 -4 30 12 q-18 2 -14 22 q22 -6 30 10 q-16 6 -8 24 q40 -24 76 -30 Z" fill="#ff8a4c" stroke="#c75a2a" />
+      <path d="M240 220 q70 -70 108 -78 q-10 26 -2 44 q-22 -4 -30 12 q18 2 14 22 q-22 -6 -30 10 q16 6 8 24 q-40 -24 -76 -30 Z" fill="#ff8a4c" stroke="#c75a2a" />
+    </g>
+  </g>
+
+  
+  <g id="tail-piikki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M276 288 q70 -8 102 -44 q-18 70 -86 86 Z" fill="#e8452f" stroke="#a82e1e" />
+  </g>
+
+  
+  <g id="leg-tassu" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="150" y="338" width="30" height="52" rx="14" fill="#8a5a2b" stroke="#5e3d1c" />
+    <rect x="220" y="338" width="30" height="52" rx="14" fill="#8a5a2b" stroke="#5e3d1c" />
+    <ellipse cx="165" cy="396" rx="26" ry="16" fill="#8a5a2b" stroke="#5e3d1c" />
+    <ellipse cx="235" cy="396" rx="26" ry="16" fill="#8a5a2b" stroke="#5e3d1c" />
+  </g>
+
+  
+  <g id="horn-sarvi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M170 86 q-26 -24 -22 -58 q18 10 24 30 q6 18 10 30 Z" fill="#fff7e6" stroke="#d9c89a" />
+    <path d="M230 86 q26 -24 22 -58 q-18 10 -24 30 q-6 18 -10 30 Z" fill="#fff7e6" stroke="#d9c89a" />
+  </g>
+
+  
+  <g id="body-potko" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="264" rx="86" ry="92" fill="#46c4a8" stroke="#2e8a76" />
+    <ellipse cx="200" cy="284" rx="50" ry="58" fill="#fff7e6" opacity="0.18" />
+  </g>
+
+  
+  <g id="pat-tahti" stroke-linejoin="round" stroke-width="3">
+    <path d="M200 226 l6 16 l17 1 l-13 11 l5 17 l-15 -10 l-15 10 l5 -17 l-13 -11 l17 -1 Z" fill="#ffd264" stroke="#c9922f" />
+    <path d="M170 288 l5 13 l14 1 l-11 9 l4 14 l-12 -8 l-12 8 l4 -14 l-11 -9 l14 -1 Z" fill="#ffd264" stroke="#c9922f" />
+    <path d="M232 296 l5 13 l14 1 l-11 9 l4 14 l-12 -8 l-12 8 l4 -14 l-11 -9 l14 -1 Z" fill="#ffd264" stroke="#c9922f" />
+  </g>
+
+  
+  <g id="head-liekki" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M168 66 l-10 -30 l26 20 Z" fill="#ff8a4c" stroke="#c75a2a" />
+    <path d="M232 66 l10 -30 l-26 20 Z" fill="#ff8a4c" stroke="#c75a2a" />
+    <ellipse cx="200" cy="114" rx="66" ry="60" fill="#ff8a4c" stroke="#c75a2a" />
+    <ellipse cx="200" cy="142" rx="38" ry="24" fill="#fff7e6" stroke="#c75a2a" />
+    <circle cx="188" cy="142" r="4" fill="#2a2440" />
+    <circle cx="212" cy="142" r="4" fill="#2a2440" />
+    <circle cx="178" cy="100" r="15" fill="#ffffff" stroke="#2a2440" />
+    <circle cx="222" cy="100" r="15" fill="#ffffff" stroke="#2a2440" />
+    <circle cx="180" cy="102" r="7" fill="#2a2440" />
+    <circle cx="220" cy="102" r="7" fill="#2a2440" />
+  </g>
+
+  
+  <g id="hat-silinteri" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="200" cy="64" rx="54" ry="12" fill="#2a2440" stroke="#16122a" />
+    <rect x="168" y="14" width="64" height="52" rx="6" fill="#2a2440" stroke="#16122a" />
+    <rect x="168" y="48" width="64" height="12" fill="#e8452f" />
+  </g>
+
+  
+  </g><text x="512" y="40" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="30" font-weight="bold" fill="#ffd264">liekkipötköpiikki</text></svg>

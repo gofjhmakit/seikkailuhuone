@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- museum.svg · the kokoelma (collection) screen · viewBox 0 0 1024 600
+     Wooden shelf wall with 26 slot discs. The engine clones each found obj-* sprite (~64px)
+     centred on its slot and draws the name under it; a not-yet-found slot shows the sprite
+     greyed (or a "?"). No gradients, no filters.
+     SLOT CENTRES (cols x:125,285,445,605,765,925 · rows y:135,235,335,435,535):
+       1-6  row1 · 7-12 row2 · 13-18 row3 · 19-24 row4 · 25-26 row5(x125,285)
+     Header: title "kokoelma" centred y~34 + count "N / 26 löydetty". takaisin btn (16,16). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600">
+  <!-- wall -->
+  <rect x="0" y="0" width="1024" height="600" fill="#342a4e"/>
+  <rect x="12" y="66" width="1000" height="520" rx="18" fill="#241a33" stroke="#5e3d1c" stroke-width="6"/>
+
+  <!-- shelf planks (one under each row) -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="30" y="182" width="964" height="14" rx="6" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="30" y="282" width="964" height="14" rx="6" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="30" y="382" width="964" height="14" rx="6" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="30" y="482" width="964" height="14" rx="6" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="30" y="566" width="964" height="14" rx="6" fill="#8a5a2b" stroke="#5e3d1c"/>
+  </g>
+
+  <!-- 26 slot discs -->
+  <g stroke="#4a4150" stroke-width="3" fill="#2a2440">
+    <circle cx="125" cy="135" r="44"/><circle cx="285" cy="135" r="44"/><circle cx="445" cy="135" r="44"/>
+    <circle cx="605" cy="135" r="44"/><circle cx="765" cy="135" r="44"/><circle cx="925" cy="135" r="44"/>
+    <circle cx="125" cy="235" r="44"/><circle cx="285" cy="235" r="44"/><circle cx="445" cy="235" r="44"/>
+    <circle cx="605" cy="235" r="44"/><circle cx="765" cy="235" r="44"/><circle cx="925" cy="235" r="44"/>
+    <circle cx="125" cy="335" r="44"/><circle cx="285" cy="335" r="44"/><circle cx="445" cy="335" r="44"/>
+    <circle cx="605" cy="335" r="44"/><circle cx="765" cy="335" r="44"/><circle cx="925" cy="335" r="44"/>
+    <circle cx="125" cy="435" r="44"/><circle cx="285" cy="435" r="44"/><circle cx="445" cy="435" r="44"/>
+    <circle cx="605" cy="435" r="44"/><circle cx="765" cy="435" r="44"/><circle cx="925" cy="435" r="44"/>
+    <circle cx="125" cy="535" r="44"/><circle cx="285" cy="535" r="44"/>
+  </g>
+</svg>

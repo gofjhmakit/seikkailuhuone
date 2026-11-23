@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- dragon.svg · baby dragon · shared local space 0 0 300 340, symmetry x=150
+     RECOLOUR: the engine sets fill on every .d-main / .d-belly / .d-dark shape and stroke on
+     all three to the scheme's outline (8 schemes in DESIGN §4). Default baked scheme=turkoosi.
+     COMPOSE per hatch (z-order): [wing-*] -> dragon-base -> [pat-*] -> [horn-*], then toggle
+     overlays (#puff on feed/hatch, #zzz + #eyes-closed on sleep, #hearts on pet).
+     ANCHORS: crown horns (126,98)&(174,98) · wings/shoulders (95,195)&(205,195).
+     All variant groups stacked at the same anchors on purpose (source sheet). No gradients/filters. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 340" width="300" height="340">
+
+  <!-- ===== BASE (always present) ===== -->
+  <g id="dragon-base" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <ellipse cx="150" cy="320" rx="86" ry="14" fill="#000000" opacity="0.18" stroke="none"/>
+    <path class="d-main" d="M196 260 q46 4 58 -22 q-2 26 -24 34 q-20 6 -34 -12 Z" fill="#46c4a8" stroke="#2e8a76"/>
+    <path class="d-dark" d="M248 236 l18 -10 l-4 20 Z" fill="#2e8a76" stroke="#2e8a76"/>
+    <ellipse class="d-main" cx="150" cy="242" rx="90" ry="80" fill="#46c4a8" stroke="#2e8a76"/>
+    <ellipse class="d-belly" cx="150" cy="262" rx="56" ry="50" fill="#cfe8ff" stroke="#2e8a76"/>
+    <ellipse class="d-main" cx="120" cy="312" rx="22" ry="14" fill="#46c4a8" stroke="#2e8a76"/>
+    <ellipse class="d-main" cx="180" cy="312" rx="22" ry="14" fill="#46c4a8" stroke="#2e8a76"/>
+    <circle class="d-dark" cx="110" cy="318" r="3" fill="#2e8a76" stroke="none"/>
+    <circle class="d-dark" cx="120" cy="320" r="3" fill="#2e8a76" stroke="none"/>
+    <circle class="d-dark" cx="130" cy="318" r="3" fill="#2e8a76" stroke="none"/>
+    <circle class="d-dark" cx="170" cy="318" r="3" fill="#2e8a76" stroke="none"/>
+    <circle class="d-dark" cx="180" cy="320" r="3" fill="#2e8a76" stroke="none"/>
+    <circle class="d-dark" cx="190" cy="318" r="3" fill="#2e8a76" stroke="none"/>
+    <circle class="d-main" cx="150" cy="150" r="64" fill="#46c4a8" stroke="#2e8a76"/>
+    <ellipse class="d-belly" cx="150" cy="182" rx="32" ry="19" fill="#cfe8ff" stroke="#2e8a76"/>
+    <circle class="d-dark" cx="141" cy="180" r="3.5" fill="#2e8a76" stroke="none"/>
+    <circle class="d-dark" cx="159" cy="180" r="3.5" fill="#2e8a76" stroke="none"/>
+    <path d="M134 196 q16 12 32 0" fill="none" stroke="#2a2440" stroke-width="4"/>
+    <g id="dragon-eyes-open">
+      <circle cx="126" cy="150" r="18" fill="#ffffff" stroke="#2a2440" stroke-width="3"/>
+      <circle cx="174" cy="150" r="18" fill="#ffffff" stroke="#2a2440" stroke-width="3"/>
+      <circle cx="129" cy="153" r="9" fill="#2a2440"/>
+      <circle cx="171" cy="153" r="9" fill="#2a2440"/>
+      <circle cx="124" cy="147" r="4" fill="#ffffff"/>
+      <circle cx="166" cy="147" r="4" fill="#ffffff"/>
+    </g>
+  </g>
+
+  <!-- ===== HORN VARIANTS (crown) ===== -->
+  <g id="horn-sarvet" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <path class="d-dark" d="M130 100 q-16 -22 -12 -48 q18 10 22 28 q3 12 8 20 Z" fill="#2e8a76" stroke="#2e8a76"/>
+    <path class="d-dark" d="M170 100 q16 -22 12 -48 q-18 10 -22 28 q-3 12 -8 20 Z" fill="#2e8a76" stroke="#2e8a76"/>
+  </g>
+  <g id="horn-piikit" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <polygon class="d-dark" points="116,102 126,50 136,102" fill="#2e8a76" stroke="#2e8a76"/>
+    <polygon class="d-dark" points="164,102 174,50 184,102" fill="#2e8a76" stroke="#2e8a76"/>
+  </g>
+  <g id="horn-nuppu" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <rect class="d-dark" x="122" y="76" width="8" height="26" rx="4" fill="#2e8a76" stroke="#2e8a76"/>
+    <rect class="d-dark" x="170" y="76" width="8" height="26" rx="4" fill="#2e8a76" stroke="#2e8a76"/>
+    <circle class="d-dark" cx="126" cy="72" r="12" fill="#2e8a76" stroke="#2e8a76"/>
+    <circle class="d-dark" cx="174" cy="72" r="12" fill="#2e8a76" stroke="#2e8a76"/>
+  </g>
+
+  <!-- ===== WING VARIANTS (shoulders, behind body) ===== -->
+  <g id="wing-nahka" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <path class="d-main" d="M98 198 q-56 -36 -78 -66 q6 30 -2 46 q20 -8 26 8 q-16 6 -8 24 q26 -16 54 -22 Z" fill="#46c4a8" stroke="#2e8a76"/>
+    <path class="d-main" d="M202 198 q56 -36 78 -66 q-6 30 2 46 q-20 -8 -26 8 q16 6 8 24 q-26 -16 -54 -22 Z" fill="#46c4a8" stroke="#2e8a76"/>
+    <path class="d-dark" d="M66 148 q10 30 20 44 M234 148 q-10 30 -20 44" fill="none" stroke="#2e8a76" stroke-width="4"/>
+  </g>
+  <g id="wing-hoyhen" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <path class="d-main" d="M100 198 q-42 -28 -72 -34 q14 22 8 42 q16 -12 28 0 q-6 18 8 28 q16 -24 28 -36 Z" fill="#46c4a8" stroke="#2e8a76"/>
+    <path class="d-main" d="M200 198 q42 -28 72 -34 q-14 22 -8 42 q-16 -12 -28 0 q6 18 -8 28 q-16 -24 -28 -36 Z" fill="#46c4a8" stroke="#2e8a76"/>
+  </g>
+  <g id="wing-pikku" stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <path class="d-main" d="M102 192 q-34 -14 -46 4 q20 14 46 6 Z" fill="#46c4a8" stroke="#2e8a76"/>
+    <path class="d-main" d="M198 192 q34 -14 46 4 q-20 14 -46 6 Z" fill="#46c4a8" stroke="#2e8a76"/>
+  </g>
+
+  <!-- ===== PATTERN OVERLAYS (on body) ===== -->
+  <g id="pat-silea"></g>
+  <g id="pat-pilkut">
+    <circle class="d-dark" cx="116" cy="232" r="9" fill="#2e8a76" opacity="0.5" stroke="none"/>
+    <circle class="d-dark" cx="172" cy="238" r="9" fill="#2e8a76" opacity="0.5" stroke="none"/>
+    <circle class="d-dark" cx="142" cy="268" r="9" fill="#2e8a76" opacity="0.5" stroke="none"/>
+    <circle class="d-dark" cx="98" cy="262" r="8" fill="#2e8a76" opacity="0.5" stroke="none"/>
+    <circle class="d-dark" cx="196" cy="266" r="8" fill="#2e8a76" opacity="0.5" stroke="none"/>
+  </g>
+  <g id="pat-raidat" stroke-linecap="round" fill="none">
+    <path class="d-dark" d="M104 228 q46 -14 92 0" stroke="#2e8a76" stroke-width="9" opacity="0.5"/>
+    <path class="d-dark" d="M96 258 q54 -14 108 0" stroke="#2e8a76" stroke-width="9" opacity="0.5"/>
+    <path class="d-dark" d="M104 288 q46 -14 92 0" stroke="#2e8a76" stroke-width="9" opacity="0.5"/>
+  </g>
+
+  <!-- ===== OVERLAYS (hidden; engine toggles) ===== -->
+  <g id="puff" opacity="0" stroke="none">
+    <ellipse cx="196" cy="186" rx="15" ry="13" fill="#ff8a4c"/>
+    <circle cx="218" cy="180" r="11" fill="#ffb43d"/>
+    <circle cx="234" cy="176" r="8" fill="#ffd264"/>
+  </g>
+  <g id="eyes-closed" opacity="0" fill="none" stroke="#2a2440" stroke-width="4" stroke-linecap="round">
+    <path d="M114 150 q12 10 24 0"/>
+    <path d="M162 150 q12 10 24 0"/>
+  </g>
+  <g id="zzz" opacity="0" fill="none" stroke="#cfe8ff" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M200 98 l12 0 l-12 12 l12 0"/>
+    <path d="M218 80 l14 0 l-14 14 l14 0"/>
+    <path d="M238 60 l16 0 l-16 16 l16 0"/>
+  </g>
+  <g id="hearts" opacity="0" stroke="none">
+    <path d="M118 84 q-7 -10 -16 -3 q-7 7 16 24 q23 -17 16 -24 q-9 -7 -16 3 Z" fill="#e8452f"/>
+    <path d="M190 72 q-6 -8 -13 -2 q-6 6 13 20 q19 -14 13 -20 q-7 -6 -13 2 Z" fill="#e8452f"/>
+  </g>
+
+</svg>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Dinon luut</title>
+<style>
+  html,body{margin:0;height:100%;background:#1a1410;overflow:hidden;
+    font-family:"Comic Sans MS",system-ui,sans-serif;}
+  #stage{position:absolute;left:50%;top:50%;width:1024px;height:600px;
+    transform:translate(-50%,-50%);transform-origin:center center;
+    background:linear-gradient(#3a2a18,#241a10);border-radius:18px;overflow:hidden;
+    box-shadow:0 0 60px rgba(0,0,0,0.6);}
+  .title{position:absolute;top:16px;left:0;right:0;text-align:center;color:#ffe8c0;
+    font-size:36px;font-weight:800;}
+  .hint{position:absolute;top:66px;left:0;right:0;text-align:center;color:#ffd8a8;font-size:24px;}
+  #dig{position:absolute;left:112px;top:120px;width:760px;height:420px;
+    background:#6b4a2b;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 40px rgba(0,0,0,0.4);}
+  .sand{position:absolute;background:#a9743f;border:1px solid #8a5c30;cursor:pointer;
+    transition:opacity .25s,transform .25s;}
+  .sand:active{background:#c08a50;}
+  #count{position:absolute;right:30px;top:120px;color:#ffe066;font-size:30px;font-weight:800;}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="title">dinon luut</div>
+  <div class="hint" id="hint">harjaa hiekkaa pois ja etsi luut</div>
+  <div id="count">luut: 0 / 5</div>
+  <div id="dig">
+    <svg width="760" height="420" viewBox="0 0 760 420" style="position:absolute;left:0;top:0;">
+      <!-- buried T-rex skeleton -->
+      <g fill="#f1e6cf" stroke="#c9b48c" stroke-width="3">
+        <path class="bone" data-b="1" d="M90 250 q-40 -10 -40 -45 q0 -40 55 -45 q60 -5 70 30 l-20 20 q-10 -25 -45 -22 q-30 2 -30 20 q0 16 25 20 Z"/>
+        <rect class="bone" data-b="2" x="150" y="225" width="150" height="34" rx="16"/>
+        <circle class="bone" data-b="1" cx="120" cy="210" r="8" fill="#3a2a18"/>
+        <path class="bone" data-b="3" d="M300 150 q60 -60 120 0 q-20 40 -60 50 q-40 -10 -60 -50 Z"/>
+        <rect class="bone" data-b="3" x="320" y="235" width="34" height="120" rx="14"/>
+        <rect class="bone" data-b="3" x="380" y="235" width="34" height="120" rx="14"/>
+        <path class="bone" data-b="4" d="M300 245 q120 -30 230 0 q-10 26 -115 30 q-105 -4 -115 -30 Z"/>
+        <rect class="bone" data-b="4" x="520" y="130" width="30" height="130" rx="14" transform="rotate(30 535 195)"/>
+        <rect class="bone" data-b="5" x="560" y="250" width="34" height="110" rx="14"/>
+        <rect class="bone" data-b="5" x="615" y="250" width="34" height="110" rx="14"/>
+        <!-- funny buried surprise: rubber duck -->
+        <g class="duck"><circle cx="680" cy="330" r="26" fill="#ffd43b" stroke="#e0a800"/>
+          <circle cx="672" cy="322" r="4" fill="#222"/>
+          <path d="M700 328 l22 -6 l-18 16 Z" fill="#ff922b"/></g>
+      </g>
+    </svg>
+  </div>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var AC=window.AudioContext||window.webkitAudioContext, ac=AC?new AC():null;
+  function tone(f0,f1,dur,type,vol){
+    if(!ac) return; if(ac.state==="suspended"){try{ac.resume();}catch(e){}}
+    var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+    o.type=type||"sine"; o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(1,f1),t+dur);
+    g.gain.setValueAtTime(vol||0.2,t); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur);
+  }
+  function brush(){
+    if(!ac) return; if(ac.state==="suspended"){try{ac.resume();}catch(e){}}
+    var n=Math.floor(ac.sampleRate*0.12), b=ac.createBuffer(1,n,ac.sampleRate), d=b.getChannelData(0);
+    for(var i=0;i<n;i++){ d[i]=(Math.random()*2-1)*(1-i/n); }
+    var s=ac.createBufferSource(),g=ac.createGain(),hp=ac.createBiquadFilter();
+    hp.type="highpass"; hp.frequency.value=1800; s.buffer=b; g.gain.value=0.12;
+    s.connect(hp); hp.connect(g); g.connect(ac.destination); s.start();
+  }
+  function chime(){ tone(880,1320,0.18,"sine",0.14); tone(1320,1760,0.2,"sine",0.1); }
+
+  var stage=document.getElementById("stage");
+  function fit(){ var s=Math.min(window.innerWidth/1024,window.innerHeight/600);
+    stage.style.transform="translate(-50%,-50%) scale("+s+")"; }
+  window.addEventListener("resize",fit); fit();
+
+  var dig=document.getElementById("dig"), hint=document.getElementById("hint"), countEl=document.getElementById("count");
+  var COLS=10, ROWS=6, W=760, H=420, tw=W/COLS, th=H/ROWS;
+  var foundBones={}, foundCount=0, cleared=0, duckFound=false;
+
+  for(var r=0;r<ROWS;r++){
+    for(var c=0;c<COLS;c++){
+      var t=document.createElement("div"); t.className="sand";
+      t.style.left=(c*tw)+"px"; t.style.top=(r*th)+"px";
+      t.style.width=tw+"px"; t.style.height=th+"px";
+      t.setAttribute("data-x", c*tw+tw/2); t.setAttribute("data-y", r*th+th/2);
+      t.onclick=onBrush; dig.appendChild(t);
+    }
+  }
+
+  function onBrush(){
+    if(this.getAttribute("data-done")) return;
+    this.setAttribute("data-done","1");
+    this.style.opacity="0"; this.style.transform="scale(1.15)";
+    brush(); cleared++;
+    var self=this;
+    setTimeout(function(){ if(self.parentNode) self.parentNode.removeChild(self); },260);
+    var x=parseFloat(this.getAttribute("data-x")), y=parseFloat(this.getAttribute("data-y"));
+    checkReveal(x,y);
+  }
+
+  // which bone-group sits under this point (coarse hit-zones)
+  function zoneAt(x,y){
+    if(x<170) return "b1";
+    if(x>640 && y>290) return "duck";
+    if(x>=170 && x<300 && y>210) return "b2";
+    if(x>=300 && x<440 && y<220) return "b3";
+    if(x>=300 && x<440 && y>=220) return "b3";
+    if(x>=440 && x<560) return "b4";
+    if(x>=560) return "b5";
+    return null;
+  }
+
+  function checkReveal(x,y){
+    var z=zoneAt(x,y);
+    if(z==="duck" && !duckFound){
+      duckFound=true; hint.textContent="hihi! ankka hiekassa!";
+      tone(600,400,0.14,"square",0.12); tone(500,300,0.14,"square",0.1); return;
+    }
+    if(z && z.charAt(0)==="b" && !foundBones[z]){
+      foundBones[z]=true; foundCount++;
+      countEl.textContent="luut: "+foundCount+" / 5";
+      chime();
+      if(foundCount>=5){ hint.textContent="hienoa! löysit koko dinon!"; tone(660,990,0.3,"sine",0.14); }
+      else { hint.textContent="löysit luun! etsi lisää"; }
+    }
+  }
+})();
+</script>
+</body>
+</html>

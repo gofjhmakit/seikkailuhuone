@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- door.svg · hub door/tile for 02 Lohikäärmeen muna · viewBox 0 0 240 240
+     Wood-framed night tile (matches the set): a speckled dragon egg in a nest, a crack, a soft
+     warm glow behind it, and a little star. Flat fills, thick rounded outlines, palette only,
+     no filters. Instantly "the dragon-egg game" to a 5-year-old. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <!-- frame + night tile -->
+    <rect x="8" y="8" width="224" height="224" rx="30" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="24" y="24" width="192" height="192" rx="20" fill="#342a4e" stroke="#241a33"/>
+
+    <!-- star -->
+    <path d="M60 58 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#cfe8ff"/>
+    <circle cx="184" cy="62" r="3" fill="#cfe8ff"/>
+
+    <!-- warm glow behind the egg -->
+    <ellipse cx="120" cy="118" rx="66" ry="70" fill="#ff8a4c" opacity="0.18" stroke="none"/>
+
+    <!-- egg -->
+    <ellipse cx="120" cy="120" rx="54" ry="66" fill="#f3e7cc" stroke="#d9c89a"/>
+    <ellipse cx="104" cy="92" rx="13" ry="20" fill="#fff7e6" opacity="0.5" stroke="none"/>
+    <circle cx="100" cy="140" r="7" fill="#ffb43d" opacity="0.6" stroke="none"/>
+    <circle cx="142" cy="110" r="5" fill="#c77f1e" opacity="0.5" stroke="none"/>
+    <path d="M96 96 L116 112 L104 130 L124 146" fill="none" stroke="#8a5a2b" stroke-width="5"/>
+
+    <!-- nest -->
+    <ellipse cx="120" cy="176" rx="82" ry="26" fill="#5e3d1c" stroke="#3b2611"/>
+    <ellipse cx="120" cy="170" rx="60" ry="16" fill="#8a5a2b" stroke="#5e3d1c"/>
+
+    <!-- ground -->
+    <rect x="24" y="192" width="192" height="24" fill="#4a4150"/>
+  </g>
+</svg>

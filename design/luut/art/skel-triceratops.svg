@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- triceratops skeleton. Bone-zones: kallo selka kylki etujalka takajalka hanta (N=6). -->
+  <g id="skeleton">
+    <ellipse id="digGlow" cx="500" cy="372" rx="320" ry="162" fill="#ffd264" opacity="0"/>
+    <g id="bz_hanta">
+      <path d="M620 306 Q694 316 764 356" fill="none" stroke="#f3e7cc" stroke-width="13"/>
+    </g>
+    <g id="bz_selka">
+      <path d="M372 300 Q500 268 620 306" fill="none" stroke="#f3e7cc" stroke-width="16"/>
+    </g>
+    <g id="bz_kylki">
+      <path d="M414 300 Q410 360 426 404" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      <path d="M456 294 Q454 358 470 406" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      <path d="M500 294 Q500 358 514 404" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      <path d="M544 300 Q548 356 560 400" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+    </g>
+    <g id="bz_etujalka">
+      <path d="M416 320 L410 420 L416 488" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+      <path d="M416 488 l-16 10 M416 488 l14 10" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+    </g>
+    <g id="bz_takajalka">
+      <path d="M612 314 L620 420 L614 488" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+      <path d="M614 488 l-16 10 M614 488 l14 10" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+    </g>
+    <g id="bz_kallo">
+      <path id="skull" d="M300 256 Q364 250 376 320 Q364 388 300 380 Q248 374 240 320 Q244 266 300 256 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="5"/>
+      <path d="M240 322 Q198 318 180 338 Q174 356 196 360 Q230 360 254 346 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="5"/>
+      <path d="M188 338 l-20 -8 l10 18 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+      <path d="M234 300 l-20 -42 l26 22 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+      <path d="M268 296 l-8 -48 l22 36 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+      <circle cx="230" cy="332" r="7" fill="#4a3219"/>
+    </g>
+  </g>
+</svg>

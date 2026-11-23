@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ===================== WORKSHOP SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+
+  <!-- ===================== FORGE (#forge / #forgeFire / #forgeGlow) ===================== -->
+  <g id="forge" class="hot">
+    <circle id="forgeGlow" cx="150" cy="330" r="92" fill="#ff8a4c" opacity="0"/>
+    <rect x="60" y="300" width="180" height="160" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="52" y="286" width="196" height="22" rx="4" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="88" y="340" width="124" height="120" fill="#241a33"/>
+    <g id="forgeFire">
+      <path d="M150 452 q-28 -36 -4 -74 q6 24 20 28 q-10 -28 6 -46 q22 32 10 62 q10 -8 8 -24 q18 28 -6 54 Z" fill="#ff8a4c"/>
+      <path d="M150 450 q-16 -26 0 -50 q14 18 6 36 q10 -6 8 -20 q12 20 -6 40 Z" fill="#ffb43d"/>
+      <path d="M148 446 q-8 -16 2 -30 q8 12 2 22 q6 -4 6 -12 q6 14 -4 26 Z" fill="#ffd264"/>
+    </g>
+  </g>
+
+  <!-- ===================== GEARS (#gears / #gearA / #gearB) ===================== -->
+  <g id="gears" class="hot">
+    <g id="gearA">
+      <circle cx="440" cy="160" r="48" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+      <line x1="440" y1="104" x2="440" y2="216" stroke="#5e3d1c" stroke-width="10"/>
+      <line x1="384" y1="160" x2="496" y2="160" stroke="#5e3d1c" stroke-width="10"/>
+      <line x1="401" y1="121" x2="479" y2="199" stroke="#5e3d1c" stroke-width="10"/>
+      <line x1="479" y1="121" x2="401" y2="199" stroke="#5e3d1c" stroke-width="10"/>
+      <circle cx="440" cy="160" r="30" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="440" cy="160" r="8" fill="#5e3d1c"/>
+    </g>
+    <g id="gearB">
+      <circle cx="540" cy="212" r="36" fill="#ffb43d" stroke="#8a5a2b" stroke-width="5"/>
+      <line x1="540" y1="170" x2="540" y2="254" stroke="#8a5a2b" stroke-width="9"/>
+      <line x1="498" y1="212" x2="582" y2="212" stroke="#8a5a2b" stroke-width="9"/>
+      <line x1="510" y1="182" x2="570" y2="242" stroke="#8a5a2b" stroke-width="9"/>
+      <line x1="570" y1="182" x2="510" y2="242" stroke="#8a5a2b" stroke-width="9"/>
+      <circle cx="540" cy="212" r="22" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="540" cy="212" r="6" fill="#5e3d1c"/>
+    </g>
+  </g>
+
+  <!-- ===================== TOOL BOARD (#toolboard / #wrench) ===================== -->
+  <g id="toolboard" class="hot">
+    <rect x="760" y="80" width="190" height="150" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+    <path d="M800 108 L800 180 M786 108 L814 108" fill="none" stroke="#7a6f86" stroke-width="7"/>
+    <path d="M860 108 q24 0 24 24 q0 24 -24 24 L860 180" fill="none" stroke="#7a6f86" stroke-width="7"/>
+    <g id="wrench">
+      <line x1="916" y1="104" x2="916" y2="180" stroke="#7a6f86" stroke-width="7"/>
+      <path d="M916 104 q-14 -2 -14 -14 q14 -6 20 4 q6 -2 8 4 q-4 10 -14 6 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== ROBOT (#robot / #robotArm / #robotEye) ===================== -->
+  <g id="robot" class="hot">
+    <rect x="836" y="360" width="104" height="100" rx="12" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="860" y="320" width="56" height="44" rx="8" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <circle id="robotEye" cx="888" cy="342" r="10" fill="#ffd264" stroke="#5e3d1c" stroke-width="3"/>
+    <line x1="888" y1="320" x2="888" y2="306" stroke="#4a4150" stroke-width="4"/>
+    <circle cx="888" cy="302" r="6" fill="#e8452f"/>
+    <rect x="852" y="396" width="16" height="22" rx="3" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="908" y="396" width="16" height="22" rx="3" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="852" y="460" width="24" height="24" rx="4" fill="#4a4150"/>
+    <rect x="900" y="460" width="24" height="24" rx="4" fill="#4a4150"/>
+    <g id="robotArm">
+      <rect x="936" y="378" width="46" height="14" rx="6" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+      <circle cx="984" cy="385" r="10" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== WORKBENCH + DRAWER (#bench / #benchDrawer) ===================== -->
+  <g id="bench" class="hot">
+    <rect x="300" y="438" width="420" height="22" rx="4" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="312" y="460" width="396" height="80" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <g id="benchDrawer">
+      <rect x="520" y="470" width="170" height="60" rx="4" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <rect x="588" y="494" width="34" height="10" rx="4" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== HAMMER (#hammer / #hammerHead) ===================== -->
+  <g id="hammer" class="hot">
+    <g id="hammerHead">
+      <line x1="372" y1="438" x2="372" y2="392" stroke="#b07a3c" stroke-width="8"/>
+      <rect x="352" y="378" width="40" height="20" rx="4" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    </g>
+    <rect x="356" y="430" width="16" height="10" fill="#ffd264" stroke="#8a5a2b" stroke-width="2"/>
+  </g>
+
+  <!-- ===================== JACK-IN-THE-BOX (#jack / #jackLid / #jackPop) ===================== -->
+  <g id="jack" class="hot">
+    <g id="jackPop" opacity="0">
+      <line x1="612" y1="432" x2="612" y2="396" stroke="#46c4a8" stroke-width="7"/>
+      <circle cx="612" cy="386" r="18" fill="#ffd264" stroke="#e8452f" stroke-width="4"/>
+      <circle cx="606" cy="383" r="2.5" fill="#2a2440"/>
+      <circle cx="618" cy="383" r="2.5" fill="#2a2440"/>
+      <path d="M605 391 q7 6 14 0" fill="none" stroke="#2a2440" stroke-width="2.5"/>
+    </g>
+    <rect x="582" y="434" width="64" height="4" fill="#5e3d1c"/>
+    <rect x="584" y="438" width="60" height="42" rx="4" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+    <g id="jackLid">
+      <rect x="580" y="426" width="68" height="12" rx="3" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: UP → ULLAKKO (#navUp) ===================== -->
+  <g id="navUp" class="hot">
+    <rect x="452" y="20" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="500" y="42" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">ullakko</text>
+    <circle cx="556" cy="58" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="542,66 570,66 556,46" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== NAV: LEFT → KIRJASTO (#navLeft) ===================== -->
+  <g id="navLeft" class="hot">
+    <rect x="70" y="548" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="130" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">kirjasto</text>
+    <circle cx="46" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="54,526 32,540 54,554" fill="#5e3d1c"/>
+  </g>
+</svg>

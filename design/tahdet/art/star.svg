@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- star.svg · the interactive puzzle-star sprite · box 0 0 56 56, centred (28,28)
+     Engine clones ONE state at each figure coordinate (DESIGN §3) and draws the gold number
+     near it. `star-off` = not yet connected (grey); `star-on` = lit (gold + soft solid glow).
+     The glow is a low-opacity SOLID circle (no blur). Flat, palette, no filters. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" width="56" height="56">
+
+  <!-- unlit -->
+  <g id="star-off" stroke-linejoin="round" stroke-linecap="round" stroke-width="2">
+    <path d="M28 4 L34 22 L54 22 L38 34 L44 52 L28 40 L12 52 L18 34 L2 22 L22 22 Z"
+          fill="#7a6f86" stroke="#4a4150"/>
+  </g>
+
+  <!-- lit -->
+  <g id="star-on" stroke-linejoin="round" stroke-linecap="round" stroke-width="2">
+    <circle cx="28" cy="28" r="26" fill="#ffd264" opacity="0.18" stroke="none"/>
+    <path d="M28 4 L34 22 L54 22 L38 34 L44 52 L28 40 L12 52 L18 34 L2 22 L22 22 Z"
+          fill="#ffd264" stroke="#fff7e6"/>
+  </g>
+
+</svg>

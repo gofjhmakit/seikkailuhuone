@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 240" width="480" height="240" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ATLAS: brush + sand-tile reference + 5 buried surprise objects. Each <g id> has a
+       local origin at its translate; engine recenters at the chosen tile. Background +
+       grid are preview-only. -->
+  <rect x="0" y="0" width="480" height="240" fill="#241a33"/>
+  <line x1="120" y1="0" x2="120" y2="240" stroke="#342a4e" stroke-width="2"/>
+  <line x1="240" y1="0" x2="240" y2="240" stroke="#342a4e" stroke-width="2"/>
+  <line x1="360" y1="0" x2="360" y2="240" stroke="#342a4e" stroke-width="2"/>
+  <line x1="0" y1="120" x2="480" y2="120" stroke="#342a4e" stroke-width="2"/>
+
+  <!-- #spr_brush : the digging brush (local ~70x80) -->
+  <g id="spr_brush" transform="translate(26,22)">
+    <line x1="60" y1="6" x2="24" y2="46" stroke="#b07a3c" stroke-width="10"/>
+    <rect x="6" y="42" width="34" height="20" rx="6" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4" transform="rotate(-42 23 52)"/>
+    <path d="M2 64 l10 -12 l18 14 l-10 14 Z" fill="#fff7e6" stroke="#8a5a2b" stroke-width="3"/>
+    <line x1="0" y1="68" x2="6" y2="76" stroke="#fff7e6" stroke-width="2"/>
+    <line x1="8" y1="74" x2="14" y2="82" stroke="#fff7e6" stroke-width="2"/>
+  </g>
+
+  <!-- #spr_tile : one sand tile reference (grid tile is 112x85 in dig.svg) -->
+  <g id="spr_tile" transform="translate(132,36)">
+    <rect x="0" y="0" width="96" height="72" fill="#ffd264" stroke="#b07a3c" stroke-width="3"/>
+    <circle cx="24" cy="24" r="4" fill="#b07a3c"/>
+    <circle cx="64" cy="44" r="5" fill="#b07a3c"/>
+    <circle cx="44" cy="54" r="3" fill="#b07a3c"/>
+  </g>
+
+  <!-- #sfx_ankka : kumiankka (rubber duck) -->
+  <g id="sfx_ankka" transform="translate(252,36)">
+    <ellipse cx="34" cy="52" rx="30" ry="20" fill="#ffd264" stroke="#ffb43d" stroke-width="4"/>
+    <circle cx="20" cy="30" r="16" fill="#ffd264" stroke="#ffb43d" stroke-width="4"/>
+    <path d="M6 30 l-16 2 l14 8 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="2"/>
+    <circle cx="16" cy="26" r="3" fill="#2a2440"/>
+    <path d="M40 48 q18 -6 22 6 q-12 8 -22 0 Z" fill="#ffb43d"/>
+  </g>
+
+  <!-- #sfx_kivi : tavallinen kivi (plain rock) -->
+  <g id="sfx_kivi" transform="translate(372,48)">
+    <path d="M8 52 Q4 24 32 20 Q64 16 70 40 Q74 58 48 60 Q20 62 8 52 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <path d="M24 36 l10 6 M44 32 l8 8" fill="none" stroke="#4a4150" stroke-width="2"/>
+  </g>
+
+  <!-- #sfx_aarre : aarre / jalokivi (gem) -->
+  <g id="sfx_aarre" transform="translate(28,146)">
+    <circle cx="40" cy="44" r="34" fill="#ffd264" opacity="0.18"/>
+    <polygon points="40,12 66,36 40,80 14,36" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="4"/>
+    <polygon points="40,12 66,36 40,44 14,36" fill="#cfe8ff" stroke="#3a4a7a" stroke-width="2"/>
+    <line x1="24" y1="36" x2="56" y2="36" stroke="#3a4a7a" stroke-width="2"/>
+  </g>
+
+  <!-- #sfx_simpukka : simpukka (shell / sea fossil) -->
+  <g id="sfx_simpukka" transform="translate(150,150)">
+    <path d="M40 72 Q4 72 8 34 Q40 10 72 34 Q76 72 40 72 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="4"/>
+    <path d="M40 72 L22 36 M40 72 L40 30 M40 72 L58 36" fill="none" stroke="#e8452f" stroke-width="3"/>
+    <path d="M28 24 q12 -10 24 0" fill="#ffb43d" stroke="#e8452f" stroke-width="3"/>
+  </g>
+
+  <!-- #sfx_hammas : iso hammas (big tooth) -->
+  <g id="sfx_hammas" transform="translate(272,146)">
+    <path d="M34 8 Q58 10 58 40 Q56 72 42 82 Q38 86 34 82 Q22 70 20 44 Q18 14 34 8 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <path d="M30 30 q8 4 14 0" fill="none" stroke="#b07a3c" stroke-width="2"/>
+  </g>
+</svg>

@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ===================== LIBRARY SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <line x1="0" y1="520" x2="1024" y2="520" stroke="#5e3d1c" stroke-width="3" opacity="0.5"/>
+
+  <!-- ===================== BIG BOOKSHELF (#shelfBig / #book1) ===================== -->
+  <g id="shelfBig" class="hot">
+    <rect x="96" y="96" width="320" height="344" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+    <line x1="104" y1="196" x2="408" y2="196" stroke="#4a3219" stroke-width="5"/>
+    <line x1="104" y1="296" x2="408" y2="296" stroke="#4a3219" stroke-width="5"/>
+    <line x1="104" y1="396" x2="408" y2="396" stroke="#4a3219" stroke-width="5"/>
+    <rect id="book1" x="116" y="132" width="20" height="60" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="140" y="138" width="18" height="54" rx="2" fill="#e8452f" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="162" y="128" width="20" height="64" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+    <rect x="186" y="136" width="18" height="56" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="320" y="134" width="20" height="58" rx="2" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="344" y="130" width="18" height="62" rx="2" fill="#ff8a4c" stroke="#e8452f" stroke-width="3"/>
+    <rect x="120" y="232" width="20" height="60" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="144" y="236" width="18" height="56" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+    <rect x="340" y="234" width="20" height="58" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="364" y="232" width="18" height="60" rx="2" fill="#e8452f" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="120" y="332" width="20" height="60" rx="2" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="144" y="336" width="18" height="56" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="352" y="334" width="20" height="58" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== SLIDING LADDER (#ladder) ===================== -->
+  <g id="ladder" class="hot">
+    <line x1="356" y1="100" x2="356" y2="436" stroke="#b07a3c" stroke-width="8"/>
+    <line x1="392" y1="100" x2="392" y2="436" stroke="#b07a3c" stroke-width="8"/>
+    <line x1="356" y1="150" x2="392" y2="150" stroke="#b07a3c" stroke-width="6"/>
+    <line x1="356" y1="220" x2="392" y2="220" stroke="#b07a3c" stroke-width="6"/>
+    <line x1="356" y1="290" x2="392" y2="290" stroke="#b07a3c" stroke-width="6"/>
+    <line x1="356" y1="360" x2="392" y2="360" stroke="#b07a3c" stroke-width="6"/>
+  </g>
+
+  <!-- ===================== READING OWL (#owlLib / #owlHead) ===================== -->
+  <g id="owlLib" class="hot">
+    <ellipse cx="230" cy="76" rx="26" ry="28" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <g id="owlHead">
+      <polygon points="212,52 222,66 206,64" fill="#8a5a2b"/>
+      <polygon points="248,52 238,66 254,64" fill="#8a5a2b"/>
+      <circle cx="230" cy="58" r="22" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+      <circle cx="221" cy="56" r="7" fill="#fff7e6"/>
+      <circle cx="239" cy="56" r="7" fill="#fff7e6"/>
+      <circle id="owlEyeL" cx="221" cy="56" r="3" fill="#2a2440"/>
+      <circle id="owlEyeR" cx="239" cy="56" r="3" fill="#2a2440"/>
+      <polygon points="225,64 235,64 230,72" fill="#ffb43d"/>
+    </g>
+  </g>
+
+  <!-- ===================== GLOBE (#globe / #globeBall) ===================== -->
+  <g id="globe" class="hot">
+    <path d="M470 470 L486 406 L554 406 L570 470 Z" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <ellipse cx="520" cy="470" rx="54" ry="10" fill="#5e3d1c"/>
+    <path d="M520 316 a44 48 0 0 1 0 96" fill="none" stroke="#b07a3c" stroke-width="7"/>
+    <g id="globeBall">
+      <circle cx="520" cy="364" r="46" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="4"/>
+      <path d="M494 338 q24 10 40 -2 q10 20 -6 36 q-28 4 -40 -10 Z" fill="#3aa64a"/>
+      <path d="M538 384 q14 -4 20 6 q-6 12 -20 8 Z" fill="#3aa64a"/>
+    </g>
+  </g>
+
+  <!-- ===================== CANDLE (#candle / #candleFlame) ===================== -->
+  <g id="candle" class="hot">
+    <rect x="612" y="372" width="120" height="16" rx="5" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    <rect x="658" y="320" width="26" height="54" rx="4" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <g id="candleFlame">
+      <path d="M671 320 q-12 -16 0 -34 q12 18 0 34 Z" fill="#ffb43d"/>
+      <path d="M671 318 q-6 -10 0 -22 q6 12 0 22 Z" fill="#ffd264"/>
+    </g>
+  </g>
+
+  <!-- ===================== SECRET SHELF (#secretShelf / #secretBook / #secretNiche) ===================== -->
+  <g id="secretShelf" class="hot">
+    <rect x="770" y="150" width="150" height="180" rx="6" fill="#241a33"/>
+    <rect id="secretNiche" x="786" y="166" width="118" height="148" fill="#241a33"/>
+    <g id="secretPanel">
+      <rect x="770" y="150" width="150" height="180" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+      <rect x="782" y="162" width="20" height="58" rx="2" fill="#e8452f" stroke="#5e3d1c" stroke-width="3"/>
+      <rect x="806" y="158" width="18" height="62" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+      <rect x="828" y="164" width="20" height="56" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+      <rect id="secretBook" x="852" y="156" width="20" height="64" rx="2" fill="#ffd264" stroke="#8a5a2b" stroke-width="3"/>
+      <rect x="878" y="160" width="18" height="60" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+      <rect x="782" y="252" width="110" height="18" rx="2" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== COMFY CHAIR (#chair) ===================== -->
+  <g id="chair" class="hot">
+    <path d="M812 470 L812 356 Q812 336 832 336 L942 336 Q962 336 962 356 L962 470 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <rect x="800" y="396" width="26" height="74" rx="8" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <rect x="948" y="396" width="26" height="74" rx="8" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <ellipse cx="887" cy="402" rx="58" ry="18" fill="#ff8a4c" stroke="#8a5a2b" stroke-width="4"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: UP → ULLAKKO (#navUp) ===================== -->
+  <g id="navUp" class="hot">
+    <rect x="452" y="20" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="500" y="42" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">ullakko</text>
+    <circle cx="556" cy="58" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="542,66 570,66 556,46" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== NAV: RIGHT → PAJA (#navRight) ===================== -->
+  <g id="navRight" class="hot">
+    <rect x="860" y="548" width="90" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="905" y="570" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">paja</text>
+    <circle cx="978" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="970,526 992,540 970,554" fill="#5e3d1c"/>
+  </g>
+</svg>

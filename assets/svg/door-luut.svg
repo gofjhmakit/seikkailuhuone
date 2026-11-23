@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" stroke-linejoin="round" stroke-linecap="round">
+  <!-- hub tile background (night-mid, cohesion with the other doors) -->
+  <rect x="0" y="0" width="240" height="240" rx="28" fill="#342a4e"/>
+  <rect x="3" y="3" width="234" height="234" rx="26" fill="none" stroke="#241a33" stroke-width="6"/>
+  <!-- sand mound -->
+  <path d="M0 184 Q120 150 240 184 L240 240 L0 240 Z" fill="#ffb43d"/>
+  <path d="M0 198 Q120 170 240 198 L240 240 L0 240 Z" fill="#ffd264"/>
+  <!-- bone, half-buried, crossed behind the skull -->
+  <g transform="rotate(30 170 150)">
+    <rect x="132" y="146" width="74" height="14" rx="7" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <circle cx="132" cy="146" r="9" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <circle cx="132" cy="160" r="9" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <circle cx="206" cy="146" r="9" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <circle cx="206" cy="160" r="9" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+  </g>
+  <!-- dino skull peeking from the sand -->
+  <path d="M156 166 Q174 150 168 128 Q160 106 126 106 Q90 108 60 128 Q42 140 52 154 Q62 168 94 170 Q128 174 156 166 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="5"/>
+  <circle cx="128" cy="134" r="11" fill="#342a4e"/>
+  <circle cx="56" cy="146" r="4" fill="#5e3d1c"/>
+  <polygon points="72,166 76,178 82,165" fill="#f3e7cc" stroke="#b07a3c" stroke-width="2"/>
+  <polygon points="94,170 98,182 104,168" fill="#f3e7cc" stroke="#b07a3c" stroke-width="2"/>
+  <polygon points="116,170 120,182 126,168" fill="#f3e7cc" stroke="#b07a3c" stroke-width="2"/>
+  <!-- little sand sparkle -->
+  <path d="M190 66 l4 11 l11 1 l-9 7 l3 11 l-9 -6 l-9 6 l3 -11 l-9 -7 l11 -1 Z" fill="#ffd264"/>
+</svg>

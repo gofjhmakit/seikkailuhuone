@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- kirja.svg · the lohikäärmekirja (collection) · viewBox 0 0 1024 600
+     Warm open book with 12 portrait cards. The engine draws each hatched dragon (mini) in the
+     next card + its name + colour word underneath. No gradients/filters.
+     CARD CENTRES (cols x:170,390,610,830 · rows y:180,330,480): 12 slots, row-major.
+     Header: title "lohikäärmekirja" centred y~44 + "N lohikäärmettä". takaisin btn (16,16). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600">
+  <!-- wall -->
+  <rect x="0" y="0" width="1024" height="600" fill="#342a4e"/>
+
+  <!-- open book (two parchment pages) -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="6">
+    <rect x="36" y="80" width="952" height="500" rx="20" fill="#f3e7cc" stroke="#8a5a2b"/>
+    <line x1="512" y1="92" x2="512" y2="568" stroke="#d9c89a" stroke-width="4"/>
+  </g>
+
+  <!-- 12 portrait cards -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="80" y="120" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="300" y="120" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="520" y="120" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="740" y="120" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="80" y="270" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="300" y="270" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="520" y="270" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="740" y="270" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="80" y="420" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="300" y="420" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="520" y="420" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="740" y="420" width="180" height="120" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+  </g>
+</svg>

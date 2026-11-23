@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ===================== KITCHEN SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="300" width="1024" height="130" fill="#f3e7cc" opacity="0.14"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+
+  <!-- ===================== CUPBOARD (#cupboard / #cupDoorL / #cupDoorR) ===================== -->
+  <g id="cupboard" class="hot">
+    <rect x="96" y="92" width="190" height="130" rx="6" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <g id="cupDoorL">
+      <rect x="100" y="96" width="88" height="122" rx="5" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="178" cy="157" r="5" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+    </g>
+    <g id="cupDoorR">
+      <rect x="194" y="96" width="88" height="122" rx="5" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="204" cy="157" r="5" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== STOVE + POT (#stove / #pot / #potBubbles / #steam) ===================== -->
+  <g id="stove">
+    <rect x="300" y="320" width="180" height="150" rx="8" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="316" y="356" width="148" height="100" rx="4" fill="#4a4150"/>
+    <circle cx="340" cy="336" r="9" fill="#2a2440"/>
+    <circle cx="440" cy="336" r="9" fill="#2a2440"/>
+  </g>
+  <g id="pot" class="hot">
+    <g id="steam" opacity="0.8">
+      <ellipse cx="378" cy="266" rx="10" ry="14" fill="#f3e7cc" opacity="0.5"/>
+      <ellipse cx="398" cy="248" rx="9" ry="13" fill="#f3e7cc" opacity="0.4"/>
+      <ellipse cx="386" cy="230" rx="8" ry="12" fill="#f3e7cc" opacity="0.3"/>
+    </g>
+    <path d="M330 316 Q326 376 340 376 L440 376 Q454 376 450 316 Z" fill="#4a4150" stroke="#2a2440" stroke-width="5"/>
+    <g id="potBubbles">
+      <circle cx="366" cy="326" r="6" fill="#46c4a8"/>
+      <circle cx="398" cy="320" r="7" fill="#46c4a8"/>
+      <circle cx="420" cy="328" r="5" fill="#46c4a8"/>
+    </g>
+    <rect x="320" y="308" width="140" height="14" rx="6" fill="#7a6f86" stroke="#2a2440" stroke-width="4"/>
+    <rect x="300" y="300" width="20" height="8" rx="3" fill="#7a6f86" stroke="#2a2440" stroke-width="3"/>
+    <rect x="460" y="300" width="20" height="8" rx="3" fill="#7a6f86" stroke="#2a2440" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== KETTLE (#kettle / #kettleSteam) ===================== -->
+  <g id="kettle" class="hot">
+    <g id="kettleSteam" opacity="0">
+      <ellipse cx="612" cy="300" rx="7" ry="11" fill="#f3e7cc" opacity="0.5"/>
+      <ellipse cx="620" cy="284" rx="6" ry="10" fill="#f3e7cc" opacity="0.35"/>
+    </g>
+    <path d="M560 420 Q556 356 618 356 Q680 356 676 420 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <path d="M676 384 q24 -6 24 -26" fill="none" stroke="#e8452f" stroke-width="10"/>
+    <path d="M588 356 q30 -20 60 0" fill="none" stroke="#8a5a2b" stroke-width="7"/>
+    <circle cx="618" cy="346" r="7" fill="#ffd264" stroke="#8a5a2b" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== SINK + FAUCET (#faucet / #drop) ===================== -->
+  <g id="faucet" class="hot">
+    <rect x="740" y="396" width="200" height="40" rx="6" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="770" y="402" width="140" height="28" rx="6" fill="#4a4150"/>
+    <path d="M840 396 L840 350 L800 350" fill="none" stroke="#b07a3c" stroke-width="8"/>
+    <circle id="drop" cx="800" cy="364" r="5" fill="#7cc0ff" opacity="0"/>
+    <rect x="852" y="344" width="10" height="20" rx="3" fill="#8a5a2b"/>
+  </g>
+
+  <!-- ===================== FRUIT BOWL (#fruitbowl / #apple) ===================== -->
+  <g id="fruitbowl" class="hot">
+    <path d="M744 388 Q790 418 836 388 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    <g id="apple">
+      <circle cx="776" cy="380" r="13" fill="#e8452f" stroke="#8a5a2b" stroke-width="3"/>
+      <path d="M776 368 q4 -8 10 -6" fill="none" stroke="#2b7d39" stroke-width="3"/>
+    </g>
+    <circle cx="804" cy="382" r="12" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== BROOM (#broom / #broomBody) ===================== -->
+  <g id="broom" class="hot">
+    <g id="broomBody">
+      <line x1="978" y1="300" x2="958" y2="470" stroke="#b07a3c" stroke-width="7"/>
+      <path d="M948 462 L968 462 L980 500 L936 500 Z" fill="#ffb43d" stroke="#8a5a2b" stroke-width="4"/>
+      <line x1="946" y1="476" x2="940" y2="500" stroke="#8a5a2b" stroke-width="2"/>
+      <line x1="958" y1="474" x2="958" y2="500" stroke="#8a5a2b" stroke-width="2"/>
+      <line x1="970" y1="476" x2="976" y2="500" stroke="#8a5a2b" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== MOUSE HOLE (#mousehole / #mouseK) ===================== -->
+  <g id="mousehole" class="hot">
+    <path d="M120 440 Q120 404 150 404 Q180 404 180 440 Z" fill="#241a33" stroke="#4a3219" stroke-width="4"/>
+    <g id="mouseK" opacity="0">
+      <circle cx="150" cy="430" r="11" fill="#7a6f86" stroke="#4a4150" stroke-width="3"/>
+      <circle cx="143" cy="423" r="5" fill="#7a6f86" stroke="#4a4150" stroke-width="2"/>
+      <circle cx="146" cy="430" r="2" fill="#2a2440"/>
+    </g>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: DOWN → KELLARI (#navDown) ===================== -->
+  <g id="navDown" class="hot">
+    <rect x="452" y="548" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="500" y="570" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">kellari</text>
+    <circle cx="556" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="542,532 570,532 556,552" fill="#5e3d1c"/>
+  </g>
+</svg>

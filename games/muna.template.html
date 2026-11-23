@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Lohik&#228;&#228;rmeen muna</title>
+<link rel="stylesheet" href="../seikkailu.css">
+<style> #kirja { position:absolute; left:0; top:0; width:1024px; height:600px; } </style>
+</head>
+<body>
+<div id="stage">
+  <svg id="scene" viewBox="0 0 1024 600" width="1024" height="600">
+    <!--SCENE_BG-->
+    <g id="egg" transform="translate(382,158)"><!--EGG_INLINE--></g>
+    <g id="dragon" transform="translate(362,150)" style="display:none;"><g id="dragonInner"></g></g>
+    <text id="hint" x="512" y="40" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="24" font-weight="800" fill="#ffd264">silit&#228; munaa!</text>
+    <g id="tray"></g>
+    <g id="controls"></g>
+  </svg>
+
+  <div id="kirja" style="display:none;">
+    <svg id="kirjascene" viewBox="0 0 1024 600" width="1024" height="600">
+      <!--KIRJA_BG-->
+      <text x="512" y="44" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="28" font-weight="800" fill="#5e3d1c">lohik&#228;&#228;rmekirja</text>
+      <text id="kirjaCount" x="880" y="44" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#5e3d1c"></text>
+      <g id="cards"></g>
+      <g id="kirjaControls"></g>
+    </svg>
+  </div>
+
+  <svg id="dragonsheet" width="0" height="0" viewBox="0 0 300 340" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--DRAGONSHEET--></svg>
+  <svg id="foodsheet" width="0" height="0" viewBox="0 0 80 80" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--FOODSHEET--></svg>
+</div>
+
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var M = Seik.logic.muna, U = Seik.logic.util;
+
+  var phase = "egg", taps = 0, crackStage = 0, feeds = 0, growth = 1, sleeping = false, busy = false;
+  var cur = null, refs = {};
+  var hintEl;
+
+  function setHint(t) { if (hintEl.firstChild) hintEl.firstChild.nodeValue = t; else hintEl.appendChild(document.createTextNode(t)); }
+
+  /* ---------- clone + recolour helpers ---------- */
+  function clonePart(id) { var s = C.$(id); return s ? s.cloneNode(true) : null; }
+  function findById(root, id) {
+    if (root.getAttribute && root.getAttribute("id") === id) return root;
+    var all = root.getElementsByTagName("*"), i;
+    for (i = 0; i < all.length; i++) { if (all[i].getAttribute("id") === id) return all[i]; }
+    return null;
+  }
+  function stripIds(node) {
+    if (node.removeAttribute) node.removeAttribute("id");
+    var ch = node.childNodes, i;
+    for (i = 0; i < ch.length; i++) { if (ch[i].nodeType === 1) stripIds(ch[i]); }
+  }
+  function recolour(group, sc) {
+    var all = group.getElementsByTagName("*"), i, el, cls, isD;
+    for (i = 0; i < all.length; i++) {
+      el = all[i]; cls = el.getAttribute("class"); if (!cls) continue;
+      if (cls.indexOf("d-main") >= 0) el.setAttribute("fill", sc.main);
+      else if (cls.indexOf("d-belly") >= 0) el.setAttribute("fill", sc.belly);
+      else if (cls.indexOf("d-dark") >= 0) el.setAttribute("fill", sc.dark);
+      isD = (cls.indexOf("d-main") >= 0 || cls.indexOf("d-belly") >= 0 || cls.indexOf("d-dark") >= 0);
+      if (isD) { var st = el.getAttribute("stroke"); if (st && st !== "none") el.setAttribute("stroke", sc.dark); }
+    }
+  }
+  /* assemble a dragon into target (z: wing -> base -> pattern -> horn -> overlays); returns refs */
+  function assembleDragon(target, d) {
+    while (target.firstChild) target.removeChild(target.firstChild);
+    var r = {};
+    var wing = clonePart("d-" + d.wing); if (wing) target.appendChild(wing);
+    var base = clonePart("d-dragon-base");
+    if (base) { r.eyesOpen = findById(base, "d-dragon-eyes-open"); target.appendChild(base); }
+    var pat = clonePart("d-" + d.pat); if (pat) target.appendChild(pat);
+    var horn = clonePart("d-" + d.horn); if (horn) target.appendChild(horn);
+    r.puff = clonePart("d-puff"); r.eyesClosed = clonePart("d-eyes-closed");
+    r.zzz = clonePart("d-zzz"); r.hearts = clonePart("d-hearts");
+    var ov = [r.puff, r.eyesClosed, r.zzz, r.hearts], i;
+    for (i = 0; i < ov.length; i++) { if (ov[i]) target.appendChild(ov[i]); }
+    recolour(target, M.schemes[d.scheme]);
+    stripIds(target);
+    return r;
+  }
+  function setInner(s) {
+    C.$("dragonInner").setAttribute("transform", "translate(150,235) scale(" + s + ") translate(-150,-235)");
+  }
+
+  /* ---------- egg warming ---------- */
+  function showCracks(n) { for (var i = 1; i <= 5; i++) { var c = C.$("c" + i); if (c) c.setAttribute("opacity", i <= n ? "1" : "0"); } }
+  function wobbleEgg() {
+    var e = C.$("egg");
+    A.tween({ duration: 180, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { e.setAttribute("transform", "translate(382,158) rotate(" + (4 * Math.sin(Math.PI * 2 * t)) + ",130,185)"); },
+      onDone: function () { e.setAttribute("transform", "translate(382,158)"); } });
+  }
+  function warmEgg() {
+    if (phase !== "egg" || busy) return;
+    taps++; AU.play("lampo"); wobbleEgg();
+    var glow = C.$("warm-glow"); if (glow) glow.setAttribute("opacity", Math.min(0.3, taps * 0.04));
+    var ns = Math.min(5, Math.floor(taps / 2));
+    if (ns > crackStage) { crackStage = ns; AU.play("naks"); showCracks(crackStage); }
+    if (taps >= 10) hatch();
+    else setHint(U.pick(["lämmintä! jatka vielä", "melkein..."]));
+  }
+
+  /* ---------- hatch ---------- */
+  function hatch() {
+    busy = true; phase = "hatching"; AU.play("halkee");
+    C.$("egg-whole").setAttribute("opacity", "0");
+    var top = C.$("egg-shell-top"), bot = C.$("egg-shell-bottom");
+    if (bot) bot.setAttribute("opacity", "1");
+    if (top) { top.setAttribute("opacity", "1");
+      A.tween({ duration: 600, from: 0, to: 1, ease: "outCubic",
+        onUpdate: function (t) { top.setAttribute("transform", "translate(0," + (-70 * t) + ") rotate(" + (-26 * t) + ",130,120)"); top.setAttribute("opacity", "" + (1 - t)); } }); }
+    cur = M.randomDragon();
+    refs = assembleDragon(C.$("dragonInner"), cur);
+    hideCareOverlays();
+    C.$("dragon").style.display = "";
+    setInner(0.2);
+    AU.play("karjaisu");
+    A.tween({ duration: 650, from: 0.2, to: 1, ease: "outBack",
+      onUpdate: function (v) { setInner(v); },
+      onDone: function () {
+        if (refs.puff) flash(refs.puff, 500);
+        Seik.celebrate(U.pick(["Uusi lohikäärme!", "Hieno!", "Se kuoriutui!"]));
+        addToKirja(cur);
+        if (bot) A.tween({ duration: 900, from: 1, to: 0, onUpdate: function (v) { bot.setAttribute("opacity", "" + v); } });
+        phase = "care"; busy = false; feeds = 0; growth = 1;
+        setHint("silitä ja ruoki lohikäärmettä!");
+      } });
+  }
+
+  /* ---------- care ---------- */
+  function hideCareOverlays() {
+    if (refs.puff) refs.puff.setAttribute("opacity", "0");
+    if (refs.eyesClosed) refs.eyesClosed.setAttribute("opacity", "0");
+    if (refs.zzz) refs.zzz.setAttribute("opacity", "0");
+    if (refs.hearts) refs.hearts.setAttribute("opacity", "0");
+  }
+  function flash(el, ms) {
+    el.setAttribute("opacity", "1");
+    A.tween({ duration: ms || 450, from: 1, to: 0, ease: "linear", onUpdate: function (v) { el.setAttribute("opacity", "" + v); } });
+  }
+  function floatUp(el, ms) {
+    el.setAttribute("opacity", "1");
+    A.tween({ duration: ms || 900, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { el.setAttribute("opacity", "" + (1 - t)); el.setAttribute("transform", "translate(0," + (-26 * t) + ")"); },
+      onDone: function () { el.setAttribute("opacity", "0"); el.setAttribute("transform", "translate(0,0)"); } });
+  }
+  function petDragon() {
+    if (phase !== "care" || busy) { if (phase === "care" && sleeping) wake(); return; }
+    if (sleeping) { wake(); return; }
+    AU.play("kehraa"); if (refs.hearts) floatUp(refs.hearts, 900); setHint("silitä vaan!");
+  }
+  function feed(foodId, nimi) {
+    if (phase !== "care" || busy) return;
+    if (sleeping) { wake(); return; }
+    AU.play("nam");
+    if (refs.puff) flash(refs.puff, 420);
+    /* little bounce */
+    A.tween({ duration: 300, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { C.$("dragon").setAttribute("transform", "translate(362," + (150 - 10 * Math.sin(Math.PI * t)) + ")"); },
+      onDone: function () { C.$("dragon").setAttribute("transform", "translate(362,150)"); } });
+    feeds++;
+    if (feeds % 4 === 0) { setTimeout(function () { AU.play("hik"); if (refs.puff) flash(refs.puff, 500); setHint("hik! pikku röyhtäys"); }, 360); }
+    else setHint("nam nam! " + nimi);
+    if (feeds % M.GROW_EVERY === 0) grow();
+  }
+  function grow() {
+    if (growth >= 1.28) return;
+    growth += 0.07; AU.play("kasva");
+    A.tween({ duration: 500, from: growth - 0.07, to: growth, ease: "outBack", onUpdate: function (v) { setInner(v); } });
+    setHint("se kasvaa!");
+    Seik.celebrate("Se kasvaa!");
+  }
+  function sleepToggle() {
+    if (phase !== "care") return;
+    sleeping = !sleeping;
+    if (sleeping) {
+      AU.play("uni");
+      if (refs.eyesOpen) refs.eyesOpen.setAttribute("opacity", "0");
+      if (refs.eyesClosed) refs.eyesClosed.setAttribute("opacity", "1");
+      if (refs.zzz) refs.zzz.setAttribute("opacity", "1");
+      setHint("nukkuu...");
+    } else { wake(); }
+  }
+  function wake() {
+    sleeping = false; AU.play("heraa");
+    if (refs.eyesOpen) refs.eyesOpen.setAttribute("opacity", "1");
+    if (refs.eyesClosed) refs.eyesClosed.setAttribute("opacity", "0");
+    if (refs.zzz) refs.zzz.setAttribute("opacity", "0");
+    setHint("heräsi!");
+  }
+  function newEgg() {
+    AU.play("pop"); phase = "egg"; taps = 0; crackStage = 0; sleeping = false; busy = false;
+    C.$("dragon").style.display = "none";
+    showCracks(0);
+    C.$("egg-whole").setAttribute("opacity", "1");
+    var top = C.$("egg-shell-top"), bot = C.$("egg-shell-bottom");
+    if (top) { top.setAttribute("opacity", "0"); top.setAttribute("transform", "translate(0,0)"); }
+    if (bot) bot.setAttribute("opacity", "0");
+    var glow = C.$("warm-glow"); if (glow) glow.setAttribute("opacity", "0");
+    setHint("silitä munaa!");
+  }
+
+  /* ---------- controls + tray ---------- */
+  function svgText(x, y, str, size, fill) {
+    var t = C.svg("text", { x: x, y: y, "text-anchor": "middle", "font-family": "Comic Sans MS, sans-serif", "font-size": size, "font-weight": "800", fill: fill });
+    t.appendChild(document.createTextNode(str)); return t;
+  }
+  function button(x, y, w, h, label, size, onTap) {
+    var g = C.svg("g", { "class": "hot" });
+    g.appendChild(C.svg("rect", { x: x, y: y, width: w, height: h, rx: 15, fill: "#ffd264", stroke: "#c9922f", "stroke-width": 4 }));
+    g.appendChild(svgText(x + w / 2, y + h / 2 + size / 3, label, size, "#5e3d1c"));
+    C.tap(g, onTap); return g;
+  }
+  function buildTray() {
+    var tray = C.$("tray"), xs = [270, 360, 450, 540, 630, 720], i;
+    for (i = 0; i < M.foods.length; i++) {
+      (function (f, x) {
+        var src = C.$("f-" + f.id); if (!src) return;
+        var g = C.svg("g", { "class": "hot" });
+        var w = C.svg("g", { transform: "translate(" + x + ",544) scale(0.9) translate(-40,-40)" });
+        var c = src.cloneNode(true); c.removeAttribute("id"); w.appendChild(c); g.appendChild(w);
+        g.appendChild(svgText(x, 592, f.nimi, 15, "#fff7e6"));
+        C.tap(g, function () { feed(f.id, f.nimi); });
+        tray.appendChild(g);
+      })(M.foods[i], xs[i]);
+    }
+  }
+  function buildControls() {
+    var ctr = C.$("controls");
+    ctr.appendChild(button(848, 20, 150, 50, "kirja", 22, openKirja));
+    ctr.appendChild(button(40, 512, 72, 72, "uni", 22, sleepToggle));
+    ctr.appendChild(button(848, 520, 160, 56, "uusi muna", 20, newEgg));
+  }
+
+  /* ---------- kirja (collection) ---------- */
+  var KEY = "muna_kirja", MAX = 12;
+  function loadKirja() { return C.store.get(KEY, []); }
+  function addToKirja(d) {
+    var arr = loadKirja(); arr.push({ scheme: d.scheme, horn: d.horn, wing: d.wing, pat: d.pat, name: d.name });
+    while (arr.length > MAX) arr.shift();
+    C.store.set(KEY, arr);
+  }
+  function renderKirja() {
+    var arr = loadKirja(), cards = C.$("cards");
+    while (cards.firstChild) cards.removeChild(cards.firstChild);
+    var xs = [170, 390, 610, 830], ys = [180, 330, 480], i;
+    for (i = 0; i < arr.length; i++) {
+      var cx = xs[i % 4], cy = ys[Math.floor(i / 4)];
+      var holder = C.svg("g", { transform: "translate(" + cx + "," + (cy - 18) + ") scale(0.3) translate(-150,-235)" });
+      assembleDragon(holder, arr[i]);
+      cards.appendChild(holder);
+      cards.appendChild(svgText(cx, cy + 50, M.label(arr[i]), 15, "#5e3d1c"));
+    }
+    var cnt = C.$("kirjaCount");
+    var txt = arr.length + " lohikäärmettä";
+    if (cnt.firstChild) cnt.firstChild.nodeValue = txt; else cnt.appendChild(document.createTextNode(txt));
+  }
+  function openKirja() { AU.play("naps"); renderKirja(); C.$("kirja").style.display = "block"; }
+  function closeKirja() { AU.play("naps"); C.$("kirja").style.display = "none"; }
+  function buildKirjaControls() { C.$("kirjaControls").appendChild(button(30, 16, 140, 46, "takaisin", 20, closeKirja)); }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["lampo", "naks", "halkee", "karjaisu", "liekki", "nam", "hik", "kehraa", "kasva", "uni", "heraa", "pop", "naps", "success"]);
+    C.addBackButton(); C.addMuteButton();
+    hintEl = C.$("hint");
+    buildTray(); buildControls(); buildKirjaControls();
+    showCracks(0);
+    C.tap(C.$("egg"), warmEgg);
+    C.tap(C.$("dragon"), petDragon);
+  });
+})();
+</script>
+</body>
+</html>

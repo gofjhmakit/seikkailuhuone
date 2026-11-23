@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- foods.svg · 6 foods for the tray · shared box 0 0 80 80, centred (40,40)
+     Engine shows these on the tray (tap to feed); the Finnish name is drawn as text label.
+     Flat, palette, no filters. Stacked at centre on purpose (source sheet). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+
+  <!-- liha (meat drumstick) -->
+  <g id="food-liha" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="20" cy="56" r="8" fill="#fff7e6" stroke="#d9c89a"/>
+    <circle cx="20" cy="46" r="8" fill="#fff7e6" stroke="#d9c89a"/>
+    <path d="M26 54 L38 44" stroke="#fff7e6" stroke-width="9"/>
+    <path d="M36 46 q20 -24 34 -4 q10 18 -8 30 q-22 12 -34 -8 q-6 -10 8 -18 Z" fill="#c75a2a" stroke="#a82e1e"/>
+  </g>
+
+  <!-- kala (fish) -->
+  <g id="food-kala" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <ellipse cx="38" cy="42" rx="24" ry="16" fill="#7cc0ff" stroke="#3f84c4"/>
+    <polygon points="60,42 74,30 74,54" fill="#7cc0ff" stroke="#3f84c4"/>
+    <circle cx="26" cy="38" r="4" fill="#ffffff" stroke="#2a2440" stroke-width="2"/>
+    <circle cx="25" cy="38" r="2" fill="#2a2440"/>
+  </g>
+
+  <!-- marja (berries) -->
+  <g id="food-marja" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="30" cy="50" r="12" fill="#e8452f" stroke="#a82e1e"/>
+    <circle cx="50" cy="50" r="12" fill="#e8452f" stroke="#a82e1e"/>
+    <circle cx="40" cy="34" r="12" fill="#e8452f" stroke="#a82e1e"/>
+    <path d="M40 24 q10 -8 18 -4 q-4 10 -18 6 Z" fill="#3aa64a" stroke="#2b7d39"/>
+  </g>
+
+  <!-- keksi (cookie) -->
+  <g id="food-keksi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <circle cx="40" cy="42" r="24" fill="#ffb43d" stroke="#c77f1e"/>
+    <circle cx="32" cy="34" r="4" fill="#5e3d1c"/>
+    <circle cx="50" cy="36" r="4" fill="#5e3d1c"/>
+    <circle cx="44" cy="50" r="4" fill="#5e3d1c"/>
+    <circle cx="30" cy="50" r="3" fill="#5e3d1c"/>
+  </g>
+
+  <!-- leipä (bread loaf) -->
+  <g id="food-leipa" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M16 54 L16 42 Q16 24 40 24 Q64 24 64 42 L64 54 Z" fill="#b07a3c" stroke="#5e3d1c"/>
+    <path d="M28 34 L24 46 M40 32 L40 46 M52 34 L56 46" stroke="#5e3d1c" stroke-width="3"/>
+  </g>
+
+  <!-- omena (apple) -->
+  <g id="food-omena" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <path d="M40 30 q-14 -8 -22 4 q-7 13 4 26 q8 10 18 5 q10 5 18 -5 q11 -13 4 -26 q-8 -12 -22 -4 Z" fill="#e8452f" stroke="#a82e1e"/>
+    <path d="M40 30 q2 -9 -3 -12" fill="none" stroke="#5e3d1c" stroke-width="4"/>
+    <path d="M40 22 q8 -6 14 -2 q-3 8 -14 5 Z" fill="#3aa64a" stroke="#2b7d39"/>
+  </g>
+
+</svg>

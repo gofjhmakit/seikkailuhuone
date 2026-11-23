@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- patterns.svg · 6 patterns + none · shared space 0 0 400 440
+     Overlay ON the body front. All marks sit inside a safe circle r~66 around (200,268) so
+     they land on EVERY body shape. Z-order: draw pattern AFTER body, BEFORE head.
+     pat-none is empty. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" width="400" height="440">
+
+  <!-- 0 · pat-none -->
+  <g id="pat-none"></g>
+
+  <!-- 1 · pat-pilkku · small dots · ink -->
+  <g id="pat-pilkku">
+    <circle cx="200" cy="238" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="168" cy="262" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="232" cy="262" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="186" cy="294" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="214" cy="294" r="9" fill="#2a2440" opacity="0.55"/>
+    <circle cx="200" cy="322" r="9" fill="#2a2440" opacity="0.55"/>
+  </g>
+
+  <!-- 2 · pat-raita · stripes · ink -->
+  <g id="pat-raita" stroke-linecap="round">
+    <path d="M150 244 q50 -14 100 0" fill="none" stroke="#2a2440" stroke-width="9" opacity="0.5"/>
+    <path d="M144 276 q56 -14 112 0" fill="none" stroke="#2a2440" stroke-width="9" opacity="0.5"/>
+    <path d="M150 308 q50 -14 100 0" fill="none" stroke="#2a2440" stroke-width="9" opacity="0.5"/>
+  </g>
+
+  <!-- 3 · pat-tapla · big spots · cream -->
+  <g id="pat-tapla" stroke-linejoin="round" stroke-width="3">
+    <circle cx="176" cy="244" r="20" fill="#fff7e6" stroke="#d9c89a"/>
+    <circle cx="226" cy="286" r="24" fill="#fff7e6" stroke="#d9c89a"/>
+    <circle cx="170" cy="306" r="16" fill="#fff7e6" stroke="#d9c89a"/>
+  </g>
+
+  <!-- 4 · pat-tahti · stars · gold -->
+  <g id="pat-tahti" stroke-linejoin="round" stroke-width="3">
+    <path d="M200 226 l6 16 l17 1 l-13 11 l5 17 l-15 -10 l-15 10 l5 -17 l-13 -11 l17 -1 Z" fill="#ffd264" stroke="#c9922f"/>
+    <path d="M170 288 l5 13 l14 1 l-11 9 l4 14 l-12 -8 l-12 8 l4 -14 l-11 -9 l14 -1 Z" fill="#ffd264" stroke="#c9922f"/>
+    <path d="M232 296 l5 13 l14 1 l-11 9 l4 14 l-12 -8 l-12 8 l4 -14 l-11 -9 l14 -1 Z" fill="#ffd264" stroke="#c9922f"/>
+  </g>
+
+  <!-- 5 · pat-ruutu · checker · ink -->
+  <g id="pat-ruutu">
+    <rect x="176" y="238" width="20" height="20" fill="#2a2440" opacity="0.5"/>
+    <rect x="204" y="238" width="20" height="20" fill="#2a2440" opacity="0.28"/>
+    <rect x="162" y="266" width="20" height="20" fill="#2a2440" opacity="0.28"/>
+    <rect x="190" y="266" width="20" height="20" fill="#2a2440" opacity="0.5"/>
+    <rect x="218" y="266" width="20" height="20" fill="#2a2440" opacity="0.28"/>
+    <rect x="176" y="294" width="20" height="20" fill="#2a2440" opacity="0.28"/>
+    <rect x="204" y="294" width="20" height="20" fill="#2a2440" opacity="0.5"/>
+  </g>
+
+  <!-- 6 · pat-sydan · hearts · lava -->
+  <g id="pat-sydan" stroke-linejoin="round" stroke-width="3">
+    <path d="M200 244 q-10 -14 -22 -4 q-10 10 22 30 q32 -20 22 -30 q-12 -10 -22 4 Z" fill="#e8452f" stroke="#a82e1e"/>
+    <path d="M178 300 q-7 -10 -16 -3 q-7 7 16 22 q23 -15 16 -22 q-9 -7 -16 3 Z" fill="#e8452f" stroke="#a82e1e"/>
+    <path d="M230 300 q-7 -10 -16 -3 q-7 7 16 22 q23 -15 16 -22 q-9 -7 -16 3 Z" fill="#e8452f" stroke="#a82e1e"/>
+  </g>
+
+</svg>

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ===================== ROOM SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <line x1="0" y1="502" x2="1024" y2="502" stroke="#5e3d1c" stroke-width="3" opacity="0.5"/>
+  <line x1="0" y1="556" x2="1024" y2="556" stroke="#5e3d1c" stroke-width="3" opacity="0.5"/>
+
+  <!-- ===================== WINDOW (#win / #winstar) ===================== -->
+  <g id="win" class="hot">
+    <rect x="46" y="66" width="184" height="170" rx="6" fill="#241a33"/>
+    <circle cx="92" cy="112" r="22" fill="#ffd264"/>
+    <circle cx="150" cy="92" r="2.5" fill="#cfe8ff"/>
+    <circle cx="200" cy="120" r="2.5" fill="#cfe8ff"/>
+    <circle cx="80" cy="202" r="2.5" fill="#cfe8ff"/>
+    <g id="winstar">
+      <path d="M182 150 l6 15 l16 1 l-12 10 l4 16 l-14 -9 l-14 9 l4 -16 l-12 -10 l16 -1 Z" fill="#cfe8ff" stroke="#7cc0ff" stroke-width="3"/>
+    </g>
+    <rect x="40" y="60" width="190" height="182" rx="8" fill="none" stroke="#5e3d1c" stroke-width="12"/>
+    <rect x="131" y="66" width="8" height="170" fill="#5e3d1c"/>
+    <rect x="46" y="147" width="184" height="8" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== STANDING LAMP (#lamp / #lampGlow) ===================== -->
+  <g id="lamp" class="hot">
+    <circle id="lampGlow" cx="300" cy="300" r="74" fill="#ffd264" opacity="0"/>
+    <rect x="295" y="300" width="10" height="150" fill="#4a4150"/>
+    <ellipse cx="300" cy="452" rx="34" ry="10" fill="#4a4150"/>
+    <path d="M266 300 L334 300 L320 250 L280 250 Z" fill="#ffb43d" stroke="#5e3d1c" stroke-width="5"/>
+    <circle cx="300" cy="300" r="9" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== FIREPLACE (#fireplace / #flames / #marsh) ===================== -->
+  <g id="fireplace" class="hot">
+    <rect x="386" y="258" width="196" height="196" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="376" y="244" width="216" height="22" rx="4" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="416" y="300" width="136" height="154" fill="#241a33"/>
+    <rect x="438" y="420" width="92" height="20" rx="10" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <rect x="450" y="404" width="68" height="18" rx="9" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    <g id="flames">
+      <path d="M484 418 q-30 -40 -4 -82 q6 28 22 32 q-12 -32 6 -52 q24 36 10 70 q12 -8 10 -28 q20 32 -8 60 Z" fill="#ff8a4c"/>
+      <path d="M484 416 q-18 -30 0 -58 q16 22 6 42 q12 -8 8 -24 q14 24 -6 46 Z" fill="#ffb43d"/>
+      <path d="M482 412 q-10 -20 2 -36 q10 14 2 26 q8 -4 6 -14 q8 16 -4 30 Z" fill="#ffd264"/>
+    </g>
+    <g id="marsh" opacity="0">
+      <line x1="568" y1="358" x2="472" y2="392" stroke="#b07a3c" stroke-width="4"/>
+      <circle cx="472" cy="392" r="12" fill="#fff7e6" stroke="#b07a3c" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== CUCKOO CLOCK (#clock / #clockDoor / #clockBird) ===================== -->
+  <g id="clock" class="hot">
+    <polygon points="636,86 690,52 744,86" fill="#5e3d1c"/>
+    <rect x="640" y="84" width="100" height="134" rx="10" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <circle cx="690" cy="156" r="34" fill="#f3e7cc" stroke="#5e3d1c" stroke-width="4"/>
+    <line x1="690" y1="156" x2="690" y2="134" stroke="#2a2440" stroke-width="4"/>
+    <line x1="690" y1="156" x2="706" y2="162" stroke="#2a2440" stroke-width="4"/>
+    <rect id="clockDoor" x="668" y="92" width="44" height="34" rx="4" fill="#5e3d1c" stroke="#4a3219" stroke-width="2"/>
+    <g id="clockBird" opacity="0">
+      <ellipse cx="690" cy="108" rx="15" ry="11" fill="#ffd264"/>
+      <circle cx="683" cy="104" r="3" fill="#2a2440"/>
+      <polygon points="676,108 664,111 676,114" fill="#ff8a4c"/>
+    </g>
+  </g>
+
+  <!-- ===================== PICTURE (#picture / #pictureFrame) ===================== -->
+  <g id="picture" class="hot">
+    <circle cx="786" cy="100" r="4" fill="#4a4150"/>
+    <g id="pictureFrame">
+      <rect x="780" y="96" width="150" height="120" rx="6" fill="#b07a3c" stroke="#5e3d1c" stroke-width="8"/>
+      <rect x="794" y="110" width="122" height="92" fill="#a5d8ff"/>
+      <polygon points="794,202 840,150 870,178 900,138 916,164 916,202" fill="#3aa64a"/>
+      <circle cx="896" cy="140" r="12" fill="#ffd264"/>
+    </g>
+  </g>
+
+  <!-- ===================== BOOKSHELF (#shelf / #book1) ===================== -->
+  <g id="shelf" class="hot">
+    <rect x="892" y="150" width="112" height="250" rx="6" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <line x1="898" y1="246" x2="998" y2="246" stroke="#5e3d1c" stroke-width="5"/>
+    <line x1="898" y1="332" x2="998" y2="332" stroke="#5e3d1c" stroke-width="5"/>
+    <rect id="book1" x="906" y="186" width="18" height="58" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="928" y="192" width="16" height="52" rx="2" fill="#e8452f" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="948" y="184" width="18" height="60" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+    <rect x="908" y="276" width="16" height="54" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="928" y="272" width="18" height="58" rx="2" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="952" y="280" width="16" height="50" rx="2" fill="#ff8a4c" stroke="#e8452f" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== PLANT (#plant / #plantLeaves) ===================== -->
+  <g id="plant" class="hot">
+    <path d="M118 452 L188 452 L180 512 L126 512 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="112" y="444" width="82" height="14" rx="4" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <g id="plantLeaves">
+      <path d="M153 448 q-40 -20 -30 -66 q34 10 36 64 Z" fill="#2b7d39"/>
+      <path d="M153 448 q40 -20 30 -66 q-34 10 -36 64 Z" fill="#3aa64a"/>
+      <path d="M153 450 q-6 -54 0 -84 q8 30 2 84 Z" fill="#3aa64a"/>
+    </g>
+  </g>
+
+  <!-- ===================== RUG (#rug / #rugCorner) ===================== -->
+  <g id="rug" class="hot">
+    <ellipse cx="560" cy="552" rx="180" ry="40" fill="#46c4a8" stroke="#2b7d39" stroke-width="5"/>
+    <ellipse cx="560" cy="552" rx="118" ry="24" fill="none" stroke="#ffd264" stroke-width="5"/>
+    <g id="rugCorner">
+      <path d="M390 560 q26 -16 54 -8 q-22 20 -54 20 Z" fill="#2b7d39" stroke="#1f5a2a" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== CAT (#cat) ===================== -->
+  <g id="cat" class="hot">
+    <path d="M464 550 q-28 -4 -34 -34" fill="none" stroke="#4a4150" stroke-width="12"/>
+    <ellipse cx="530" cy="536" rx="58" ry="34" fill="#4a4150"/>
+    <circle cx="570" cy="500" r="28" fill="#4a4150"/>
+    <polygon points="552,478 558,456 572,476" fill="#4a4150"/>
+    <polygon points="588,478 582,456 568,476" fill="#4a4150"/>
+    <circle cx="562" cy="498" r="4.5" fill="#ffd264"/>
+    <circle cx="578" cy="498" r="4.5" fill="#ffd264"/>
+    <path d="M566 507 l4 5 l4 -5" fill="none" stroke="#241a33" stroke-width="2.5"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: RIGHT → KASVIHUONE (#navRight) ===================== -->
+  <g id="navRight" class="hot">
+    <rect x="828" y="548" width="130" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="890" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">kasvihuone</text>
+    <circle cx="978" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="970,526 992,540 970,554" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== DIM OVERLAY (#dim) — lamp off ===================== -->
+  <rect id="dim" x="0" y="0" width="1024" height="600" fill="#241a33" opacity="0.45" pointer-events="none"/>
+</svg>

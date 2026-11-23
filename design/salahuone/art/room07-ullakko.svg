@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ===================== ATTIC SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <line x1="0" y1="512" x2="1024" y2="512" stroke="#5e3d1c" stroke-width="3" opacity="0.5"/>
+  <polygon points="0,0 0,214 214,0" fill="#5e3d1c"/>
+  <polygon points="1024,0 1024,214 810,0" fill="#5e3d1c"/>
+  <line x1="24" y1="0" x2="0" y2="120" stroke="#4a3219" stroke-width="3"/>
+  <line x1="1000" y1="0" x2="1024" y2="120" stroke="#4a3219" stroke-width="3"/>
+  <rect x="150" y="172" width="724" height="18" fill="#5e3d1c"/>
+  <rect x="150" y="172" width="12" height="40" fill="#5e3d1c"/>
+  <rect x="862" y="172" width="12" height="40" fill="#5e3d1c"/>
+
+  <!-- ===================== ROUND WINDOW (#porthole / #bat) ===================== -->
+  <g id="porthole" class="hot">
+    <circle cx="420" cy="96" r="52" fill="#241a33"/>
+    <circle cx="404" cy="80" r="15" fill="#ffd264"/>
+    <circle cx="442" cy="70" r="2.5" fill="#cfe8ff"/>
+    <circle cx="448" cy="110" r="2.5" fill="#cfe8ff"/>
+    <circle cx="394" cy="116" r="2.5" fill="#cfe8ff"/>
+    <g id="bat" opacity="0">
+      <path d="M420 92 q-14 -12 -24 -4 q10 2 10 12 q-10 -2 -8 8 q10 -8 22 -4 q12 -4 22 4 q2 -10 -8 -8 q0 -10 10 -12 q-10 -8 -24 4 Z" fill="#2a2440"/>
+    </g>
+    <circle cx="420" cy="96" r="52" fill="none" stroke="#5e3d1c" stroke-width="10"/>
+    <circle cx="420" cy="44" r="4" fill="#4a3219"/>
+    <circle cx="420" cy="148" r="4" fill="#4a3219"/>
+    <circle cx="368" cy="96" r="4" fill="#4a3219"/>
+    <circle cx="472" cy="96" r="4" fill="#4a3219"/>
+  </g>
+
+  <!-- ===================== OWL (#owl / #owlHead) ===================== -->
+  <g id="owl" class="hot">
+    <ellipse cx="250" cy="150" rx="30" ry="34" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M226 150 q-14 10 -4 28" fill="none" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M274 150 q14 10 4 28" fill="none" stroke="#5e3d1c" stroke-width="5"/>
+    <line x1="242" y1="186" x2="242" y2="196" stroke="#ffb43d" stroke-width="4"/>
+    <line x1="258" y1="186" x2="258" y2="196" stroke="#ffb43d" stroke-width="4"/>
+    <g id="owlHead">
+      <polygon points="230,96 240,112 224,110" fill="#8a5a2b"/>
+      <polygon points="270,96 260,112 276,110" fill="#8a5a2b"/>
+      <circle cx="250" cy="118" r="28" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+      <circle cx="240" cy="116" r="9" fill="#fff7e6"/>
+      <circle cx="260" cy="116" r="9" fill="#fff7e6"/>
+      <circle id="owlEyeL" cx="240" cy="116" r="4" fill="#2a2440"/>
+      <circle id="owlEyeR" cx="260" cy="116" r="4" fill="#2a2440"/>
+      <polygon points="244,124 256,124 250,134" fill="#ffb43d"/>
+    </g>
+  </g>
+
+  <!-- ===================== SPIDER (#spider / #thread / #spiderBody) ===================== -->
+  <g id="spider" class="hot">
+    <path d="M1024 36 L956 70 M1024 70 L950 92 M980 30 L958 96" stroke="#7a6f86" stroke-width="2" fill="none" opacity="0.6"/>
+    <path d="M958 50 q34 6 50 36 M958 50 q6 34 -6 54" stroke="#7a6f86" stroke-width="2" fill="none" opacity="0.6"/>
+    <line id="thread" x1="958" y1="50" x2="958" y2="150" stroke="#7a6f86" stroke-width="2"/>
+    <g id="spiderBody">
+      <path d="M940 150 q-14 10 -18 2 M940 162 q-16 6 -20 0 M940 174 q-14 12 -18 8" stroke="#2a2440" stroke-width="3" fill="none"/>
+      <path d="M976 150 q14 10 18 2 M976 162 q16 6 20 0 M976 174 q14 12 18 8" stroke="#2a2440" stroke-width="3" fill="none"/>
+      <circle cx="958" cy="164" r="20" fill="#4a4150" stroke="#241a33" stroke-width="3"/>
+      <circle cx="951" cy="160" r="6" fill="#fff7e6"/>
+      <circle cx="965" cy="160" r="6" fill="#fff7e6"/>
+      <circle cx="951" cy="161" r="2.5" fill="#2a2440"/>
+      <circle cx="965" cy="161" r="2.5" fill="#2a2440"/>
+      <path d="M951 172 q7 6 14 0" fill="none" stroke="#241a33" stroke-width="2.5"/>
+    </g>
+  </g>
+
+  <!-- ===================== CRATES (#crates / #crateLid / #toyPeek) ===================== -->
+  <g id="crates" class="hot">
+    <rect x="78" y="366" width="150" height="106" rx="6" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <line x1="88" y1="374" x2="218" y2="464" stroke="#5e3d1c" stroke-width="3"/>
+    <line x1="218" y1="374" x2="88" y2="464" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="98" y="300" width="112" height="70" rx="5" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <g id="toyPeek" opacity="0">
+      <circle cx="154" cy="300" r="14" fill="#f3e7cc" stroke="#5e3d1c" stroke-width="3"/>
+      <circle cx="149" cy="298" r="2.5" fill="#2a2440"/>
+      <circle cx="159" cy="298" r="2.5" fill="#2a2440"/>
+    </g>
+    <rect id="crateLid" x="92" y="290" width="124" height="16" rx="4" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== ROCKING HORSE (#rockhorse) ===================== -->
+  <g id="rockhorse" class="hot">
+    <path d="M404 498 q96 26 192 0" fill="none" stroke="#b07a3c" stroke-width="10"/>
+    <rect x="470" y="436" width="14" height="60" fill="#8a5a2b"/>
+    <rect x="516" y="436" width="14" height="60" fill="#8a5a2b"/>
+    <ellipse cx="500" cy="420" rx="70" ry="30" fill="#ffb43d" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M556 416 q40 -6 40 -44 q6 24 -6 40 q14 0 20 10 l-8 16 q-18 2 -30 -4 Z" fill="#ffb43d" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M560 378 q20 -2 28 8 q-14 2 -20 10 q-6 -10 -8 -18 Z" fill="#e8452f"/>
+    <path d="M450 398 q-10 -16 -24 -14 q8 8 8 20 Z" fill="#e8452f"/>
+    <circle cx="582" cy="392" r="3.5" fill="#2a2440"/>
+    <path d="M444 420 q-28 6 -34 30" fill="none" stroke="#e8452f" stroke-width="8"/>
+  </g>
+
+  <!-- ===================== TEDDY IN TOY BOX (#teddy / #teddyBody / #teddyArm) ===================== -->
+  <g id="teddy" class="hot">
+    <g id="teddyBody">
+      <circle cx="680" cy="420" r="24" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="680" cy="392" r="17" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="669" cy="380" r="6" fill="#8a5a2b"/>
+      <circle cx="691" cy="380" r="6" fill="#8a5a2b"/>
+      <circle cx="674" cy="390" r="2.5" fill="#2a2440"/>
+      <circle cx="686" cy="390" r="2.5" fill="#2a2440"/>
+      <circle cx="680" cy="397" r="3" fill="#2a2440"/>
+    </g>
+    <g id="teddyArm">
+      <ellipse cx="710" cy="408" rx="10" ry="16" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    </g>
+    <rect x="622" y="432" width="116" height="54" rx="6" fill="#e8452f" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="618" y="424" width="124" height="12" rx="4" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== MUSIC BOX (#musicbox / #musicLid / #dancer) ===================== -->
+  <g id="musicbox" class="hot">
+    <g id="dancer" opacity="0">
+      <circle cx="800" cy="400" r="7" fill="#f3e7cc" stroke="#5e3d1c" stroke-width="2"/>
+      <path d="M800 407 L790 432 L810 432 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="2"/>
+    </g>
+    <rect x="732" y="432" width="140" height="42" rx="6" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="750" y="446" width="26" height="22" rx="3" fill="none" stroke="#ffd264" stroke-width="3"/>
+    <g id="musicLid">
+      <rect x="728" y="416" width="148" height="18" rx="5" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    </g>
+    <circle cx="886" cy="452" r="6" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: UP → TAHTITORNI (#navUp) ===================== -->
+  <g id="navUp" class="hot">
+    <rect x="600" y="20" width="128" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="652" y="42" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">tähtitorni</text>
+    <circle cx="712" cy="58" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="698,66 726,66 712,46" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== NAV: DOWN → KIRJASTO (#navDown) ===================== -->
+  <g id="navDown" class="hot">
+    <rect x="860" y="548" width="100" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="910" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">kirjasto</text>
+    <circle cx="978" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="964,532 992,532 978,552" fill="#5e3d1c"/>
+  </g>
+</svg>

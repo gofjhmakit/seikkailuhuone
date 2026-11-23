@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" stroke-linejoin="round" stroke-linecap="round">
+  <!-- hub tile (night-mid, cohesion) -->
+  <rect x="0" y="0" width="240" height="240" rx="28" fill="#342a4e"/>
+  <rect x="3" y="3" width="234" height="234" rx="26" fill="none" stroke="#241a33" stroke-width="6"/>
+  <!-- stars + little moon -->
+  <circle cx="190" cy="60" r="22" fill="#ffd264"/>
+  <circle cx="54" cy="58" r="3" fill="#cfe8ff"/>
+  <circle cx="86" cy="96" r="2.5" fill="#cfe8ff"/>
+  <circle cx="196" cy="128" r="2.5" fill="#cfe8ff"/>
+  <!-- faked flame glow -->
+  <ellipse cx="122" cy="196" rx="30" ry="40" fill="#ff8a4c" opacity="0.2"/>
+  <!-- rocket -->
+  <polygon points="104,100 140,100 122,54" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  <rect x="104" y="100" width="36" height="80" rx="12" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+  <circle cx="122" cy="126" r="11" fill="#7cc0ff" stroke="#fff7e6" stroke-width="3"/>
+  <polygon points="104,154 104,182 84,194" fill="#7a6f86" stroke="#4a4150" stroke-width="3"/>
+  <polygon points="140,154 140,182 160,194" fill="#7a6f86" stroke="#4a4150" stroke-width="3"/>
+  <path d="M108 180 q14 32 28 0 q-3 22 -14 30 q-11 -8 -14 -30 Z" fill="#ffb43d"/>
+  <path d="M114 180 q8 20 16 0 q-2 14 -8 20 q-6 -6 -8 -20 Z" fill="#ffd264"/>
+</svg>

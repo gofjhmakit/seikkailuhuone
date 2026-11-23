@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Taikapata</title>
+<link rel="stylesheet" href="../seikkailu.css">
+<style> #kirja { position:absolute; left:0; top:0; width:1024px; height:600px; } </style>
+</head>
+<body>
+<div id="stage">
+  <svg id="scene" viewBox="0 0 1024 600" width="1024" height="600">
+    <!--SCENE_BG-->
+    <g id="resultArea" pointer-events="none"></g>
+    <text id="hint" x="512" y="206" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">valitse aineksia!</text>
+    <g id="shelf"></g>
+    <g id="controls"></g>
+  </svg>
+
+  <div id="kirja" style="display:none;">
+    <svg id="kirjascene" viewBox="0 0 1024 600" width="1024" height="600">
+      <!--KIRJA_BG-->
+      <text x="512" y="44" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="28" font-weight="800" fill="#ffd264">reseptikirja</text>
+      <text id="kirjaCount" x="880" y="44" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6"></text>
+      <g id="cards"></g>
+      <g id="kirjaControls"></g>
+    </svg>
+  </div>
+
+  <svg id="ingsheet" width="0" height="0" viewBox="0 0 100 130" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--INGSHEET--></svg>
+  <svg id="resultsheet" width="0" height="0" viewBox="0 0 160 160" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--RESULTSHEET--></svg>
+</div>
+
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var T = Seik.logic.taikapata, U = Seik.logic.util;
+
+  var sel = [], busy = false, hintEl, parts;
+  var found = C.store.get("taika_found", {});
+
+  function setHint(t) { if (hintEl.firstChild) hintEl.firstChild.nodeValue = t; else hintEl.appendChild(document.createTextNode(t)); }
+  function lighten(hex, amt) {
+    var r = parseInt(hex.substr(1, 2), 16), g = parseInt(hex.substr(3, 2), 16), b = parseInt(hex.substr(5, 2), 16);
+    function h(n) { n = Math.round(n + (255 - n) * amt); n = n.toString(16); return n.length < 2 ? "0" + n : n; }
+    return "#" + h(r) + h(g) + h(b);
+  }
+  function paintLiquid() {
+    var col = T.mixColour(sel);
+    var liq = C.$("liquid"), sur = C.$("surface");
+    if (liq) liq.setAttribute("fill", col);
+    if (sur) sur.setAttribute("fill", lighten(col, 0.35));
+  }
+  function surfaceBob() {
+    var sur = C.$("surface"); if (!sur) return;
+    A.tween({ duration: 300, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { sur.setAttribute("ry", "" + (18 + 4 * Math.sin(Math.PI * t))); },
+      onDone: function () { sur.setAttribute("ry", "18"); } });
+  }
+
+  /* ---------- ingredients ---------- */
+  function addIng(ing) {
+    if (busy) return;
+    if (sel.length >= 3) { AU.play("pop"); setHint("pata on täynnä!"); return; }
+    sel.push(ing.id); AU.play("glug"); paintLiquid(); surfaceBob();
+    clearResult();
+    setHint("+ " + ing.nimi);
+  }
+
+  /* ---------- stir -> reaction ---------- */
+  function clearResult() { var a = C.$("resultArea"); while (a.firstChild) a.removeChild(a.firstChild); }
+  function showResult(rid) {
+    clearResult();
+    var src = C.$("r-result-" + rid); if (!src) return;
+    var wrap = C.svg("g", {});
+    var c = src.cloneNode(true); c.removeAttribute("id"); wrap.appendChild(c);
+    C.$("resultArea").appendChild(wrap);
+    A.tween({ duration: 2300, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) {
+        var op = t < 0.15 ? t / 0.15 : (t > 0.8 ? (1 - t) / 0.2 : 1);
+        var y = 200 - 26 * Math.min(1, t * 3);
+        wrap.setAttribute("opacity", "" + op);
+        wrap.setAttribute("transform", "translate(512," + y + ") translate(-80,-80)");
+      },
+      onDone: clearResult });
+  }
+  function burst(r) {
+    var i;
+    for (i = 0; i < 20; i++) {
+      parts.emit(512, 250, 1, {
+        angle: -Math.PI / 2 + (Math.random() - 0.5) * 1.6,
+        speed: 3 + Math.random() * 5, life: 1100 + Math.random() * 600,
+        gravity: 0.12, color: U.pick(r.burst), shape: "circle", size: 7 + Math.random() * 6
+      });
+    }
+  }
+  function stir() {
+    if (busy) return;
+    if (!sel.length) { setHint("lisää aineksia ensin!"); return; }
+    busy = true; AU.play("pulp"); surfaceBob();
+    setTimeout(function () {
+      var rid = T.reaction(sel), r = T.results[rid];
+      showResult(rid); burst(r); AU.play(r.snd); setHint(r.msg);
+      if (!found[rid]) {
+        found[rid] = 1; C.store.set("taika_found", found);
+        Seik.celebrate(U.pick(["Uusi resepti!", "Taikaa!", "Hieno!"]));
+      }
+      busy = false;
+    }, 480);
+  }
+  function empty() {
+    if (busy) return;
+    sel = []; AU.play("tyhjenna"); paintLiquid(); clearResult(); setHint("tyhjä pata");
+  }
+
+  /* ---------- build shelf + controls ---------- */
+  function svgText(x, y, str, size, fill) {
+    var t = C.svg("text", { x: x, y: y, "text-anchor": "middle", "font-family": "Comic Sans MS, sans-serif", "font-size": size, "font-weight": "800", fill: fill });
+    t.appendChild(document.createTextNode(str)); return t;
+  }
+  function buildShelf() {
+    var shelf = C.$("shelf"), xs = [92, 197, 302, 407, 512, 617, 722, 827, 932], i;
+    for (i = 0; i < T.ingredients.length; i++) {
+      (function (ing, x) {
+        var src = C.$("i-ing-" + ing.id); if (!src) return;
+        var g = C.svg("g", { "class": "hot" });
+        var w = C.svg("g", { transform: "translate(" + x + ",150) scale(0.78) translate(-50,-130)" });
+        var c = src.cloneNode(true); c.removeAttribute("id"); w.appendChild(c); g.appendChild(w);
+        g.appendChild(svgText(x, 172, ing.nimi, 15, "#fff7e6"));
+        C.tap(g, function () { addIng(ing); });
+        shelf.appendChild(g);
+      })(T.ingredients[i], xs[i]);
+    }
+  }
+  function button(x, y, w, h, rx, label, size, fill, onTap) {
+    var g = C.svg("g", { "class": "hot" });
+    g.appendChild(C.svg("rect", { x: x, y: y, width: w, height: h, rx: rx, fill: fill, stroke: "#c9922f", "stroke-width": 4 }));
+    g.appendChild(svgText(x + w / 2, y + h / 2 + size / 3, label, size, "#5e3d1c"));
+    C.tap(g, onTap); return g;
+  }
+  function circleButton(cx, cy, r, label, size, onTap) {
+    var g = C.svg("g", { "class": "hot" });
+    g.appendChild(C.svg("circle", { cx: cx, cy: cy, r: r, fill: "#ffd264", stroke: "#c9922f", "stroke-width": 5 }));
+    g.appendChild(svgText(cx, cy + size / 3, label, size, "#5e3d1c"));
+    C.tap(g, onTap); return g;
+  }
+  function buildControls() {
+    var ctr = C.$("controls");
+    ctr.appendChild(circleButton(844, 410, 62, "sekoita", 22, stir));
+    ctr.appendChild(button(66, 388, 150, 68, 18, "tyhjennä", 22, "#ffd264", empty));
+    ctr.appendChild(button(432, 548, 160, 46, 16, "reseptikirja", 20, "#ffd264", openKirja));
+  }
+
+  /* ---------- reseptikirja ---------- */
+  function foundCount() { var n = 0, k; for (k in found) { if (found.hasOwnProperty(k)) n++; } return n; }
+  function renderKirja() {
+    var cards = C.$("cards"); while (cards.firstChild) cards.removeChild(cards.firstChild);
+    var xs = [128, 256, 384, 512, 640, 768, 896], ys = [220, 430], i;
+    for (i = 0; i < T.resultOrder.length; i++) {
+      var rid = T.resultOrder[i], cx = xs[i % 7], cy = ys[Math.floor(i / 7)];
+      if (found[rid]) {
+        var src = C.$("r-result-" + rid);
+        if (src) {
+          var w = C.svg("g", { transform: "translate(" + cx + "," + (cy - 16) + ") scale(0.6) translate(-80,-80)" });
+          var c = src.cloneNode(true); c.removeAttribute("id"); w.appendChild(c); cards.appendChild(w);
+        }
+        cards.appendChild(svgText(cx, cy + 56, T.results[rid].nimi, 15, "#5e3d1c"));
+      } else {
+        cards.appendChild(svgText(cx, cy + 10, "?", 44, "#b7aa90"));
+      }
+    }
+    var cnt = C.$("kirjaCount"), txt = foundCount() + " / 14 löydetty";
+    if (cnt.firstChild) cnt.firstChild.nodeValue = txt; else cnt.appendChild(document.createTextNode(txt));
+  }
+  function openKirja() { AU.play("naps"); renderKirja(); C.$("kirja").style.display = "block"; }
+  function closeKirja() { AU.play("naps"); C.$("kirja").style.display = "none"; }
+  function buildKirjaControls() { C.$("kirjaControls").appendChild(button(30, 16, 140, 46, 14, "takaisin", 20, "#ffd264", closeKirja)); }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["glug", "pulp", "pamaus", "hoyry", "kvak", "kimallus", "sateenkaari",
+      "kasva", "kutistu", "pop", "jaa", "poh", "kolise", "tyhjenna", "naps", "success"]);
+    C.addBackButton(); C.addMuteButton();
+    hintEl = C.$("hint");
+    parts = A.Particles({ w: 1024, h: 600, parent: C.$("stage") });
+    buildShelf(); buildControls(); buildKirjaControls();
+    paintLiquid();
+  });
+})();
+</script>
+</body>
+</html>

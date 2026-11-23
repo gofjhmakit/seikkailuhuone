@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- door.svg · hub door/tile for 08 Hassu hirviöpaja · viewBox 0 0 240 240
+     Wood-framed night tile (matches the other 7 door tiles) with a friendly chunky monster
+     face peeking out + a little gold spanner = "a place where you MAKE a cute monster".
+     Flat fills, thick rounded outlines, palette only. No filters. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <!-- wood frame + night tile -->
+    <rect x="8" y="8" width="224" height="224" rx="30" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="24" y="24" width="192" height="192" rx="20" fill="#342a4e" stroke="#241a33"/>
+
+    <!-- two little stars for cosiness -->
+    <path d="M58 56 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#cfe8ff"/>
+    <circle cx="186" cy="60" r="3" fill="#cfe8ff"/>
+
+    <!-- monster face -->
+    <path d="M92 92 q-16 -22 -10 -42 q14 8 20 22 Z" fill="#fff7e6" stroke="#d9c89a"/>
+    <path d="M148 92 q16 -22 10 -42 q-14 8 -20 22 Z" fill="#fff7e6" stroke="#d9c89a"/>
+    <circle cx="120" cy="140" r="64" fill="#46c4a8" stroke="#2e8a76"/>
+    <circle cx="101" cy="128" r="21" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="143" cy="128" r="21" fill="#ffffff" stroke="#2a2440"/>
+    <circle cx="104" cy="131" r="10" fill="#2a2440"/>
+    <circle cx="140" cy="131" r="10" fill="#2a2440"/>
+    <path d="M94 164 q26 26 52 0" fill="none" stroke="#1e5a28" stroke-width="6"/>
+    <polygon points="108,166 114,182 120,166" fill="#ffffff" stroke="#1e5a28" stroke-width="2"/>
+
+    <!-- little spanner (workshop cue), bottom-right -->
+    <g transform="rotate(38 192 192)">
+      <rect x="170" y="186" width="44" height="13" rx="6" fill="#ffd264" stroke="#c9922f"/>
+      <path d="M170 192 a12 12 0 1 0 -4 -9 l8 4 Z" fill="#ffd264" stroke="#c9922f"/>
+    </g>
+  </g>
+</svg>

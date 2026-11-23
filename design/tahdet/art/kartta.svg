@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- kartta.svg · the tähtikartta (collection) · viewBox 0 0 1024 600
+     8 "sky-window" slots. Engine draws each discovered figure's mini line-art (fig-* from
+     figures.svg, scaled) + its name in a window; undiscovered = soft "?". No gradients/filters.
+     WINDOW CENTRES (cols x:190,398,626,834 · rows y:250,440): 8, row-major.
+     Header: title "tähtikartta" centred y~44 + "N / 8 löydetty". takaisin btn (16,16). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600">
+  <rect x="0" y="0" width="1024" height="600" fill="#342a4e"/>
+
+  <!-- a few wall stars -->
+  <g fill="#cfe8ff">
+    <circle cx="80" cy="90" r="2"/>
+    <circle cx="960" cy="110" r="2"/>
+    <circle cx="512" cy="70" r="1.6"/>
+  </g>
+
+  <!-- 8 sky-window slots -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="5">
+    <rect x="100" y="166" width="180" height="168" rx="16" fill="#241a33" stroke="#8a5a2b"/>
+    <rect x="308" y="166" width="180" height="168" rx="16" fill="#241a33" stroke="#8a5a2b"/>
+    <rect x="536" y="166" width="180" height="168" rx="16" fill="#241a33" stroke="#8a5a2b"/>
+    <rect x="744" y="166" width="180" height="168" rx="16" fill="#241a33" stroke="#8a5a2b"/>
+    <rect x="100" y="356" width="180" height="168" rx="16" fill="#241a33" stroke="#8a5a2b"/>
+    <rect x="308" y="356" width="180" height="168" rx="16" fill="#241a33" stroke="#8a5a2b"/>
+    <rect x="536" y="356" width="180" height="168" rx="16" fill="#241a33" stroke="#8a5a2b"/>
+    <rect x="744" y="356" width="180" height="168" rx="16" fill="#241a33" stroke="#8a5a2b"/>
+  </g>
+</svg>

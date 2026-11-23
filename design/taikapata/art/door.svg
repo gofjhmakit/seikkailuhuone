@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- door.svg · hub door/tile for 05 Taikapata · viewBox 0 0 240 240
+     Wood-framed night tile (matches the set): a bubbling cauldron over a little fire, a couple
+     of bubbles and a star. Flat fills, thick rounded outlines, palette only, no filters.
+     Instantly "the potion game" to a 5-year-old. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <!-- frame + night tile -->
+    <rect x="8" y="8" width="224" height="224" rx="30" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="24" y="24" width="192" height="192" rx="20" fill="#342a4e" stroke="#241a33"/>
+
+    <!-- star + bubbles -->
+    <path d="M60 56 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#cfe8ff"/>
+    <circle cx="150" cy="60" r="10" fill="#46c4a8" fill-opacity="0.5" stroke="#2e8a76"/>
+    <circle cx="176" cy="78" r="7" fill="#46c4a8" fill-opacity="0.5" stroke="#2e8a76"/>
+
+    <!-- cauldron -->
+    <path d="M70 108 Q64 176 120 190 Q176 176 170 108 Z" fill="#4a4150" stroke="#2a2440"/>
+    <path id="liquid" d="M80 120 Q78 168 120 180 Q162 168 160 120 Z" fill="#2e8a76" stroke="none"/>
+    <ellipse cx="120" cy="120" rx="42" ry="9" fill="#46c4a8" stroke="none"/>
+    <ellipse cx="120" cy="106" rx="56" ry="12" fill="#7a6f86" stroke="#4a4150"/>
+    <ellipse cx="120" cy="106" rx="42" ry="7" fill="#4a4150" stroke="none"/>
+    <circle cx="112" cy="104" r="6" fill="#cfe8ff" fill-opacity="0.6" stroke="none"/>
+    <circle cx="132" cy="100" r="5" fill="#cfe8ff" fill-opacity="0.6" stroke="none"/>
+
+    <!-- fire + ground -->
+    <ellipse cx="120" cy="206" rx="54" ry="12" fill="#ff8a4c" opacity="0.18" stroke="none"/>
+    <path d="M104 206 q-14 -24 4 -40 q-4 16 8 20 q6 -8 2 -18 q18 14 10 36 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+    <path d="M132 206 q-12 -20 4 -34 q-4 14 6 16 q6 -6 2 -16 q16 12 8 32 Z" fill="#ffd264" stroke="#c9922f"/>
+    <rect x="24" y="200" width="192" height="16" fill="#5e3d1c"/>
+  </g>
+</svg>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- wings.svg · 6 wings + none · shared space 0 0 400 440
+     WING ROOTS = (160,220) left & (240,220) right. Symmetric pair, spreads up-and-out
+     BEHIND the body. Z-order: draw wings FIRST after base-shadow (z=2), behind everything.
+     wing-none is an empty group (engine skips it). Groups marked -flap can be gently
+     rocked (±4deg, ~1.6s ease-in-out, pivot near the roots). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" width="400" height="440">
+
+  <!-- 0 · wing-none -->
+  <g id="wing-none"></g>
+
+  <!-- 1 · wing-nahka · leathery dragon · ember -->
+  <g id="wing-nahka" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="wing-nahka-flap">
+      <path d="M160 220 q-70 -70 -108 -78 q10 26 2 44 q22 -4 30 12 q-18 2 -14 22 q22 -6 30 10 q-16 6 -8 24 q40 -24 76 -30 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+      <path d="M240 220 q70 -70 108 -78 q-10 26 -2 44 q-22 -4 -30 12 q18 2 14 22 q-22 -6 -30 10 q16 6 8 24 q-40 -24 -76 -30 Z" fill="#ff8a4c" stroke="#c75a2a"/>
+    </g>
+  </g>
+
+  <!-- 2 · wing-hoyhen · feathered · star -->
+  <g id="wing-hoyhen" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="wing-hoyhen-flap">
+      <path d="M160 222 q-56 -24 -96 -70 q10 40 6 66 q18 -16 34 -6 q-10 -22 2 -38 q14 20 32 16 q-8 -20 6 -34 q10 24 16 42 Z" fill="#cfe8ff" stroke="#8fb8db"/>
+      <path d="M240 222 q56 -24 96 -70 q-10 40 -6 66 q-18 -16 -34 -6 q10 -22 -2 -38 q-14 20 -32 16 q8 -20 -6 -34 q-10 24 -16 42 Z" fill="#cfe8ff" stroke="#8fb8db"/>
+    </g>
+  </g>
+
+  <!-- 3 · wing-perho · butterfly · gold -->
+  <g id="wing-perho" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="wing-perho-flap">
+      <ellipse cx="108" cy="176" rx="46" ry="38" fill="#ffd264" stroke="#c9922f"/>
+      <ellipse cx="124" cy="244" rx="34" ry="30" fill="#ffb43d" stroke="#c77f1e"/>
+      <ellipse cx="292" cy="176" rx="46" ry="38" fill="#ffd264" stroke="#c9922f"/>
+      <ellipse cx="276" cy="244" rx="34" ry="30" fill="#ffb43d" stroke="#c77f1e"/>
+      <circle cx="108" cy="176" r="10" fill="#e8452f"/>
+      <circle cx="292" cy="176" r="10" fill="#e8452f"/>
+    </g>
+  </g>
+
+  <!-- 4 · wing-surri · tiny bee wings · star -->
+  <g id="wing-surri" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="wing-surri-flap">
+      <ellipse cx="146" cy="192" rx="34" ry="20" fill="#cfe8ff" stroke="#8fb8db" opacity="0.92"/>
+      <ellipse cx="254" cy="192" rx="34" ry="20" fill="#cfe8ff" stroke="#8fb8db" opacity="0.92"/>
+    </g>
+  </g>
+
+  <!-- 5 · wing-porro · fluffy puffs · cream -->
+  <g id="wing-porro" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="wing-porro-flap">
+      <path d="M160 220 q-20 -40 -54 -40 q-36 0 -34 34 q-30 6 -18 36 q40 6 60 -6 q28 -8 46 -24 Z" fill="#fff7e6" stroke="#d9c89a"/>
+      <path d="M240 220 q20 -40 54 -40 q36 0 34 34 q30 6 18 36 q-40 6 -60 -6 q-28 -8 -46 -24 Z" fill="#fff7e6" stroke="#d9c89a"/>
+    </g>
+  </g>
+
+  <!-- 6 · wing-pyorre · propeller · teal · blades spin slowly -->
+  <g id="wing-pyorre" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="wing-pyorre-blade">
+      <ellipse cx="200" cy="150" rx="18" ry="52" fill="#46c4a8" stroke="#2e8a76"/>
+      <ellipse cx="200" cy="150" rx="52" ry="18" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+    <circle cx="200" cy="150" r="14" fill="#c9922f" stroke="#8a5a2b"/>
+  </g>
+
+</svg>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Tähtitaivas</title>
+<style>
+  html,body{margin:0;height:100%;background:#05060f;overflow:hidden;
+    font-family:"Comic Sans MS",system-ui,sans-serif;}
+  #stage{position:absolute;left:50%;top:50%;width:1024px;height:600px;
+    transform:translate(-50%,-50%);transform-origin:center center;
+    background:radial-gradient(circle at 50% 30%,#141a3a,#05060f 75%);
+    border-radius:18px;overflow:hidden;box-shadow:0 0 60px rgba(0,0,0,0.6);}
+  .title{position:absolute;top:16px;left:0;right:0;text-align:center;color:#d0bfff;
+    font-size:34px;font-weight:800;z-index:5;}
+  .hint{position:absolute;top:60px;left:0;right:0;text-align:center;color:#a5d8ff;font-size:24px;z-index:5;}
+  .bg{position:absolute;border-radius:50%;background:#fff;
+    -webkit-animation:tw 4s ease-in-out infinite;animation:tw 4s ease-in-out infinite;}
+  @-webkit-keyframes tw{0%,100%{opacity:.35}50%{opacity:1}}
+  @keyframes tw{0%,100%{opacity:.35}50%{opacity:1}}
+  .cstar{position:absolute;width:56px;height:56px;margin:-28px 0 0 -28px;cursor:pointer;z-index:4;}
+  .cstar svg{width:100%;height:100%;}
+  .num{position:absolute;color:#ffe066;font-size:20px;font-weight:800;z-index:4;
+    pointer-events:none;text-shadow:0 2px 3px #000;}
+  #shoot{position:absolute;width:10px;height:10px;border-radius:50%;background:#fff;
+    box-shadow:0 0 18px 6px rgba(255,255,255,0.6);left:-40px;top:120px;opacity:0;z-index:3;}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="title">tähtikuvio</div>
+  <div class="hint" id="hint">yhdistä tähdet järjestyksessä 1, 2, 3...</div>
+  <svg id="lines" width="1024" height="600" style="position:absolute;left:0;top:0;z-index:2;"></svg>
+  <div id="shoot"></div>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var AC=window.AudioContext||window.webkitAudioContext, ac=AC?new AC():null;
+  function tone(f0,f1,dur,type,vol){
+    if(!ac) return; if(ac.state==="suspended"){try{ac.resume();}catch(e){}}
+    var o=ac.createOscillator(),g=ac.createGain(),t=ac.currentTime;
+    o.type=type||"sine"; o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(1,f1),t+dur);
+    g.gain.setValueAtTime(vol||0.2,t); g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur);
+  }
+  function twinkle(){ tone(1200,1700,0.14,"sine",0.1); }
+  function hoot(){ tone(420,360,0.22,"sine",0.14); setTimeout(function(){tone(380,320,0.26,"sine",0.12);},180); }
+
+  var stage=document.getElementById("stage");
+  function fit(){ var s=Math.min(window.innerWidth/1024,window.innerHeight/600);
+    stage.style.transform="translate(-50%,-50%) scale("+s+")"; }
+  window.addEventListener("resize",fit); fit();
+
+  // calm background stars
+  for(var i=0;i<46;i++){
+    var b=document.createElement("div"); b.className="bg";
+    var sz=1+Math.random()*2.5;
+    b.style.width=sz+"px"; b.style.height=sz+"px";
+    b.style.left=(Math.random()*1004)+"px"; b.style.top=(Math.random()*560)+"px";
+    b.style.animationDuration=(3+Math.random()*3)+"s";
+    b.style.animationDelay=(Math.random()*3)+"s";
+    stage.appendChild(b);
+  }
+
+  // dragon constellation points, in tap order
+  var PTS=[[770,170],[690,215],[585,235],[520,150],[470,290],[360,330],[275,295]];
+  var lines=document.getElementById("lines"), hint=document.getElementById("hint");
+  var next=0, stars=[];
+
+  function starSvg(on){
+    var c=on?"#ffe066":"#6c7aa8";
+    return '<svg viewBox="0 0 56 56"><path d="M28 4 L34 22 L54 22 L38 34 L44 52 L28 40 L12 52 L18 34 L2 22 L22 22 Z" '+
+           'fill="'+c+'" stroke="#fff3bf" stroke-width="'+(on?2:1)+'"/></svg>';
+  }
+
+  for(var p=0;p<PTS.length;p++){
+    var d=document.createElement("div"); d.className="cstar";
+    d.style.left=PTS[p][0]+"px"; d.style.top=PTS[p][1]+"px";
+    d.innerHTML=starSvg(false); d.setAttribute("data-i",p); d.onclick=onStar;
+    stage.appendChild(d); stars.push(d);
+    var lab=document.createElement("div"); lab.className="num";
+    lab.textContent=(p+1); lab.style.left=(PTS[p][0]+18)+"px"; lab.style.top=(PTS[p][1]-34)+"px";
+    stage.appendChild(lab);
+  }
+
+  function onStar(){
+    var i=parseInt(this.getAttribute("data-i"),10);
+    if(i<next){ twinkle(); return; }     // already lit
+    if(i!==next){ hint.textContent="kokeile tähteä "+(next+1); tone(300,240,0.12,"sine",0.1); return; }
+    this.innerHTML=starSvg(true); twinkle();
+    if(next>0){ drawLine(PTS[next-1],PTS[next]); }
+    next++;
+    if(next>=PTS.length){ done(); }
+    else { hint.textContent="hyvä! seuraava on "+(next+1); }
+  }
+
+  function drawLine(a,b){
+    var ns="http://www.w3.org/2000/svg";
+    var ln=document.createElementNS(ns,"line");
+    ln.setAttribute("x1",a[0]); ln.setAttribute("y1",a[1]);
+    ln.setAttribute("x2",a[0]); ln.setAttribute("y2",a[1]);
+    ln.setAttribute("stroke","#ffe066"); ln.setAttribute("stroke-width","3");
+    ln.setAttribute("stroke-linecap","round"); ln.setAttribute("opacity","0.85");
+    lines.appendChild(ln);
+    var t0=Date.now();
+    (function grow(){
+      var k=Math.min(1,(Date.now()-t0)/350);
+      ln.setAttribute("x2", a[0]+(b[0]-a[0])*k);
+      ln.setAttribute("y2", a[1]+(b[1]-a[1])*k);
+      if(k<1){ (window.requestAnimationFrame||setTimeout)(grow,16); }
+    })();
+    tone(500+next*80,700+next*80,0.16,"sine",0.1);
+  }
+
+  function done(){
+    hint.textContent="lohikäärme! löysit sen taivaalta";
+    hoot();
+    tone(660,990,0.35,"sine",0.14);
+  }
+
+  // gentle shooting star now and then (calm, slow glide)
+  var shoot=document.getElementById("shoot");
+  function doShoot(){
+    shoot.style.transition="none"; shoot.style.left="-40px"; shoot.style.top=(60+Math.random()*120)+"px"; shoot.style.opacity="1";
+    tone(1400,500,0.8,"sine",0.06);
+    setTimeout(function(){
+      shoot.style.transition="left 1.8s linear, top 1.8s linear, opacity 1.8s linear";
+      shoot.style.left="1080px"; shoot.style.top=(220+Math.random()*120)+"px"; shoot.style.opacity="0";
+    },30);
+  }
+  setInterval(doShoot, 9000); setTimeout(doShoot, 2500);
+})();
+</script>
+</body>
+</html>

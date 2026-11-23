@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240" width="600" height="240" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ATLAS: 5 destinations. Each <g id="dest_*"> has a local origin at its translate;
+       engine drops it into flight.svg #destinationSlot (and matkakirja #slot). Background
+       + grid are preview-only. -->
+  <rect x="0" y="0" width="600" height="240" fill="#241a33"/>
+  <line x1="200" y1="0" x2="200" y2="240" stroke="#342a4e" stroke-width="2"/>
+  <line x1="400" y1="0" x2="400" y2="240" stroke="#342a4e" stroke-width="2"/>
+  <line x1="0" y1="120" x2="600" y2="120" stroke="#342a4e" stroke-width="2"/>
+
+  <!-- #dest_kuu : smiling moon (local ~84x84) -->
+  <g id="dest_kuu" transform="translate(58,16)">
+    <circle cx="42" cy="44" r="40" fill="#ffd264" stroke="#ffb43d" stroke-width="5"/>
+    <circle cx="24" cy="30" r="8" fill="#ffb43d"/>
+    <circle cx="58" cy="60" r="6" fill="#ffb43d"/>
+    <circle cx="56" cy="24" r="5" fill="#ffb43d"/>
+    <path d="M28 44 q5 5 10 0" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+    <path d="M48 44 q5 5 10 0" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+    <path d="M34 58 q9 7 18 0" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+  </g>
+
+  <!-- #dest_asteroidit : cluster of space rocks (local ~110x80) -->
+  <g id="dest_asteroidit" transform="translate(242,24)">
+    <path d="M18 54 Q10 28 36 24 Q64 20 70 42 Q74 62 48 64 Q24 66 18 54 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <path d="M70 30 Q66 14 86 14 Q106 16 104 34 Q102 48 82 46 Q70 44 70 30 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <circle cx="96" cy="62" r="12" fill="#7a6f86" stroke="#4a4150" stroke-width="3"/>
+    <circle cx="34" cy="44" r="4" fill="#4a4150"/>
+    <circle cx="86" cy="28" r="3" fill="#4a4150"/>
+  </g>
+
+  <!-- #dest_planeetta : ringed planet (local ~130x90) -->
+  <g id="dest_planeetta" transform="translate(432,16)">
+    <circle cx="66" cy="46" r="36" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="5"/>
+    <path d="M44 32 Q58 40 72 34 Q82 46 68 54 Q50 58 42 48 Z" fill="#3aa64a"/>
+    <ellipse cx="66" cy="46" rx="64" ry="16" fill="none" stroke="#ffd264" stroke-width="6"/>
+  </g>
+
+  <!-- #dest_tahti : big bright star (local ~84x84) -->
+  <g id="dest_tahti" transform="translate(58,134)">
+    <circle cx="42" cy="44" r="42" fill="#ffd264" opacity="0.18"/>
+    <path d="M42 4 l12 26 l28 3 l-21 19 l6 28 l-25 -14 l-25 14 l6 -28 l-21 -19 l28 -3 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="4"/>
+  </g>
+
+  <!-- #dest_komeetta : comet with tail + face (local ~130x80) -->
+  <g id="dest_komeetta" transform="translate(236,142)">
+    <path d="M44 40 L128 8 L120 28 L128 48 Z" fill="#7cc0ff" opacity="0.5"/>
+    <circle cx="36" cy="40" r="30" fill="#cfe8ff" stroke="#7cc0ff" stroke-width="5"/>
+    <circle cx="28" cy="34" r="4" fill="#2a2440"/>
+    <circle cx="44" cy="34" r="4" fill="#2a2440"/>
+    <path d="M26 46 q10 8 22 0" fill="none" stroke="#2a2440" stroke-width="3"/>
+  </g>
+</svg>

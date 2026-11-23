@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- pitkäkaula (brontosaurus / long-neck) skeleton. Bone-zones: kallo kaula runko jalat hanta (N=5). -->
+  <g id="skeleton">
+    <ellipse id="digGlow" cx="520" cy="360" rx="346" ry="172" fill="#ffd264" opacity="0"/>
+    <g id="bz_hanta">
+      <path d="M636 340 Q764 324 886 372" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+    </g>
+    <g id="bz_runko">
+      <path d="M360 330 Q500 300 636 340" fill="none" stroke="#f3e7cc" stroke-width="16"/>
+      <path d="M404 330 Q400 388 416 430" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      <path d="M460 322 Q458 388 474 432" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      <path d="M520 322 Q520 388 534 430" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      <path d="M578 330 Q582 384 594 426" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+    </g>
+    <g id="bz_kaula">
+      <path d="M196 236 Q236 300 360 342" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+    </g>
+    <g id="bz_jalat">
+      <path d="M410 340 L404 452 L410 500" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+      <path d="M470 338 L466 452 L472 500" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+      <path d="M560 338 L566 452 L560 500" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+      <path d="M616 340 L622 452 L616 500" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+    </g>
+    <g id="bz_kallo">
+      <path id="skull" d="M170 220 Q202 210 214 226 Q218 242 194 244 Q166 244 162 230 Q162 220 170 220 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+      <circle cx="194" cy="226" r="5" fill="#4a3219"/>
+    </g>
+  </g>
+</svg>

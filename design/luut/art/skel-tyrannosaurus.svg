@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- tyrannosaurus (T. rex) skeleton. Engine injects #skeleton into dig.svg #digContents,
+       under #sandGrid. Bone-zones: kallo selka kylki kasi jalka hanta (N=6). -->
+  <g id="skeleton">
+    <ellipse id="digGlow" cx="520" cy="360" rx="310" ry="170" fill="#ffd264" opacity="0"/>
+    <g id="bz_hanta">
+      <path d="M556 334 Q702 346 858 452" fill="none" stroke="#f3e7cc" stroke-width="15"/>
+    </g>
+    <g id="bz_selka">
+      <path d="M316 300 Q420 250 502 268 Q546 280 560 334" fill="none" stroke="#f3e7cc" stroke-width="16"/>
+    </g>
+    <g id="bz_kylki">
+      <path d="M356 296 Q350 360 368 406" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      <path d="M396 288 Q392 358 410 408" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      <path d="M436 286 Q436 360 452 406" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      <path d="M476 292 Q480 356 494 400" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+    </g>
+    <g id="bz_kasi">
+      <path d="M372 352 q22 10 14 34" fill="none" stroke="#f3e7cc" stroke-width="8"/>
+      <path d="M386 386 l-8 8 M386 386 l8 6" fill="none" stroke="#f3e7cc" stroke-width="5"/>
+    </g>
+    <g id="bz_jalka">
+      <path d="M558 322 L548 412 L524 470" fill="none" stroke="#f3e7cc" stroke-width="15"/>
+      <path d="M524 470 l-22 12 M524 470 l16 14 M524 470 l-2 20" fill="none" stroke="#f3e7cc" stroke-width="8"/>
+    </g>
+    <g id="bz_kallo">
+      <path id="skull" d="M316 302 Q332 262 300 244 Q262 224 214 236 Q176 246 180 272 Q184 296 224 302 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="5"/>
+      <circle cx="250" cy="262" r="10" fill="#4a3219"/>
+      <circle cx="186" cy="270" r="4" fill="#4a3219"/>
+      <g id="jaw">
+        <path d="M198 290 Q240 312 300 300 L300 290 Q244 298 208 280 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+      </g>
+      <polygon points="202,286 206,298 212,285" fill="#f3e7cc" stroke="#b07a3c" stroke-width="1.5"/>
+      <polygon points="224,290 228,302 234,289" fill="#f3e7cc" stroke="#b07a3c" stroke-width="1.5"/>
+      <polygon points="246,292 250,304 256,291" fill="#f3e7cc" stroke="#b07a3c" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

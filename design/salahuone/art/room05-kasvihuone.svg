@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ===================== GREENHOUSE SHELL (glass, bright) ===================== -->
+  <rect x="0" y="0" width="1024" height="452" fill="#a5d8ff"/>
+  <rect x="0" y="452" width="1024" height="148" fill="#5e3d1c"/>
+  <rect x="0" y="444" width="1024" height="12" fill="#4a3219"/>
+  <!-- glass frame beams -->
+  <line x1="256" y1="0" x2="256" y2="452" stroke="#46c4a8" stroke-width="5" opacity="0.7"/>
+  <line x1="512" y1="0" x2="512" y2="452" stroke="#46c4a8" stroke-width="5" opacity="0.7"/>
+  <line x1="768" y1="0" x2="768" y2="452" stroke="#46c4a8" stroke-width="5" opacity="0.7"/>
+  <line x1="0" y1="150" x2="1024" y2="150" stroke="#46c4a8" stroke-width="5" opacity="0.7"/>
+
+  <!-- ===================== GLASS ROOF + SUN (#roof / #sun / #sunGlow) ===================== -->
+  <g id="roof" class="hot">
+    <circle id="sunGlow" cx="150" cy="96" r="78" fill="#ffd264" opacity="0.22"/>
+    <circle id="sun" cx="150" cy="96" r="40" fill="#ffd264" stroke="#ffb43d" stroke-width="5"/>
+  </g>
+
+  <!-- ===================== BIG PLANT (#bigPlant / #bigLeaves) ===================== -->
+  <g id="bigPlant" class="hot">
+    <path d="M120 452 L214 452 L202 540 L132 540 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="112" y="440" width="110" height="16" rx="4" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <g id="bigLeaves">
+      <path d="M167 444 q-60 -26 -48 -110 q54 16 56 108 Z" fill="#2b7d39"/>
+      <path d="M167 444 q60 -26 48 -110 q-54 16 -56 108 Z" fill="#3aa64a"/>
+      <path d="M167 446 q-8 -84 2 -132 q12 48 2 132 Z" fill="#3aa64a"/>
+      <path d="M167 446 q34 -70 86 -84 q-22 50 -70 82 Z" fill="#2b7d39"/>
+    </g>
+  </g>
+
+  <!-- ===================== SNAPPING PLANT (#snapPlant / #snapMouth) ===================== -->
+  <g id="snapPlant" class="hot">
+    <path d="M470 540 L558 540 L548 598 L480 598 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M514 540 q-16 -70 0 -120" fill="none" stroke="#2b7d39" stroke-width="10"/>
+    <path d="M500 452 q-30 2 -40 -14" fill="none" stroke="#2b7d39" stroke-width="8"/>
+    <g id="snapMouth">
+      <path d="M514 420 q-46 -6 -52 -40 q40 10 52 24 Z" fill="#3aa64a" stroke="#2b7d39" stroke-width="4"/>
+      <path d="M514 420 q46 -6 52 -40 q-40 10 -52 24 Z" fill="#46c4a8" stroke="#2b7d39" stroke-width="4"/>
+      <polygon points="470,392 478,404 486,390" fill="#fff7e6"/>
+      <polygon points="542,390 550,404 558,392" fill="#fff7e6"/>
+      <circle cx="498" cy="386" r="6" fill="#fff7e6" stroke="#2b7d39" stroke-width="2"/>
+      <circle cx="530" cy="386" r="6" fill="#fff7e6" stroke="#2b7d39" stroke-width="2"/>
+      <circle cx="498" cy="386" r="2.5" fill="#2a2440"/>
+      <circle cx="530" cy="386" r="2.5" fill="#2a2440"/>
+    </g>
+  </g>
+
+  <!-- ===================== WATERING CAN (#can / #canBody / #flowerBloom) ===================== -->
+  <g id="can" class="hot">
+    <g id="canBody">
+      <path d="M840 452 L940 452 L930 530 L850 530 Z" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="5"/>
+      <path d="M840 470 L792 500 L800 512 L846 486 Z" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="5"/>
+      <path d="M940 466 q24 6 22 40" fill="none" stroke="#7cc0ff" stroke-width="10"/>
+      <ellipse cx="787" cy="504" rx="12" ry="7" fill="#3a4a7a"/>
+    </g>
+    <g id="flowerBloom" opacity="0">
+      <line x1="800" y1="560" x2="800" y2="520" stroke="#2b7d39" stroke-width="5"/>
+      <circle cx="800" cy="512" r="12" fill="#ffd264"/>
+      <circle cx="786" cy="512" r="9" fill="#e8452f"/>
+      <circle cx="814" cy="512" r="9" fill="#e8452f"/>
+      <circle cx="800" cy="500" r="9" fill="#e8452f"/>
+      <circle cx="800" cy="524" r="9" fill="#e8452f"/>
+    </g>
+  </g>
+
+  <!-- ===================== BUTTERFLY (#butterfly) ===================== -->
+  <g id="butterfly" class="hot">
+    <ellipse cx="640" cy="200" rx="5" ry="16" fill="#2a2440"/>
+    <path d="M636 194 q-40 -30 -36 6 q4 24 36 6 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="3"/>
+    <path d="M644 194 q40 -30 36 6 q-4 24 -36 6 Z" fill="#ffb43d" stroke="#e8452f" stroke-width="3"/>
+    <path d="M636 206 q-30 18 -26 40 q20 2 30 -28 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="3"/>
+    <path d="M644 206 q30 18 26 40 q-20 2 -30 -28 Z" fill="#ffb43d" stroke="#e8452f" stroke-width="3"/>
+    <path d="M640 186 q-6 -12 -14 -14 M640 186 q6 -12 14 -14" fill="none" stroke="#2a2440" stroke-width="2.5"/>
+  </g>
+
+  <!-- ===================== FLOWERPOT ROW (#pots) ===================== -->
+  <g id="pots" class="hot">
+    <path d="M300 540 L350 540 L344 592 L306 592 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+    <line x1="325" y1="540" x2="325" y2="500" stroke="#2b7d39" stroke-width="5"/>
+    <circle cx="325" cy="492" r="14" fill="#ffd264" stroke="#ffb43d" stroke-width="3"/>
+    <path d="M360 540 L410 540 L404 592 L366 592 Z" fill="#ffb43d" stroke="#8a5a2b" stroke-width="4"/>
+    <line x1="385" y1="540" x2="385" y2="504" stroke="#2b7d39" stroke-width="5"/>
+    <circle cx="385" cy="496" r="14" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+    <path d="M420 540 L470 540 L464 592 L426 592 Z" fill="#46c4a8" stroke="#2b7d39" stroke-width="4"/>
+    <line x1="445" y1="540" x2="445" y2="502" stroke="#2b7d39" stroke-width="5"/>
+    <circle cx="445" cy="494" r="14" fill="#e8452f" stroke="#8a5a2b" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== SNAIL (#snail) ===================== -->
+  <g id="snail" class="hot">
+    <path d="M636 572 q-10 -18 8 -26 q40 -16 48 20 q6 30 -26 30 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    <circle cx="672" cy="562" r="20" fill="#ffb43d" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="672" cy="562" r="11" fill="none" stroke="#8a5a2b" stroke-width="3"/>
+    <path d="M636 580 q-20 2 -22 -8" fill="none" stroke="#b07a3c" stroke-width="8"/>
+    <line x1="618" y1="572" x2="612" y2="556" stroke="#5e3d1c" stroke-width="3"/>
+    <line x1="626" y1="572" x2="624" y2="554" stroke="#5e3d1c" stroke-width="3"/>
+    <circle cx="612" cy="554" r="3" fill="#2a2440"/>
+    <circle cx="624" cy="553" r="3" fill="#2a2440"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: LEFT → OLOHUONE (#navLeft) ===================== -->
+  <g id="navLeft" class="hot">
+    <rect x="70" y="548" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="130" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">olohuone</text>
+    <circle cx="46" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="54,526 32,540 54,554" fill="#5e3d1c"/>
+  </g>
+</svg>

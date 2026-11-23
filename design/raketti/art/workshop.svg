@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- ===================== PAJA SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <!-- small star window (theme) -->
+  <rect x="612" y="60" width="150" height="110" rx="8" fill="#241a33" stroke="#5e3d1c" stroke-width="8"/>
+  <circle cx="648" cy="92" r="3" fill="#cfe8ff"/>
+  <circle cx="712" cy="110" r="3" fill="#cfe8ff"/>
+  <circle cx="690" cy="78" r="12" fill="#ffd264"/>
+
+  <!-- ===================== LAUNCH PAD + GANTRY ===================== -->
+  <rect x="560" y="452" width="204" height="18" rx="4" fill="#5e3d1c" stroke="#4a3219" stroke-width="4"/>
+  <rect x="572" y="470" width="14" height="40" fill="#4a4150"/>
+  <rect x="738" y="470" width="14" height="40" fill="#4a4150"/>
+  <rect x="770" y="150" width="12" height="310" fill="#7a6f86"/>
+  <line x1="770" y1="210" x2="716" y2="210" stroke="#7a6f86" stroke-width="7"/>
+  <line x1="770" y1="300" x2="716" y2="300" stroke="#7a6f86" stroke-width="7"/>
+  <line x1="770" y1="390" x2="716" y2="390" stroke="#7a6f86" stroke-width="7"/>
+
+  <!-- ===================== ROCKET (#rocketSlot: baked default; engine swaps parts) ===================== -->
+  <g id="rocketSlot" transform="translate(560,110)">
+    <g id="flame" opacity="0">
+      <path d="M74 260 q26 54 52 0 q-4 44 -26 56 q-22 -12 -26 -56 Z" fill="#ff8a4c"/>
+      <path d="M84 260 q16 40 32 0 q-3 30 -16 40 q-13 -10 -16 -40 Z" fill="#ffb43d"/>
+      <path d="M92 260 q8 26 16 0 q-2 18 -8 26 q-6 -8 -8 -26 Z" fill="#ffd264"/>
+    </g>
+    <g id="finsSlot">
+      <polygon points="50,220 50,268 14,278" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+      <polygon points="150,220 150,268 186,278" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    </g>
+    <rect id="rocketBody" x="50" y="60" width="100" height="200" rx="18" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <g id="noseSlot">
+      <polygon points="50,60 150,60 100,6" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    </g>
+    <g id="window">
+      <circle cx="100" cy="130" r="22" fill="#7cc0ff" stroke="#fff7e6" stroke-width="5"/>
+      <circle cx="100" cy="130" r="22" fill="none" stroke="#4a4150" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== CONTROL CONSOLE (left) ===================== -->
+  <rect x="20" y="104" width="288" height="372" rx="16" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+
+  <!-- nokka selector -->
+  <g id="nosePrev" class="hot">
+    <circle cx="52" cy="156" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="60,142 38,156 60,170" fill="#5e3d1c"/>
+  </g>
+  <rect x="86" y="138" width="150" height="36" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+  <text x="161" y="163" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#2a2440" text-anchor="middle">nokka</text>
+  <g id="noseNext" class="hot">
+    <circle cx="276" cy="156" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="268,142 290,156 268,170" fill="#5e3d1c"/>
+  </g>
+
+  <!-- väri selector -->
+  <g id="colorPrev" class="hot">
+    <circle cx="52" cy="268" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="60,254 38,268 60,282" fill="#5e3d1c"/>
+  </g>
+  <rect x="86" y="250" width="150" height="36" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+  <text x="161" y="275" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#2a2440" text-anchor="middle">väri</text>
+  <g id="colorNext" class="hot">
+    <circle cx="276" cy="268" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="268,254 290,268 268,282" fill="#5e3d1c"/>
+  </g>
+
+  <!-- evät selector -->
+  <g id="finPrev" class="hot">
+    <circle cx="52" cy="380" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="60,366 38,380 60,394" fill="#5e3d1c"/>
+  </g>
+  <rect x="86" y="362" width="150" height="36" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+  <text x="161" y="387" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#2a2440" text-anchor="middle">evät</text>
+  <g id="finNext" class="hot">
+    <circle cx="276" cy="380" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="268,366 290,380 268,394" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== LÄHTÖ! BUTTON (#launch) ===================== -->
+  <g id="launch" class="hot">
+    <rect x="536" y="500" width="248" height="70" rx="16" fill="#ffb43d" stroke="#e8452f" stroke-width="6"/>
+    <text x="660" y="548" font-family="Comic Sans MS, sans-serif" font-size="34" font-weight="800" fill="#2a2440" text-anchor="middle">lähtö!</text>
+  </g>
+
+  <!-- ===================== NAV ===================== -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+  <g id="navBook" class="hot">
+    <rect x="824" y="20" width="184" height="40" rx="10" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <rect x="836" y="28" width="28" height="24" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+    <line x1="850" y1="28" x2="850" y2="52" stroke="#2b7d39" stroke-width="2"/>
+    <text x="938" y="48" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#2a2440" text-anchor="middle">matkakirja</text>
+  </g>
+</svg>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Hirvi&#246;paja</title>
+<link rel="stylesheet" href="../seikkailu.css">
+<style>
+  #gallery { position:absolute; left:0; top:0; width:1024px; height:600px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <!-- main workshop scene -->
+  <svg id="scene" viewBox="0 0 1024 600" width="1024" height="600">
+    <!--WORKSHOP_BG-->
+    <g id="monster" transform="translate(312,95)"><g id="monsterInner"></g></g>
+    <rect x="262" y="16" width="500" height="58" rx="18" fill="#241a33" opacity="0.82" stroke="#ffd264" stroke-width="3"/>
+    <text id="mname" x="512" y="56" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="34" font-weight="800" fill="#ffd264">nimi</text>
+    <text id="hint" x="512" y="98" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6">vaihda osia nuolista</text>
+    <g id="controls"></g>
+  </svg>
+
+  <!-- gallery overlay (hidden until opened) -->
+  <div id="gallery" style="display:none;">
+    <svg id="galscene" viewBox="0 0 1024 600" width="1024" height="600">
+      <rect x="0" y="0" width="1024" height="600" fill="#2b2140"/>
+      <text x="512" y="50" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="32" font-weight="800" fill="#ffd264">galleria</text>
+      <g id="galMonster" transform="translate(312,95)"><g id="galInner"></g></g>
+      <text id="galname" x="512" y="548" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="30" font-weight="800" fill="#ffd264"></text>
+      <text id="galempty" x="512" y="300" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="26" font-weight="700" fill="#fff7e6" style="display:none;">Ei viel&#228; otuksia. Tee ja tallenna!</text>
+      <g id="galControls"></g>
+    </svg>
+  </div>
+
+  <!-- hidden source sheet: every part group, ids prefixed p- -->
+  <svg id="partsheet" width="0" height="0" viewBox="0 0 400 440" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--PARTSHEET--></svg>
+</div>
+
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var G = Seik.logic.hirviopaja, U = Seik.logic.util;
+
+  var sel = {};                                  /* current selection per slot */
+  (function () { for (var k in G.defaults) { if (G.defaults.hasOwnProperty(k)) sel[k] = G.defaults[k]; } })();
+
+  var monsterInner, hintEl, nameEl, tapCount = 0;
+  var TIMBRE = { saw: "sawtooth", tri: "triangle", square: "square" };
+
+  /* ---------- build / rebuild the monster from a selection ---------- */
+  function stripIds(node) {
+    if (node.removeAttribute) { node.removeAttribute("id"); }
+    var ch = node.childNodes, i;
+    for (i = 0; i < ch.length; i++) { if (ch[i].nodeType === 1) stripIds(ch[i]); }
+  }
+  function assemble(target, s) {
+    while (target.firstChild) { target.removeChild(target.firstChild); }
+    for (var i = 0; i < G.zOrder.length; i++) {
+      var z = G.zOrder[i];
+      var id = (z === "base-shadow") ? "base-shadow" : s[z];
+      var src = C.$("p-" + id);
+      if (!src) { continue; }
+      var c = src.cloneNode(true);
+      stripIds(c);
+      target.appendChild(c);
+    }
+  }
+
+  /* ---------- gentle animations (bounded, time-based, no loops left running) ---------- */
+  function popMonster() {
+    A.tween({
+      duration: 220, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) {
+        var s = 1 + 0.09 * Math.sin(Math.PI * t);
+        C.$("monsterInner").setAttribute("transform",
+          "translate(200,300) scale(" + s + ") translate(-200,-300)");
+      }
+    });
+  }
+  function hop(big) {
+    var h = big ? 46 : 26;
+    A.tween({
+      duration: big ? 520 : 380, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) {
+        var dy = h * Math.sin(Math.PI * t);
+        C.$("monster").setAttribute("transform", "translate(312," + (95 - dy) + ")");
+      },
+      onDone: function () { C.$("monster").setAttribute("transform", "translate(312,95)"); }
+    });
+  }
+
+  /* ---------- the 3-note voice (pre-baked WAV notes; synth fallback on modern) ---------- */
+  function playVoice(s) {
+    var notes = G.voice(s), i;
+    for (i = 0; i < notes.length; i++) {
+      (function (n, delay) {
+        setTimeout(function () {
+          AU.playOnce("voice_" + n.id, {
+            f0: n.hz, f1: n.hz * (n.timbre === "tri" ? 1.12 : 0.85),
+            type: TIMBRE[n.timbre], dur: n.dur, vol: 0.18
+          });
+        }, delay);
+      })(notes[i], i * 185);
+    }
+  }
+
+  /* ---------- update helpers ---------- */
+  function refresh() {
+    assemble(C.$("monsterInner"), sel);
+    nameEl.firstChild ? (nameEl.firstChild.nodeValue = G.makeName(sel)) : nameEl.appendChild(document.createTextNode(G.makeName(sel)));
+  }
+  function setHint(t) {
+    if (hintEl.firstChild) { hintEl.firstChild.nodeValue = t; }
+    else { hintEl.appendChild(document.createTextNode(t)); }
+  }
+  function swap(slot, dir) {
+    sel[slot] = G.cycle(slot, sel[slot], dir);
+    refresh();
+    AU.play("naps"); setTimeout(function () { AU.play("pulp"); }, 70);
+    popMonster();
+    setHint("vaihda " + G.labels[slot].toLowerCase() + "!");
+  }
+
+  /* ---------- SVG control builders ---------- */
+  function svgText(x, y, str, size, fill) {
+    var t = C.svg("text", { x: x, y: y, "text-anchor": "middle",
+      "font-family": "Comic Sans MS, sans-serif", "font-size": size, "font-weight": "800", fill: fill });
+    t.appendChild(document.createTextNode(str));
+    return t;
+  }
+  function arrowButton(cx, cy, left, onTap) {
+    var g = C.svg("g", { "class": "hot" });
+    g.appendChild(C.svg("circle", { cx: cx, cy: cy, r: 34, fill: "#ffd264", stroke: "#c9922f", "stroke-width": 4 }));
+    var tri = left
+      ? (cx + 10) + "," + (cy - 15) + " " + (cx + 10) + "," + (cy + 15) + " " + (cx - 13) + "," + cy
+      : (cx - 10) + "," + (cy - 15) + " " + (cx - 10) + "," + (cy + 15) + " " + (cx + 13) + "," + cy;
+    g.appendChild(C.svg("polygon", { points: tri, fill: "#5e3d1c" }));
+    C.tap(g, onTap);
+    return g;
+  }
+  function actionButton(cx, label, onTap) {
+    var g = C.svg("g", { "class": "hot" });
+    g.appendChild(C.svg("rect", { x: cx - 85, y: 530, width: 170, height: 56, rx: 16,
+      fill: "#ffd264", stroke: "#c9922f", "stroke-width": 4 }));
+    g.appendChild(svgText(cx, 567, label, 22, "#5e3d1c"));
+    C.tap(g, onTap);
+    return g;
+  }
+
+  var CYC = [
+    { slot: "head", lx: 85, ly: 120, px: 48, nx: 124, ay: 150 },
+    { slot: "body", lx: 85, ly: 228, px: 48, nx: 124, ay: 258 },
+    { slot: "leg",  lx: 85, ly: 336, px: 48, nx: 124, ay: 366 },
+    { slot: "pat",  lx: 85, ly: 444, px: 48, nx: 124, ay: 474 },
+    { slot: "tail", lx: 939, ly: 120, px: 900, nx: 976, ay: 150 },
+    { slot: "wing", lx: 939, ly: 228, px: 900, nx: 976, ay: 258 },
+    { slot: "horn", lx: 939, ly: 336, px: 900, nx: 976, ay: 366 },
+    { slot: "hat",  lx: 939, ly: 444, px: 900, nx: 976, ay: 474 }
+  ];
+
+  function buildControls() {
+    var ctr = C.$("controls"), i;
+    for (i = 0; i < CYC.length; i++) {
+      (function (c) {
+        ctr.appendChild(svgText(c.lx, c.ly, G.labels[c.slot], 22, "#fff7e6"));
+        ctr.appendChild(arrowButton(c.px, c.ay, true, function () { swap(c.slot, -1); }));
+        ctr.appendChild(arrowButton(c.nx, c.ay, false, function () { swap(c.slot, 1); }));
+      })(CYC[i]);
+    }
+    ctr.appendChild(actionButton(210, "YLLÄTYS", surprise));
+    ctr.appendChild(actionButton(415, "HUUDA", shout));
+    ctr.appendChild(actionButton(620, "TALLENNA", save));
+    ctr.appendChild(actionButton(820, "GALLERIA", openGallery));
+  }
+
+  /* ---------- actions ---------- */
+  function shout() { playVoice(sel); hop(false); setHint("se ääntelee!"); }
+  function surprise() {
+    sel = G.randomSel(); refresh();
+    AU.play("taika"); playVoice(sel); popMonster(); hop(false);
+    setHint("yllätys-otus!");
+  }
+  function tapMonster() {
+    tapCount++;
+    if (tapCount >= 5) {
+      tapCount = 0; AU.play("poo"); hop(true); setHint("pöö!");
+    } else {
+      playVoice(sel); hop(false); setHint("huu!");
+    }
+  }
+
+  /* ---------- gallery (paged, one saved monster at a time) ---------- */
+  var KEY = "hirvio_gallery", MAX = 8, galIdx = 0;
+  function loadGallery() { return C.store.get(KEY, []); }
+  function saveGallery(arr) { C.store.set(KEY, arr); }
+  function save() {
+    var arr = loadGallery();
+    arr.push({ sel: sel, name: G.makeName(sel) });
+    while (arr.length > MAX) { arr.shift(); }
+    saveGallery(arr);
+    AU.play("tallenna");
+    Seik.celebrate(U.pick(["Hieno otus!", "Mahtava!", "Hassu!", "Upea otus!"]));
+  }
+  function renderGallery() {
+    var arr = loadGallery();
+    var inner = C.$("galInner"), nameT = C.$("galname"), empty = C.$("galempty");
+    while (inner.firstChild) { inner.removeChild(inner.firstChild); }
+    if (!arr.length) {
+      empty.style.display = "block"; nameT.textContent = "";
+      C.$("galMonster").style.display = "none";
+      return;
+    }
+    empty.style.display = "none"; C.$("galMonster").style.display = "";
+    if (galIdx >= arr.length) { galIdx = arr.length - 1; }
+    if (galIdx < 0) { galIdx = 0; }
+    assemble(inner, arr[galIdx].sel);
+    nameT.textContent = arr[galIdx].name + "  (" + (galIdx + 1) + "/" + arr.length + ")";
+  }
+  function buildGalControls() {
+    var gc = C.$("galControls");
+    gc.appendChild(arrowButton(60, 300, true, function () { galIdx--; renderGallery(); AU.play("naps"); }));
+    gc.appendChild(arrowButton(964, 300, false, function () { galIdx++; renderGallery(); AU.play("naps"); }));
+    gc.appendChild(actionButton(210, "OTA TÄMÄ", function () {
+      var arr = loadGallery(); if (!arr.length) { return; }
+      sel = {}; for (var k in arr[galIdx].sel) { if (arr[galIdx].sel.hasOwnProperty(k)) sel[k] = arr[galIdx].sel[k]; }
+      closeGallery(); refresh(); AU.play("pulp"); setHint("vaihda osia nuolista");
+    }));
+    gc.appendChild(actionButton(620, "POISTA", function () {
+      var arr = loadGallery(); if (!arr.length) { return; }
+      arr.splice(galIdx, 1); saveGallery(arr); renderGallery(); AU.play("naps");
+    }));
+    gc.appendChild(actionButton(820, "TAKAISIN", closeGallery));
+  }
+  function openGallery() { AU.play("naps"); galIdx = 0; renderGallery(); C.$("gallery").style.display = "block"; }
+  function closeGallery() { C.$("gallery").style.display = "none"; }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["naps", "pulp", "taika", "tallenna", "poo", "fiuh", "success"]);
+    C.addBackButton();
+    C.addMuteButton();
+
+    monsterInner = C.$("monsterInner");
+    hintEl = C.$("hint");
+    nameEl = C.$("mname");
+
+    buildControls();
+    buildGalControls();
+    C.tap(C.$("monster"), tapMonster);
+
+    refresh();
+    setHint("vaihda osia nuolista");
+  });
+})();
+</script>
+</body>
+</html>

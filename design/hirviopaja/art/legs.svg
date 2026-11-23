@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- legs.svg · 6 legs · shared space 0 0 400 440
+     FEET on the ground at (165,400) left & (235,400) right. Leg tops tuck under the body
+     (~y340). Z-order: draw legs AFTER tail, BEFORE body (body overlaps the leg tops).
+     leg-pyora wheels are marked for a tiny roll nudge; leg-jousi for a soft bounce. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 440" width="400" height="440">
+
+  <!-- 1 · leg-tassu · round paws · wood-mid -->
+  <g id="leg-tassu" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="150" y="338" width="30" height="52" rx="14" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="220" y="338" width="30" height="52" rx="14" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <ellipse cx="165" cy="396" rx="26" ry="16" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <ellipse cx="235" cy="396" rx="26" ry="16" fill="#8a5a2b" stroke="#5e3d1c"/>
+  </g>
+
+  <!-- 2 · leg-toppo · stubby · stone -->
+  <g id="leg-toppo" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="146" y="352" width="40" height="46" rx="18" fill="#7a6f86" stroke="#4a4150"/>
+    <rect x="214" y="352" width="40" height="46" rx="18" fill="#7a6f86" stroke="#4a4150"/>
+  </g>
+
+  <!-- 3 · leg-kavio · hooves · wood-dark -->
+  <g id="leg-kavio" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="152" y="338" width="26" height="46" rx="10" fill="#5e3d1c" stroke="#3b2611"/>
+    <rect x="222" y="338" width="26" height="46" rx="10" fill="#5e3d1c" stroke="#3b2611"/>
+    <path d="M148 384 l34 0 l-4 16 l-26 0 Z" fill="#3b2611" stroke="#3b2611"/>
+    <path d="M218 384 l34 0 l-4 16 l-26 0 Z" fill="#3b2611" stroke="#3b2611"/>
+  </g>
+
+  <!-- 4 · leg-kynsi · clawed toes · leaf-dark -->
+  <g id="leg-kynsi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="150" y="338" width="30" height="46" rx="12" fill="#2b7d39" stroke="#1e5a28"/>
+    <rect x="220" y="338" width="30" height="46" rx="12" fill="#2b7d39" stroke="#1e5a28"/>
+    <path d="M146 388 l10 10 M165 390 l0 12 M184 388 l-10 10" fill="none" stroke="#1e5a28" stroke-width="6"/>
+    <path d="M216 388 l10 10 M235 390 l0 12 M254 388 l-10 10" fill="none" stroke="#1e5a28" stroke-width="6"/>
+  </g>
+
+  <!-- 5 · leg-jousi · springy coils · teal -->
+  <g id="leg-jousi" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <g id="leg-jousi-l">
+      <path d="M165 340 q-20 10 0 20 q20 10 0 20 q-20 10 0 20" fill="none" stroke="#2e8a76" stroke-width="7"/>
+      <ellipse cx="165" cy="396" rx="24" ry="12" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+    <g id="leg-jousi-r">
+      <path d="M235 340 q-20 10 0 20 q20 10 0 20 q-20 10 0 20" fill="none" stroke="#2e8a76" stroke-width="7"/>
+      <ellipse cx="235" cy="396" rx="24" ry="12" fill="#46c4a8" stroke="#2e8a76"/>
+    </g>
+  </g>
+
+  <!-- 6 · leg-pyora · wheels · stone -->
+  <g id="leg-pyora" stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="158" y="338" width="14" height="30" rx="6" fill="#4a4150" stroke="#4a4150"/>
+    <rect x="228" y="338" width="14" height="30" rx="6" fill="#4a4150" stroke="#4a4150"/>
+    <g id="leg-pyora-l">
+      <circle cx="165" cy="384" r="28" fill="#7a6f86" stroke="#4a4150"/>
+      <circle cx="165" cy="384" r="9" fill="#c9922f" stroke="#8a5a2b"/>
+    </g>
+    <g id="leg-pyora-r">
+      <circle cx="235" cy="384" r="28" fill="#7a6f86" stroke="#4a4150"/>
+      <circle cx="235" cy="384" r="9" fill="#c9922f" stroke="#8a5a2b"/>
+    </g>
+  </g>
+
+</svg>

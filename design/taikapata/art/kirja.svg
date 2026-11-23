@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- kirja.svg · the reseptikirja (collection) · viewBox 0 0 1024 600
+     Warm book with 14 recipe slots (one per result type). Engine draws each discovered
+     result sprite + its name in the slot; undiscovered = soft grey "?". No gradients/filters.
+     SLOT CENTRES (cols x:128,256,384,512,640,768,896 · rows y:220,430): 14, row-major.
+     Header: title "reseptikirja" centred y~44 + "N / 14 löydetty". takaisin btn (16,16). -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600">
+  <!-- wall -->
+  <rect x="0" y="0" width="1024" height="600" fill="#342a4e"/>
+
+  <!-- open book -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="6">
+    <rect x="36" y="80" width="952" height="500" rx="20" fill="#f3e7cc" stroke="#8a5a2b"/>
+    <line x1="512" y1="92" x2="512" y2="568" stroke="#d9c89a" stroke-width="4"/>
+  </g>
+
+  <!-- 14 recipe slot cards -->
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <rect x="72" y="145" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="200" y="145" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="328" y="145" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="456" y="145" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="584" y="145" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="712" y="145" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="840" y="145" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="72" y="355" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="200" y="355" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="328" y="355" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="456" y="355" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="584" y="355" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="712" y="355" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+    <rect x="840" y="355" width="112" height="150" rx="12" fill="#fff7e6" stroke="#d9c89a"/>
+  </g>
+</svg>

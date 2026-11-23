@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Tulivuori</title>
+<style>
+  html,body{margin:0;height:100%;background:#15121c;overflow:hidden;
+    font-family:"Comic Sans MS","Baloo",system-ui,sans-serif;}
+  #stage{position:absolute;left:50%;top:50%;width:1024px;height:600px;margin:0;
+    transform:translate(-50%,-50%);transform-origin:center center;
+    background:linear-gradient(#2a1830,#120a16 70%);border-radius:18px;overflow:hidden;
+    box-shadow:0 0 60px rgba(0,0,0,0.6);}
+  .title{position:absolute;top:18px;left:0;right:0;text-align:center;color:#ffd8a8;
+    font-size:40px;font-weight:800;text-shadow:0 3px 0 rgba(0,0,0,0.35);}
+  .hint{position:absolute;top:74px;left:0;right:0;text-align:center;color:#ffa94d;
+    font-size:26px;}
+  #volc{position:absolute;left:50%;bottom:0;width:560px;height:420px;margin-left:-280px;
+    cursor:pointer;transition:transform .12s;}
+  #lava{position:absolute;left:0;top:0;pointer-events:none;}
+  #meterWrap{position:absolute;left:40px;bottom:40px;width:46px;height:300px;
+    background:#241a2e;border-radius:24px;border:4px solid #4d3b63;overflow:hidden;}
+  #meter{position:absolute;left:0;bottom:0;width:100%;height:0%;
+    background:linear-gradient(#ffd43b,#ff6b00);transition:height .25s ease;}
+  .flyer{position:absolute;font-size:70px;pointer-events:none;}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="title">tulivuori</div>
+  <div class="hint" id="hint">paina vuorta monta kertaa!</div>
+  <div id="meterWrap"><div id="meter"></div></div>
+  <canvas id="lava" width="1024" height="600"></canvas>
+
+  <svg id="volc" viewBox="0 0 560 420">
+    <ellipse cx="280" cy="400" rx="300" ry="34" fill="#1c1322"/>
+    <path d="M60 410 L220 120 Q280 70 340 120 L500 410 Z" fill="#6b4a2b"/>
+    <path d="M60 410 L220 120 Q280 70 340 120 L500 410 Z" fill="#7a5632" opacity="0.5"/>
+    <path d="M150 410 L245 180 L300 260 L360 150 L430 410 Z" fill="#5a3c22"/>
+    <ellipse id="crater" cx="280" cy="128" rx="70" ry="22" fill="#2a1a10"/>
+    <ellipse id="glow" cx="280" cy="128" rx="54" ry="15" fill="#ff7b00" opacity="0"/>
+  </svg>
+</div>
+
+<script>
+"use strict";
+(function(){
+  var AC = window.AudioContext || window.webkitAudioContext;
+  var ac = AC ? new AC() : null;
+  function tone(f0,f1,dur,type,vol){
+    if(!ac) return;
+    if(ac.state==="suspended"){ try{ac.resume();}catch(e){}}
+    var o=ac.createOscillator(), g=ac.createGain(), t=ac.currentTime;
+    o.type=type||"sine"; o.frequency.setValueAtTime(f0,t);
+    o.frequency.exponentialRampToValueAtTime(Math.max(1,f1),t+dur);
+    g.gain.setValueAtTime(vol||0.2,t);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.connect(g); g.connect(ac.destination); o.start(t); o.stop(t+dur);
+  }
+  function rumble(dur,vol){
+    if(!ac) return;
+    if(ac.state==="suspended"){ try{ac.resume();}catch(e){}}
+    var n=Math.floor(ac.sampleRate*dur), buf=ac.createBuffer(1,n,ac.sampleRate);
+    var d=buf.getChannelData(0);
+    for(var i=0;i<n;i++){ d[i]=(Math.random()*2-1)*(1-i/n); }
+    var s=ac.createBufferSource(), g=ac.createGain(), lp=ac.createBiquadFilter();
+    lp.type="lowpass"; lp.frequency.value=320; s.buffer=buf;
+    g.gain.value=vol||0.35;
+    s.connect(lp); lp.connect(g); g.connect(ac.destination); s.start();
+  }
+
+  var stage=document.getElementById("stage");
+  function fit(){ var s=Math.min(window.innerWidth/1024,window.innerHeight/600);
+    stage.style.transform="translate(-50%,-50%) scale("+s+")"; }
+  window.addEventListener("resize",fit); fit();
+
+  var volc=document.getElementById("volc"), glow=document.getElementById("glow");
+  var meter=document.getElementById("meter"), hint=document.getElementById("hint");
+  var cv=document.getElementById("lava"), cx=cv.getContext("2d");
+  var pressure=0, erupting=false, parts=[], startT=0, DUR=2200, tickOn=false;
+  var FLYERS=["🥾","🐙","🐓","👔","🐟","🦆"];
+
+  function now(){ return Date.now?Date.now():(new Date()).getTime(); }
+
+  volc.addEventListener("click", function(){
+    if(erupting) return;
+    pressure=Math.min(100,pressure+14);
+    meter.style.height=pressure+"%";
+    glow.setAttribute("opacity", (pressure/160).toFixed(2));
+    volc.style.transform="translateY(2px)";
+    setTimeout(function(){ volc.style.transform="translateY(0)"; },90);
+    tone(90,70,0.12,"sawtooth",0.14);
+    if(pressure>=100){ erupt(); }
+    else { hint.textContent="paina vielä!"; }
+  });
+
+  function erupt(){
+    erupting=true; hint.textContent="PAM! se purkautuu!";
+    rumble(1.6,0.4); tone(70,40,1.4,"sawtooth",0.25); tone(220,60,0.9,"triangle",0.12);
+    parts=[];
+    var ox=512, oy=175;
+    for(var i=0;i<30;i++){
+      var a=-Math.PI/2+(Math.random()-0.5)*1.1, sp=5+Math.random()*9;
+      parts.push({x:ox,y:oy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,
+        g:0.14+Math.random()*0.08,r:5+Math.random()*9,
+        c:["#ff6b00","#ffd43b","#ff3b30","#ffa94d"][(Math.random()*4)|0]});
+    }
+    startT=now(); if(!tickOn){ tickOn=true; tick(); }
+    launchFlyer(ox,oy);
+    setTimeout(settle,2600);
+  }
+
+  function launchFlyer(ox,oy){
+    var f=document.createElement("div"); f.className="flyer";
+    f.textContent=FLYERS[(Math.random()*FLYERS.length)|0];
+    f.style.left=(ox-35)+"px"; f.style.top=(oy-35)+"px";
+    stage.appendChild(f);
+    var vx=(Math.random()-0.5)*7, vy=-15, y=oy-35, x=ox-35, rot=0, t0=now();
+    function step(){
+      var e=(now()-t0)/16; vy+=0.42; x+=vx; y+=vy; rot+=6;
+      f.style.left=x+"px"; f.style.top=y+"px";
+      f.style.transform="rotate("+rot+"deg)";
+      if(y<640){ (window.requestAnimationFrame||setTimeout)(step,16); }
+      else { if(f.parentNode) f.parentNode.removeChild(f); }
+    }
+    step();
+    tone(500,900,0.25,"square",0.08);
+  }
+
+  function tick(){
+    cx.clearRect(0,0,1024,600);
+    var age=(now()-startT)/DUR, alpha=1-age;
+    if(alpha<=0){ cx.clearRect(0,0,1024,600); tickOn=false; return; }
+    for(var i=0;i<parts.length;i++){
+      var p=parts[i]; p.vy+=p.g; p.x+=p.vx; p.y+=p.vy;
+      cx.globalAlpha=Math.max(0,alpha);
+      cx.fillStyle=p.c; cx.beginPath();
+      cx.arc(p.x,p.y,p.r,0,Math.PI*2); cx.fill();
+    }
+    cx.globalAlpha=1;
+    (window.requestAnimationFrame||setTimeout)(tick,16);
+  }
+
+  function settle(){
+    erupting=false; pressure=0; meter.style.height="0%";
+    glow.setAttribute("opacity","0"); hint.textContent="paina vuorta monta kertaa!";
+    tone(400,500,0.3,"sine",0.08);
+  }
+})();
+</script>
+</body>
+</html>

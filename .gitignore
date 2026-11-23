@@ -1,0 +1,10 @@
+# macOS
+.DS_Store
+
+# Node (test suite is zero-dependency, but just in case)
+node_modules/
+
+# Signing keys — NEVER publish these
+*.keystore
+*.jks
+*.p12

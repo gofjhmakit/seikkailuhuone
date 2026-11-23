@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- door.svg · hub door/tile for 01 Tulivuori · viewBox 0 0 240 240
+     Wood-framed night tile (matches the set) with a chunky erupting volcano: brown cone,
+     an amber/ember lava arc, soft sparks and a little star. Flat fills, thick rounded
+     outlines, palette only, no filters. Instantly "the volcano game" to a 5-year-old. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <!-- frame + night tile -->
+    <rect x="8" y="8" width="224" height="224" rx="30" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="24" y="24" width="192" height="192" rx="20" fill="#342a4e" stroke="#241a33"/>
+
+    <!-- star + sparks -->
+    <path d="M58 60 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#cfe8ff"/>
+    <circle cx="186" cy="64" r="3" fill="#cfe8ff"/>
+
+    <!-- lava arcs out of the crater -->
+    <path d="M120 96 q-26 -36 -44 -40 M120 92 q0 -40 0 -52 M120 96 q26 -36 44 -40" fill="none" stroke="#ff8a4c" stroke-width="7"/>
+    <circle cx="76" cy="54" r="6" fill="#ffd264"/>
+    <circle cx="120" cy="40" r="7" fill="#e8452f"/>
+    <circle cx="164" cy="54" r="6" fill="#ffb43d"/>
+
+    <!-- volcano cone -->
+    <path d="M44 196 L96 112 Q120 92 144 112 L196 196 Z" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <path d="M44 196 L96 112 Q108 100 120 100 L120 196 Z" fill="#b07a3c" opacity="0.5" stroke="none"/>
+    <path d="M104 104 q-10 50 -24 92 M138 104 q10 44 24 92" fill="none" stroke="#ffb43d" stroke-width="7"/>
+    <ellipse cx="120" cy="108" rx="26" ry="8" fill="#2a1a10" stroke="#5e3d1c"/>
+
+    <!-- ground -->
+    <rect x="24" y="192" width="192" height="24" fill="#5e3d1c"/>
+  </g>
+</svg>

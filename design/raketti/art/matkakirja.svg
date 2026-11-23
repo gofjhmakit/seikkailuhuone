@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <!-- MATKAKIRJA (travel book). 5 destination cards + name plaques.
+       #slot{n}: engine injects the destination sprite + a #sticker once visited.
+       #q{n}: "?" placeholder shown until visited. -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <rect x="24" y="360" width="976" height="16" rx="4" fill="#5e3d1c"/>
+
+  <g>
+    <rect x="378" y="22" width="268" height="48" rx="10" fill="#5e3d1c" stroke="#4a3219" stroke-width="4"/>
+    <text x="512" y="56" font-family="Comic Sans MS, sans-serif" font-size="26" font-weight="800" fill="#f3e7cc" text-anchor="middle">matkakirja</text>
+  </g>
+
+  <!-- card 1 : kuu -->
+  <g>
+    <rect x="38" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="slot1"></g>
+    <text id="q1" x="118" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="34" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="118" y="353" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#f3e7cc" text-anchor="middle">kuu</text>
+  </g>
+
+  <!-- card 2 : asteroidit -->
+  <g>
+    <rect x="234" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="slot2"></g>
+    <text id="q2" x="314" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="230" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="314" y="352" font-family="Comic Sans MS, sans-serif" font-size="15" font-weight="700" fill="#f3e7cc" text-anchor="middle">asteroidit</text>
+  </g>
+
+  <!-- card 3 : planeetta -->
+  <g>
+    <rect x="430" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="slot3"></g>
+    <text id="q3" x="510" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="426" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="510" y="353" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#f3e7cc" text-anchor="middle">planeetta</text>
+  </g>
+
+  <!-- card 4 : tähti -->
+  <g>
+    <rect x="626" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="slot4"></g>
+    <text id="q4" x="706" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="622" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="706" y="353" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#f3e7cc" text-anchor="middle">tähti</text>
+  </g>
+
+  <!-- card 5 : komeetta -->
+  <g>
+    <rect x="822" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="slot5"></g>
+    <text id="q5" x="902" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="818" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="902" y="352" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#f3e7cc" text-anchor="middle">komeetta</text>
+  </g>
+
+  <!-- NAV -->
+  <g id="navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+  <g id="navWorkshop" class="hot">
+    <rect x="412" y="498" width="200" height="40" rx="10" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="444,518 424,518 434,506" fill="#5e3d1c"/>
+    <polygon points="434,506 434,530 424,518" fill="#5e3d1c"/>
+    <text x="520" y="526" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#2a2440" text-anchor="middle">pajaan</text>
+  </g>
+</svg>
