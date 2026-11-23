@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" stroke-linejoin="round" stroke-linecap="round">
+  <!-- hub tile background -->
+  <rect x="0" y="0" width="240" height="240" rx="28" fill="#342a4e"/>
+  <rect x="3" y="3" width="234" height="234" rx="26" fill="none" stroke="#241a33" stroke-width="6"/>
+  <!-- warm glow behind door (faked glow: low-opacity solid, NO blur) -->
+  <ellipse cx="120" cy="150" rx="86" ry="96" fill="#ffd264" opacity="0.16"/>
+  <!-- arched door frame -->
+  <path d="M56 222 V112 a64 64 0 0 1 128 0 V222 Z" fill="#5e3d1c"/>
+  <!-- door panel -->
+  <path d="M70 214 V114 a50 50 0 0 1 100 0 V214 Z" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+  <!-- plank seams -->
+  <line x1="104" y1="70" x2="104" y2="210" stroke="#5e3d1c" stroke-width="4"/>
+  <line x1="136" y1="70" x2="136" y2="210" stroke="#5e3d1c" stroke-width="4"/>
+  <!-- keyhole glow (faked, low-opacity solid) -->
+  <circle cx="112" cy="150" r="30" fill="#ffd264" opacity="0.28"/>
+  <!-- keyhole -->
+  <circle cx="112" cy="146" r="13" fill="#ffd264" stroke="#5e3d1c" stroke-width="4"/>
+  <path d="M106 154 L118 154 L123 182 L101 182 Z" fill="#ffd264" stroke="#5e3d1c" stroke-width="4"/>
+  <!-- doorknob -->
+  <circle cx="152" cy="150" r="7" fill="#ffb43d" stroke="#5e3d1c" stroke-width="3"/>
+  <!-- warm light spilling under the door -->
+  <rect x="72" y="214" width="96" height="7" rx="3" fill="#ffd264" opacity="0.7"/>
+  <!-- little storybook star -->
+  <path d="M42 46 l5 13 l14 1 l-11 9 l4 13 l-12 -8 l-12 8 l4 -13 l-11 -9 l14 -1 Z" fill="#cfe8ff" stroke="#7cc0ff" stroke-width="2.5"/>
+</svg>

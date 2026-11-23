@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Salahuone</title>
+<link rel="stylesheet" href="../seikkailu.css">
+<style> .room{ position:absolute; left:0; top:0; display:none; } #hud,#fx{ position:absolute; left:0; top:0; pointer-events:none; } </style>
+</head>
+<body>
+<div id="stage">
+  <!--ROOMS-->
+
+  <svg id="fx" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round"></svg>
+
+  <svg id="hud" viewBox="0 0 1024 600" width="1024" height="600">
+    <rect x="356" y="6" width="312" height="40" rx="14" fill="#241a33" opacity="0.82" stroke="#ffd264" stroke-width="3"/>
+    <text id="hudStars" x="512" y="34" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">tähtikiviä 0/5</text>
+    <rect x="252" y="560" width="520" height="36" rx="14" fill="#241a33" opacity="0.78" stroke="#8a5a2b" stroke-width="2"/>
+    <text id="hudHint" x="512" y="585" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6">tutki taloa — koske kaikkea!</text>
+  </svg>
+
+  <svg id="sprsheet" width="0" height="0" viewBox="0 0 480 480" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--SPRSHEET--></svg>
+  <svg id="trsheet" width="0" height="0" viewBox="0 0 560 280" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--TRSHEET--></svg>
+</div>
+
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var S = Seik.logic.salahuone, U = Seik.logic.util;
+
+  var quest = S.assignQuest();
+  var got = {};                  /* "room/id" -> {star:1,key:1,mouse:1} collected there */
+  var starCount = 0, mouseCount = 0, hasKey = false, chestOpen = false, domeDone = false;
+  var cur = "eteinen", busy = false, dimState = {};
+  var hudStars, hudHint;
+  /* sprite centre offsets (after stripping the atlas translate) */
+  var SPR = { spr_star: [30, 30], spr_key: [45, 22], spr_mouse: [38, 26], spr_cheese: [32, 24] };
+
+  function setHint(t) { if (hudHint.firstChild) hudHint.firstChild.nodeValue = t; else hudHint.appendChild(document.createTextNode(t)); }
+  function setStars() { var t = "tähtikiviä " + starCount + "/5"; if (hudStars.firstChild) hudStars.firstChild.nodeValue = t; else hudStars.appendChild(document.createTextNode(t)); }
+  function id(room, base) { return room + "-" + base; }
+
+  function centerOf(el) {
+    try { var b = el.getBBox(); return { x: b.x + b.width / 2, y: b.y + b.height / 2 }; }
+    catch (e) { return { x: 512, y: 300 }; }
+  }
+  function pop(el) {
+    var c; try { c = centerOf(el); } catch (e) { return; }
+    A.tween({ duration: 220, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { var s = 1 + 0.06 * Math.sin(Math.PI * t); el.setAttribute("transform", "translate(" + c.x + "," + c.y + ") scale(" + s + ") translate(" + (-c.x) + "," + (-c.y) + ")"); },
+      onDone: function () { el.setAttribute("transform", ""); } });
+  }
+
+  /* ---------- fly / reveal a sprite in the #fx layer ---------- */
+  function flySprite(sprId, from, to, snd, stay) {
+    var src = C.$("sp-" + sprId); if (!src) return;
+    var cl = src.cloneNode(true); cl.removeAttribute("transform");
+    var off = SPR[sprId] || [20, 20];
+    var g = C.svg("g", {});
+    g.appendChild(cl); C.$("fx").appendChild(g);
+    function place(x, y, sc) { g.setAttribute("transform", "translate(" + (x - off[0] * sc) + "," + (y - off[1] * sc) + ") scale(" + sc + ")"); }
+    place(from.x, from.y, 1);
+    if (snd) AU.play(snd);
+    A.tween({ duration: 850, from: 0, to: 1, ease: "outCubic",
+      onUpdate: function (t) { place(from.x + (to.x - from.x) * t, from.y + (to.y - from.y) * t, 1 - 0.4 * t); g.setAttribute("opacity", "" + (1 - 0.15 * t)); },
+      onDone: function () { try { C.$("fx").removeChild(g); } catch (e) {} } });
+  }
+  function peekSprite(sprId, at, snd) {
+    var src = C.$("sp-" + sprId); if (!src) return;
+    var cl = src.cloneNode(true); cl.removeAttribute("transform");
+    var off = SPR[sprId] || [20, 20];
+    var g = C.svg("g", {}); g.appendChild(cl); C.$("fx").appendChild(g);
+    if (snd) AU.play(snd);
+    A.tween({ duration: 1200, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { var dy = -16 * Math.sin(Math.PI * t); g.setAttribute("transform", "translate(" + (at.x - off[0]) + "," + (at.y - off[1] + dy) + ")"); g.setAttribute("opacity", "" + (t < 0.2 ? t / 0.2 : (t > 0.8 ? (1 - t) / 0.2 : 1))); },
+      onDone: function () { try { C.$("fx").removeChild(g); } catch (e) {} } });
+  }
+
+  /* ---------- a hotspot was tapped ---------- */
+  function onReact(room, base, r, el) {
+    if (r) { AU.play(r.s); setHint(r.t); }
+    pop(el);
+    checkNiche(room, base, el);
+  }
+  function checkNiche(room, base, el) {
+    var k = S.key(room, base), items = quest.assign[k]; if (!items) return;
+    got[k] = got[k] || {};
+    var c = centerOf(el), i;
+    for (i = 0; i < items.length; i++) {
+      var type = items[i]; if (got[k][type]) continue; got[k][type] = 1;
+      if (type === "star") {
+        starCount++; setStars(); flySprite("spr_star", c, { x: 512, y: 26 }, "chime");
+        setHint(starCount >= 5 ? "kaikki 5! vie ne tähtitorniin!" : "tähtikivi! (" + starCount + "/5)");
+      } else if (type === "key") {
+        hasKey = true; flySprite("spr_key", c, { x: 90, y: 560 }, "chime"); setHint("löysit avaimen!");
+      } else if (type === "mouse") {
+        mouseCount++; peekSprite("spr_mouse", c, "chime");
+        if (mouseCount >= 3) { peekSprite("spr_cheese", { x: 512, y: 300 }, "chime"); setHint("kolme hiirtä löytyi!"); }
+        else { setHint("piip! hiiri (" + mouseCount + "/3)"); }
+      }
+    }
+  }
+
+  /* ---------- specials ---------- */
+  function onTaskBoard(el) { AU.play("tap"); pop(el); setHint("etsi 5 tähtikiveä! (" + starCount + "/5)"); }
+  function onClue(el) { AU.play("tap"); pop(el); setHint(quest.keyClue); }
+  function onChest(el) {
+    if (chestOpen) { pop(el); return; }
+    if (!hasKey) { AU.play("creak"); pop(el); setHint("lukossa. tarvitaan avain."); return; }
+    chestOpen = true; AU.play("unlock"); pop(el);
+    var c = centerOf(el);
+    peekSprite("spr_star", c, null); /* little sparkle placeholder */
+    setHint("avain sopii! " + quest.treasure.nimi + "!");
+    var src = C.$("tr-" + quest.treasure.id);
+    if (src) { var cl = src.cloneNode(true); cl.removeAttribute("transform"); var g = C.svg("g", {}); g.appendChild(cl); C.$("fx").appendChild(g);
+      A.tween({ duration: 700, from: 0, to: 1, ease: "outCubic",
+        onUpdate: function (t) { g.setAttribute("transform", "translate(" + (c.x - 50) + "," + (c.y - 40 - 50 * t) + ")"); g.setAttribute("opacity", "" + Math.min(1, t * 2)); } }); }
+    Seik.celebrate("löysit aarteen!");
+  }
+  function onDome(el) {
+    if (domeDone) { pop(el); return; }
+    if (starCount < 5) { AU.play("chime"); pop(el); setHint("löydä ensin 5 tähtikiveä."); return; }
+    domeDone = true; pop(el);
+    var cvs = A.Particles({ w: 1024, h: 600, parent: C.$("stage") }), i;
+    for (i = 0; i < 24; i++) { cvs.emit(300 + Math.random() * 424, 120 + Math.random() * 120, 1, { angle: Math.random() * Math.PI * 2, speed: 1 + Math.random() * 3, life: 1400 + Math.random() * 600, gravity: -0.01, color: U.pick(["#ffd264", "#cfe8ff", "#7cc0ff", "#fff7e6"]), shape: "circle", size: 6 + Math.random() * 6 }); }
+    setHint("lohikäärme lentää! katso ylös!");
+    Seik.celebrate("sinä löysit kaikki tähtikivet!");
+  }
+
+  /* ---------- light toggle ---------- */
+  function toggleLight(room, el) {
+    var dim = C.$(id(room, "dim")); if (!dim) { pop(el); return; }
+    dimState[room] = !dimState[room];
+    dim.setAttribute("opacity", dimState[room] ? "0.45" : "0");
+    AU.play("tap"); pop(el);
+    setHint(dimState[room] ? "pimeää." : "valo syttyi!");
+  }
+
+  /* ---------- navigation ---------- */
+  function showRoom(slug, fade) {
+    var el = C.$("scene-" + slug); if (!el) return;
+    el.style.display = "block";
+    if (fade) { el.style.opacity = "0"; A.tween({ duration: 380, from: 0, to: 1, ease: "linear", onUpdate: function (v) { el.style.opacity = "" + v; } }); }
+    else { el.style.opacity = "1"; }
+    cur = slug;
+  }
+  function navTo(target) {
+    if (busy || target === cur) return; busy = true;
+    AU.play("creak");
+    var old = C.$("scene-" + cur);
+    A.tween({ duration: 300, from: 1, to: 0, ease: "linear",
+      onUpdate: function (v) { if (old) old.style.opacity = "" + v; },
+      onDone: function () { if (old) old.style.display = "none"; showRoom(target, true); busy = false; } });
+  }
+
+  /* ---------- wire a room's hotspots ---------- */
+  function wireRoom(slug) {
+    var navmap = S.nav[slug] || {}, b;
+    for (b in navmap) { if (!navmap.hasOwnProperty(b)) continue; (function (base, target) { var e = C.$(id(slug, base)); if (e) C.tap(e, function () { navTo(target); }); })(b, navmap[b]); }
+    var rr = S.react[slug] || {};
+    for (b in rr) { if (!rr.hasOwnProperty(b)) continue; (function (base, r) { var e = C.$(id(slug, base)); if (e) C.tap(e, function () { onReact(slug, base, r, e); }); })(b, rr[b]); }
+    if (S.lights[slug]) { var le = C.$(id(slug, S.lights[slug])); if (le) C.tap(le, function () { toggleLight(slug, le); }); }
+  }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["tap", "creak", "chime", "rustle", "meow", "cuckoo", "ribbit", "snore", "hoot",
+      "horse", "musicbox", "fire", "unlock", "boil", "whistle", "drip", "clatter", "gear", "beep",
+      "roar", "rattle", "chomp", "whir", "whoosh", "success"]);
+    C.addMuteButton();
+    hudStars = C.$("hudStars"); hudHint = C.$("hudHint");
+    var i; for (i = 0; i < S.rooms.length; i++) { wireRoom(S.rooms[i]); }
+    /* specials */
+    var tb = C.$(id("eteinen", "taskBoard")); if (tb) C.tap(tb, function () { onTaskBoard(tb); });
+    var cn = C.$(id("eteinen", "clueNote")); if (cn) C.tap(cn, function () { onClue(cn); });
+    var ch = C.$(id("kellari", "bigchest")); if (ch) C.tap(ch, function () { onChest(ch); });
+    var dm = C.$(id("tahtitorni", "skyDome")); if (dm) C.tap(dm, function () { onDome(dm); });
+    showRoom("eteinen", false);
+  });
+})();
+</script>
+</body>
+</html>

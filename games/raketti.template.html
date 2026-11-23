@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Rakettipaja</title>
+<link rel="stylesheet" href="../seikkailu.css">
+<style> #flight, #matka { position:absolute; left:0; top:0; width:1024px; height:600px; } </style>
+</head>
+<body>
+<div id="stage">
+  <svg id="workshopscene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+    <!--WORKSHOP_BG-->
+    <text id="wsHint" x="512" y="40" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">rakenna raketti!</text>
+  </svg>
+
+  <div id="flight" style="display:none;">
+    <svg id="flightscene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+      <!--FLIGHT_BG-->
+      <text id="flHint" x="512" y="40" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">matkalla...</text>
+      <text id="flName" x="512" y="470" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="34" font-weight="800" fill="#ffd264" opacity="0"></text>
+    </svg>
+  </div>
+
+  <div id="matka" style="display:none;">
+    <svg id="matkascene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+      <!--MATKAKIRJA_BG-->
+      <text id="matkaCount" x="512" y="402" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6"></text>
+    </svg>
+  </div>
+
+  <svg id="partsheet" width="0" height="0" viewBox="0 0 200 340" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--PARTSHEET--></svg>
+  <svg id="destsheet" width="0" height="0" viewBox="0 0 600 240" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--DESTSHEET--></svg>
+  <svg id="extrasheet" width="0" height="0" viewBox="0 0 300 150" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--EXTRASHEET--></svg>
+</div>
+
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var R = Seik.logic.raketti, U = Seik.logic.util;
+
+  var sel = { nose: 0, color: 0, fins: 0 };
+  var wsFlame, flFlame, parts, busy = false, climbJob = null, emitting = false;
+
+  function clone(id) { var s = C.$(id); return s ? s.cloneNode(true) : null; }
+  function stripIds(n) { if (n.removeAttribute) n.removeAttribute("id"); var ch = n.childNodes, i; for (i = 0; i < ch.length; i++) { if (ch[i].nodeType === 1) stripIds(ch[i]); } }
+  function setText(el, t) { if (el.firstChild) el.firstChild.nodeValue = t; else el.appendChild(document.createTextNode(t)); }
+
+  /* ---------- build the rocket into a slot (compose: flame, fins, body, nose, window) ---------- */
+  function buildRocket(slot) {
+    while (slot.firstChild) slot.removeChild(slot.firstChild);
+    var flame = clone("rp-flame");
+    var fins = clone("rp-fins_" + R.fins[sel.fins].id);
+    var body = clone("rp-body"); if (body) body.setAttribute("fill", R.colors[sel.color].hex);
+    var nose = clone("rp-nose_" + R.noses[sel.nose].id);
+    var win = clone("rp-window");
+    var list = [flame, fins, body, nose, win], i;
+    for (i = 0; i < list.length; i++) { if (list[i]) { slot.appendChild(list[i]); } }
+    if (flame) { stripIds(flame); flame.setAttribute("opacity", "0"); }
+    stripIds(fins || slot); if (body) stripIds(body); if (nose) stripIds(nose); if (win) stripIds(win);
+    return flame;
+  }
+
+  /* ---------- workshop ---------- */
+  function wsHint() { setText(C.$("wsHint"), "nokka: " + R.noses[sel.nose].nimi + " · väri: " + R.colors[sel.color].nimi + " · evät: " + R.fins[sel.fins].nimi); }
+  function rebuildWs() { wsFlame = buildRocket(C.$("ws-rocketSlot")); }
+  function bounce() {
+    var slot = C.$("ws-rocketSlot");
+    A.tween({ duration: 220, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { var s = 1 + 0.05 * Math.sin(Math.PI * t); slot.setAttribute("transform", "translate(560,110) translate(100,260) scale(" + s + ") translate(-100,-260)"); },
+      onDone: function () { slot.setAttribute("transform", "translate(560,110)"); } });
+  }
+  function change(part, dir) {
+    if (busy) return;
+    var arr = (part === "nose" ? R.noses : part === "color" ? R.colors : R.fins);
+    sel[part] = (sel[part] + dir + arr.length) % arr.length;
+    rebuildWs(); AU.play("clunk"); bounce(); wsHint();
+  }
+  function launch() {
+    if (busy) return; busy = true;
+    if (wsFlame) wsFlame.setAttribute("opacity", "1");
+    AU.play("rumble"); AU.play("whoosh");
+    var i; for (i = 0; i < 12; i++) { parts.emit(660, 372, 1, { angle: Math.PI / 2 + (Math.random() - 0.5) * 0.7, speed: 2 + Math.random() * 3, life: 500, gravity: 0.05, color: U.pick(["#ff8a4c", "#ffb43d", "#ffd264"]), shape: "circle", size: 6 + Math.random() * 5 }); }
+    var slot = C.$("ws-rocketSlot");
+    A.tween({ duration: 560, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { slot.setAttribute("transform", "translate(" + (560 + 2 * Math.sin(t * Math.PI * 8)) + ",110)"); },
+      onDone: function () {
+        slot.setAttribute("transform", "translate(560,110)");
+        if (wsFlame) wsFlame.setAttribute("opacity", "0");
+        if (U.chance(1 / 6)) { chickenGag(); } else { goFlight(); }
+      } });
+  }
+  function chickenGag() {
+    var ch = clone("rx-chicken"); if (!ch) { busy = false; return; }
+    stripIds(ch);
+    var wrap = C.svg("g", { transform: "translate(579,400)" });
+    wrap.appendChild(ch); C.$("workshopscene").appendChild(wrap);
+    AU.play("pop"); setText(C.$("wsHint"), "pöö! kana karkasi!");
+    A.tween({ duration: 400, from: 0, to: 1, ease: "outBack",
+      onUpdate: function (t) { wrap.setAttribute("transform", "translate(579," + (400 - 40 * t) + ")"); },
+      onDone: function () {
+        AU.play("cluck");
+        A.tween({ duration: 1300, from: 0, to: 1, ease: "linear",
+          onUpdate: function (t) { wrap.setAttribute("transform", "translate(" + (579 + 560 * t) + "," + (360 - 10 * Math.sin(t * Math.PI * 6)) + ")"); },
+          onDone: function () { try { C.$("workshopscene").removeChild(wrap); } catch (e) {} busy = false; wsHint(); } });
+      } });
+  }
+
+  /* ---------- flight ---------- */
+  function goFlight() {
+    C.$("flight").style.display = "block";
+    C.$("workshopscene").style.display = "none";
+    setText(C.$("flHint"), "matkalla...");
+    C.$("flName").setAttribute("opacity", "0");
+    var destSlot = C.$("fl-destinationSlot"); while (destSlot.firstChild) destSlot.removeChild(destSlot.firstChild);
+    var slot = C.$("fl-rocketSlot");
+    flFlame = buildRocket(slot);
+    if (flFlame) flFlame.setAttribute("opacity", "1");
+    slot.setAttribute("transform", "translate(412,320)");
+    var field = C.$("fl-starfield");
+    emitting = true;
+    climbJob = A.tween({
+      duration: 3500, from: 0, to: 1, ease: "outCubic",
+      onUpdate: function (t) {
+        var y = 320 + (70 - 320) * t;
+        slot.setAttribute("transform", "translate(412," + y + ")");
+        if (field) field.setAttribute("transform", "translate(0," + (260 * t) + ")");
+        if (emitting && Math.random() < 0.9) { parts.emit(512, y + 258, 1, { angle: Math.PI / 2 + (Math.random() - 0.5) * 0.6, speed: 2 + Math.random() * 3, life: 450, gravity: 0.04, color: U.pick(["#ff8a4c", "#ffb43d", "#ffd264"]), shape: "circle", size: 6 + Math.random() * 4 }); }
+      },
+      onDone: function () { emitting = false; if (flFlame) flFlame.setAttribute("opacity", "0"); arrive(); }
+    });
+  }
+  function arrive() {
+    var dest = R.randomDestination();
+    var src = clone("rd-dest_" + dest.id); if (!src) { busy = false; return; }
+    stripIds(src);
+    var wrap = C.svg("g", {});
+    wrap.appendChild(src); C.$("fl-destinationSlot").appendChild(wrap);
+    A.tween({ duration: 500, from: 0, to: 1, ease: "outBack",
+      onUpdate: function (t) { var s = 0.6 + 0.4 * t; wrap.setAttribute("opacity", "" + Math.min(1, t * 2)); wrap.setAttribute("transform", "translate(512," + 120 + ") scale(" + s + ") translate(" + (-dest.ac[0]) + "," + (-dest.ac[1]) + ")"); } });
+    AU.play("success");
+    setText(C.$("flHint"), "perillä!");
+    var nm = C.$("flName"); setText(nm, dest.nimi); nm.setAttribute("opacity", "1");
+    var isNew = !loadFound()[dest.id];
+    addFound(dest.id);
+    if (isNew) { Seik.celebrate(dest.nimi + "!"); }
+    busy = false;
+  }
+  function backToWorkshop() {
+    emitting = false; if (climbJob) climbJob.cancel();
+    C.$("flight").style.display = "none"; C.$("workshopscene").style.display = "";
+    rebuildWs(); busy = false; wsHint();
+  }
+
+  /* ---------- matkakirja ---------- */
+  var KEY = "raketti_found";
+  function loadFound() { return C.store.get(KEY, {}); }
+  function addFound(id) { var f = loadFound(); f[id] = 1; C.store.set(KEY, f); }
+  function renderMatka() {
+    var f = loadFound(), i, n = 0, xs = [118, 314, 510, 706, 902];
+    for (i = 0; i < R.destinations.length; i++) {
+      var d = R.destinations[i], slot = C.$("mk-slot" + (i + 1)), q = C.$("mk-q" + (i + 1));
+      while (slot && slot.firstChild) slot.removeChild(slot.firstChild);
+      if (f[d.id]) {
+        n++; if (q) q.setAttribute("opacity", "0");
+        var src = clone("rd-dest_" + d.id);
+        if (src && slot) { stripIds(src); var g = C.svg("g", { transform: "translate(" + xs[i] + ",238) scale(0.8) translate(" + (-d.ac[0]) + "," + (-d.ac[1]) + ")" }); g.appendChild(src); slot.appendChild(g); }
+        var st = clone("rx-sticker");
+        if (st && slot) { stripIds(st); var gs = C.svg("g", { transform: "translate(" + (xs[i] + 48) + ",188) scale(0.5) translate(-40,-40)" }); gs.appendChild(st); slot.appendChild(gs); }
+      } else if (q) { q.setAttribute("opacity", "1"); }
+    }
+    setText(C.$("matkaCount"), n + " / 5 paikkaa");
+  }
+  function openMatka() { AU.play("page"); renderMatka(); C.$("matka").style.display = "block"; }
+  function closeMatka() { AU.play("page"); C.$("matka").style.display = "none"; }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["clunk", "rumble", "whoosh", "pop", "cluck", "chime", "tap", "page", "success"]);
+    C.addMuteButton();
+    parts = A.Particles({ w: 1024, h: 600, parent: C.$("stage") });
+    rebuildWs(); wsHint();
+    function tap(id, fn) { var e = C.$(id); if (e) C.tap(e, fn); }
+    tap("ws-nosePrev", function () { change("nose", -1); }); tap("ws-noseNext", function () { change("nose", 1); });
+    tap("ws-colorPrev", function () { change("color", -1); }); tap("ws-colorNext", function () { change("color", 1); });
+    tap("ws-finPrev", function () { change("fins", -1); }); tap("ws-finNext", function () { change("fins", 1); });
+    tap("ws-launch", launch);
+    tap("ws-navHome", function () { AU.play("tap"); C.hub(); });
+    tap("ws-navBook", openMatka);
+    tap("fl-navWorkshop", backToWorkshop);
+    tap("fl-navHome", function () { AU.play("tap"); C.hub(); });
+    tap("mk-navWorkshop", function () { closeMatka(); });
+    tap("mk-navHome", function () { AU.play("tap"); C.hub(); });
+  });
+})();
+</script>
+</body>
+</html>

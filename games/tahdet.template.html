@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>T&#228;hdet</title>
+<link rel="stylesheet" href="../seikkailu.css">
+<style> #kartta { position:absolute; left:0; top:0; width:1024px; height:600px; } </style>
+</head>
+<body>
+<div id="stage">
+  <svg id="scene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+    <!--SKY_BG-->
+    <g id="figGlow"></g>
+    <g id="lines"></g>
+    <g id="puzStars"></g>
+    <text id="hint" x="512" y="40" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">yhdist&#228; t&#228;hdet j&#228;rjestyksess&#228;</text>
+    <text id="figName" x="512" y="560" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="34" font-weight="800" fill="#ffd264" opacity="0"></text>
+    <g id="controls"></g>
+  </svg>
+
+  <div id="kartta" style="display:none;">
+    <svg id="karttascene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+      <!--KARTTA_BG-->
+      <text x="512" y="44" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="28" font-weight="800" fill="#ffd264">t&#228;htikartta</text>
+      <text id="karttaCount" x="890" y="44" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6"></text>
+      <g id="windows"></g>
+      <g id="karttaControls"></g>
+    </svg>
+  </div>
+</div>
+
+<script src="../content/logic.js"></script>
+<script src="../engine/core.js"></script>
+<script src="../engine/anim.js"></script>
+<script src="../engine/audio.js"></script>
+<script src="../engine/celebrate.js"></script>
+<script>
+(function () {
+  "use strict";
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var T = Seik.logic.tahdet, U = Seik.logic.util;
+
+  var figIndex = 0, curFig, nextIdx, done, hintEl, nameEl;
+  var starCircle = [], starGlow = [];
+
+  function setHint(t) { if (hintEl.firstChild) hintEl.firstChild.nodeValue = t; else hintEl.appendChild(document.createTextNode(t)); }
+  function clear(id) { var g = C.$(id); while (g.firstChild) g.removeChild(g.firstChild); }
+
+  function svgText(x, y, str, size, fill) {
+    var t = C.svg("text", { x: x, y: y, "text-anchor": "middle", "font-family": "Comic Sans MS, sans-serif", "font-size": size, "font-weight": "800", fill: fill });
+    t.appendChild(document.createTextNode(str)); return t;
+  }
+
+  /* ---------- draw a figure's puzzle stars ---------- */
+  function drawStar(i, x, y) {
+    var g = C.svg("g", { "class": "hot" });
+    var glow = C.svg("circle", { cx: x, cy: y, r: 18, fill: "#ffd264", opacity: "0" });
+    var dot = C.svg("circle", { cx: x, cy: y, r: 11, fill: "#7a6f86", stroke: "#4a4150", "stroke-width": 3 });
+    var num = svgText(x, y + 5, "" + (i + 1), 14, "#2a2440");
+    g.appendChild(glow); g.appendChild(dot); g.appendChild(num);
+    C.tap(g, function () { tapStar(i); });
+    C.$("puzStars").appendChild(g);
+    starCircle[i] = dot; starGlow[i] = glow;
+  }
+  function startFigure(fig) {
+    curFig = fig; nextIdx = 0; done = false;
+    clear("lines"); clear("figGlow"); clear("puzStars");
+    starCircle = []; starGlow = [];
+    nameEl.setAttribute("opacity", "0");
+    var i;
+    for (i = 0; i < fig.coords.length; i++) { drawStar(i, fig.coords[i][0], fig.coords[i][1]); }
+    setHint("yhdistä tähdet: aloita 1:stä");
+  }
+
+  function popStar(i) {
+    var dot = starCircle[i]; if (!dot) return;
+    var x = +dot.getAttribute("cx"), y = +dot.getAttribute("cy");
+    A.tween({ duration: 240, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { dot.setAttribute("r", "" + (11 + 3 * Math.sin(Math.PI * t))); },
+      onDone: function () { dot.setAttribute("r", "11"); } });
+  }
+  function lightStar(i) {
+    starCircle[i].setAttribute("fill", "#ffd264"); starCircle[i].setAttribute("stroke", "#fff7e6");
+    starGlow[i].setAttribute("opacity", "0.3"); popStar(i);
+  }
+  function growLine(a, b, parent, width, color, op) {
+    var ln = C.svg("line", { x1: a[0], y1: a[1], x2: a[0], y2: a[1], stroke: color, "stroke-width": width, "stroke-linecap": "round", opacity: (op == null ? 1 : op) });
+    (parent || C.$("lines")).appendChild(ln);
+    A.tween({ duration: 220, from: 0, to: 1, ease: "outCubic",
+      onUpdate: function (t) { ln.setAttribute("x2", "" + (a[0] + (b[0] - a[0]) * t)); ln.setAttribute("y2", "" + (a[1] + (b[1] - a[1]) * t)); } });
+    return ln;
+  }
+  function tapStar(i) {
+    if (done) return;
+    if (i === nextIdx) {
+      lightStar(i); AU.play("twinkle");
+      if (nextIdx > 0) { growLine(curFig.coords[nextIdx - 1], curFig.coords[nextIdx]); AU.play("line"); }
+      nextIdx++;
+      if (nextIdx >= curFig.coords.length) {
+        if (curFig.closed) { growLine(curFig.coords[curFig.coords.length - 1], curFig.coords[0]); }
+        setTimeout(complete, 260);
+      } else { setHint("seuraavaksi: " + (nextIdx + 1)); }
+    } else {
+      AU.play("kokeile"); popStar(i); setHint("kokeile tähteä " + (nextIdx + 1));
+    }
+  }
+
+  /* ---------- completion ---------- */
+  function complete() {
+    done = true;
+    /* wide low-opacity glow behind */
+    var i;
+    for (i = 1; i < curFig.coords.length; i++) { growLine(curFig.coords[i - 1], curFig.coords[i], C.$("figGlow"), 14, "#ffd264", 0.18); }
+    if (curFig.closed) growLine(curFig.coords[curFig.coords.length - 1], curFig.coords[0], C.$("figGlow"), 14, "#ffd264", 0.18);
+    /* sequential sparkle wave */
+    for (i = 0; i < curFig.coords.length; i++) { (function (k) { setTimeout(function () { popStar(k); }, k * 90); })(i); }
+    owlHoot(); shootingStar();
+    nameEl.firstChild ? (nameEl.firstChild.nodeValue = curFig.nimi) : nameEl.appendChild(document.createTextNode(curFig.nimi));
+    nameEl.setAttribute("opacity", "1");
+    setHint("valmis!");
+    AU.play("hoot");
+    setTimeout(function () { Seik.celebrate(curFig.nimi + "!"); addFound(curFig.id); }, 500);
+  }
+  function owlHoot() {
+    var h = C.$("owl-head"); if (!h) return;
+    A.tween({ duration: 700, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { h.setAttribute("transform", "rotate(" + (8 * Math.sin(Math.PI * 2 * t)) + " 870 512)"); },
+      onDone: function () { h.setAttribute("transform", ""); } });
+  }
+  function shootingStar() {
+    var s = C.$("shoot"); if (!s) return;
+    s.setAttribute("opacity", "1");
+    A.tween({ duration: 1400, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { s.setAttribute("transform", "translate(" + (120 + 1000 * t) + "," + (40 * t) + ")"); s.setAttribute("opacity", "" + (t < 0.2 ? t / 0.2 : (1 - t) / 0.8 + 0.0)); },
+      onDone: function () { s.setAttribute("opacity", "0"); s.setAttribute("transform", ""); } });
+  }
+
+  function nextFigure() { AU.play("seuraava"); figIndex = (figIndex + 1) % T.figures.length; startFigure(T.figures[figIndex]); }
+
+  /* ---------- tahtikartta ---------- */
+  var KEY = "tahdet_found";
+  function loadFound() { return C.store.get(KEY, {}); }
+  function addFound(id) { var f = loadFound(); f[id] = 1; C.store.set(KEY, f); }
+  function miniFigure(fig, cx, cy) {
+    var g = C.svg("g", { transform: "translate(" + cx + "," + cy + ") scale(0.22) translate(-480,-300)" });
+    var pts = "", i;
+    for (i = 0; i < fig.coords.length; i++) { pts += fig.coords[i][0] + "," + fig.coords[i][1] + " "; }
+    if (fig.closed) pts += fig.coords[0][0] + "," + fig.coords[0][1];
+    g.appendChild(C.svg("polyline", { points: pts, fill: "none", stroke: "#ffd264", "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round" }));
+    for (i = 0; i < fig.coords.length; i++) { g.appendChild(C.svg("circle", { cx: fig.coords[i][0], cy: fig.coords[i][1], r: 7, fill: "#fff7e6" })); }
+    return g;
+  }
+  function renderKartta() {
+    var f = loadFound(), win = C.$("windows"), xs = [190, 398, 626, 834], ys = [250, 440], i, n = 0;
+    while (win.firstChild) win.removeChild(win.firstChild);
+    for (i = 0; i < T.figures.length; i++) {
+      var cx = xs[i % 4], cy = ys[Math.floor(i / 4)], fig = T.figures[i];
+      if (f[fig.id]) {
+        n++; win.appendChild(miniFigure(fig, cx, cy));
+        win.appendChild(svgText(cx, cy + 86, fig.nimi, 16, "#fff7e6"));
+      } else { win.appendChild(svgText(cx, cy + 10, "?", 50, "#7a6f86")); }
+    }
+    var cnt = C.$("karttaCount"), t = n + " / 8 löydetty";
+    if (cnt.firstChild) cnt.firstChild.nodeValue = t; else cnt.appendChild(document.createTextNode(t));
+  }
+  function openKartta() { AU.play("page"); renderKartta(); C.$("kartta").style.display = "block"; }
+  function closeKartta() { AU.play("page"); C.$("kartta").style.display = "none"; }
+
+  function button(x, y, w, h, label, size, onTap) {
+    var g = C.svg("g", { "class": "hot" });
+    g.appendChild(C.svg("rect", { x: x, y: y, width: w, height: h, rx: 14, fill: "#ffd264", stroke: "#c9922f", "stroke-width": 4 }));
+    g.appendChild(svgText(x + w / 2, y + h / 2 + size / 3, label, size, "#5e3d1c"));
+    C.tap(g, onTap); return g;
+  }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["twinkle", "line", "kokeile", "hoot", "shoot", "seuraava", "page", "success"]);
+    C.addBackButton(); C.addMuteButton();
+    hintEl = C.$("hint"); nameEl = C.$("figName");
+    C.$("controls").appendChild(button(838, 20, 170, 50, "tähtikartta", 20, openKartta));
+    C.$("controls").appendChild(button(840, 520, 160, 56, "seuraava", 22, nextFigure));
+    C.$("karttaControls").appendChild(button(30, 16, 140, 46, "takaisin", 20, closeKartta));
+    startFigure(T.figures[figIndex]);
+  });
+})();
+</script>
+</body>
+</html>

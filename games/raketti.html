@@ -3,19 +3,396 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Tulossa pian</title>
+<title>Rakettipaja</title>
 <link rel="stylesheet" href="../seikkailu.css">
+<style> #flight, #matka { position:absolute; left:0; top:0; width:1024px; height:600px; } </style>
 </head>
 <body>
 <div id="stage">
-  <svg viewBox="0 0 1024 600" width="1024" height="600">
-    <rect x="0" y="0" width="1024" height="600" fill="#342a4e"/>
-    <text x="512" y="280" text-anchor="middle" font-family="Comic Sans MS, sans-serif"
-          font-size="56" font-weight="800" fill="#ffd264">Tulossa pian!</text>
-    <text x="512" y="350" text-anchor="middle" font-family="Comic Sans MS, sans-serif"
-          font-size="30" font-weight="700" fill="#fff7e6">T&#228;m&#228; peli rakennetaan viel&#228;.</text>
+  <svg id="workshopscene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+    
+  <!-- ===================== PAJA SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <!-- small star window (theme) -->
+  <rect x="612" y="60" width="150" height="110" rx="8" fill="#241a33" stroke="#5e3d1c" stroke-width="8"/>
+  <circle cx="648" cy="92" r="3" fill="#cfe8ff"/>
+  <circle cx="712" cy="110" r="3" fill="#cfe8ff"/>
+  <circle cx="690" cy="78" r="12" fill="#ffd264"/>
+
+  <!-- ===================== LAUNCH PAD + GANTRY ===================== -->
+  <rect x="560" y="452" width="204" height="18" rx="4" fill="#5e3d1c" stroke="#4a3219" stroke-width="4"/>
+  <rect x="572" y="470" width="14" height="40" fill="#4a4150"/>
+  <rect x="738" y="470" width="14" height="40" fill="#4a4150"/>
+  <rect x="770" y="150" width="12" height="310" fill="#7a6f86"/>
+  <line x1="770" y1="210" x2="716" y2="210" stroke="#7a6f86" stroke-width="7"/>
+  <line x1="770" y1="300" x2="716" y2="300" stroke="#7a6f86" stroke-width="7"/>
+  <line x1="770" y1="390" x2="716" y2="390" stroke="#7a6f86" stroke-width="7"/>
+
+  <!-- ===================== ROCKET (#rocketSlot: baked default; engine swaps parts) ===================== -->
+  <g id="ws-rocketSlot" transform="translate(560,110)">
+    <g id="ws-flame" opacity="0">
+      <path d="M74 260 q26 54 52 0 q-4 44 -26 56 q-22 -12 -26 -56 Z" fill="#ff8a4c"/>
+      <path d="M84 260 q16 40 32 0 q-3 30 -16 40 q-13 -10 -16 -40 Z" fill="#ffb43d"/>
+      <path d="M92 260 q8 26 16 0 q-2 18 -8 26 q-6 -8 -8 -26 Z" fill="#ffd264"/>
+    </g>
+    <g id="ws-finsSlot">
+      <polygon points="50,220 50,268 14,278" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+      <polygon points="150,220 150,268 186,278" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    </g>
+    <rect id="ws-rocketBody" x="50" y="60" width="100" height="200" rx="18" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <g id="ws-noseSlot">
+      <polygon points="50,60 150,60 100,6" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    </g>
+    <g id="ws-window">
+      <circle cx="100" cy="130" r="22" fill="#7cc0ff" stroke="#fff7e6" stroke-width="5"/>
+      <circle cx="100" cy="130" r="22" fill="none" stroke="#4a4150" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== CONTROL CONSOLE (left) ===================== -->
+  <rect x="20" y="104" width="288" height="372" rx="16" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+
+  <!-- nokka selector -->
+  <g id="ws-nosePrev" class="hot">
+    <circle cx="52" cy="156" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="60,142 38,156 60,170" fill="#5e3d1c"/>
+  </g>
+  <rect x="86" y="138" width="150" height="36" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+  <text x="161" y="163" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#2a2440" text-anchor="middle">nokka</text>
+  <g id="ws-noseNext" class="hot">
+    <circle cx="276" cy="156" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="268,142 290,156 268,170" fill="#5e3d1c"/>
+  </g>
+
+  <!-- väri selector -->
+  <g id="ws-colorPrev" class="hot">
+    <circle cx="52" cy="268" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="60,254 38,268 60,282" fill="#5e3d1c"/>
+  </g>
+  <rect x="86" y="250" width="150" height="36" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+  <text x="161" y="275" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#2a2440" text-anchor="middle">väri</text>
+  <g id="ws-colorNext" class="hot">
+    <circle cx="276" cy="268" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="268,254 290,268 268,282" fill="#5e3d1c"/>
+  </g>
+
+  <!-- evät selector -->
+  <g id="ws-finPrev" class="hot">
+    <circle cx="52" cy="380" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="60,366 38,380 60,394" fill="#5e3d1c"/>
+  </g>
+  <rect x="86" y="362" width="150" height="36" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+  <text x="161" y="387" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#2a2440" text-anchor="middle">evät</text>
+  <g id="ws-finNext" class="hot">
+    <circle cx="276" cy="380" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="268,366 290,380 268,394" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== LÄHTÖ! BUTTON (#launch) ===================== -->
+  <g id="ws-launch" class="hot">
+    <rect x="536" y="500" width="248" height="70" rx="16" fill="#ffb43d" stroke="#e8452f" stroke-width="6"/>
+    <text x="660" y="548" font-family="Comic Sans MS, sans-serif" font-size="34" font-weight="800" fill="#2a2440" text-anchor="middle">lähtö!</text>
+  </g>
+
+  <!-- ===================== NAV ===================== -->
+  <g id="ws-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+  <g id="ws-navBook" class="hot">
+    <rect x="824" y="20" width="184" height="40" rx="10" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <rect x="836" y="28" width="28" height="24" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+    <line x1="850" y1="28" x2="850" y2="52" stroke="#2b7d39" stroke-width="2"/>
+    <text x="938" y="48" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#2a2440" text-anchor="middle">matkakirja</text>
+  </g>
+
+    <text id="wsHint" x="512" y="40" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">rakenna raketti!</text>
   </svg>
+
+  <div id="flight" style="display:none;">
+    <svg id="flightscene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+      
+  <!-- ===================== SPACE ===================== -->
+  <rect x="0" y="0" width="1024" height="600" fill="#241a33"/>
+
+  <!-- ===================== STARFIELD (#starfield: 18 nodes; engine scrolls DOWN + wraps, OR repaint on one canvas) ===================== -->
+  <g id="fl-starfield">
+    <circle cx="80" cy="60" r="3" fill="#cfe8ff"/>
+    <circle cx="190" cy="140" r="2.5" fill="#cfe8ff"/>
+    <circle cx="300" cy="80" r="3" fill="#7cc0ff"/>
+    <circle cx="430" cy="170" r="2.5" fill="#cfe8ff"/>
+    <circle cx="560" cy="60" r="3" fill="#cfe8ff"/>
+    <circle cx="690" cy="150" r="2.5" fill="#7cc0ff"/>
+    <circle cx="820" cy="90" r="3" fill="#cfe8ff"/>
+    <circle cx="940" cy="170" r="2.5" fill="#cfe8ff"/>
+    <circle cx="120" cy="250" r="2.5" fill="#cfe8ff"/>
+    <circle cx="360" cy="300" r="3" fill="#7cc0ff"/>
+    <circle cx="620" cy="270" r="2.5" fill="#cfe8ff"/>
+    <circle cx="880" cy="320" r="3" fill="#cfe8ff"/>
+    <circle cx="240" cy="400" r="2.5" fill="#cfe8ff"/>
+    <circle cx="760" cy="410" r="2.5" fill="#7cc0ff"/>
+    <path d="M500 230 l4 10 l10 1 l-8 7 l3 11 l-9 -6 l-9 6 l3 -11 l-8 -7 l10 -1 Z" fill="#cfe8ff"/>
+    <path d="M160 350 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#ffd264"/>
+    <path d="M840 240 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#cfe8ff"/>
+    <path d="M660 360 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== DESTINATION SLOT (engine injects a destination sprite on arrival) ===================== -->
+  <g id="fl-destinationSlot"></g>
+
+  <!-- ===================== HOME PLANET (launch origin, bottom) ===================== -->
+  <ellipse cx="512" cy="840" rx="740" ry="320" fill="#3aa64a"/>
+  <ellipse cx="512" cy="830" rx="740" ry="320" fill="none" stroke="#7cc0ff" stroke-width="10" opacity="0.5"/>
+  <path d="M300 556 q40 -26 90 -8 M640 548 q50 -24 104 -4" fill="none" stroke="#2b7d39" stroke-width="8"/>
+
+  <!-- ===================== ROCKET SLOT (engine injects the assembled rocket; climbs up, time-based, hard-stop) ===================== -->
+  <g id="fl-rocketSlot"></g>
+
+  <!-- ===================== NAV ===================== -->
+  <g id="fl-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+  <g id="fl-navWorkshop" class="hot">
+    <rect x="382" y="540" width="260" height="42" rx="10" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="414,561 394,561 404,549" fill="#5e3d1c"/>
+    <polygon points="404,549 404,573 394,561" fill="#5e3d1c"/>
+    <text x="520" y="568" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#2a2440" text-anchor="middle">takaisin pajaan</text>
+  </g>
+
+      <text id="flHint" x="512" y="40" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">matkalla...</text>
+      <text id="flName" x="512" y="470" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="34" font-weight="800" fill="#ffd264" opacity="0"></text>
+    </svg>
+  </div>
+
+  <div id="matka" style="display:none;">
+    <svg id="matkascene" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round">
+      
+  <!-- MATKAKIRJA (travel book). 5 destination cards + name plaques.
+       #slot{n}: engine injects the destination sprite + a #sticker once visited.
+       #q{n}: "?" placeholder shown until visited. -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <rect x="24" y="360" width="976" height="16" rx="4" fill="#5e3d1c"/>
+
+  <g>
+    <rect x="378" y="22" width="268" height="48" rx="10" fill="#5e3d1c" stroke="#4a3219" stroke-width="4"/>
+    <text x="512" y="56" font-family="Comic Sans MS, sans-serif" font-size="26" font-weight="800" fill="#f3e7cc" text-anchor="middle">matkakirja</text>
+  </g>
+
+  <!-- card 1 : kuu -->
+  <g>
+    <rect x="38" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="mk-slot1"></g>
+    <text id="mk-q1" x="118" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="34" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="118" y="353" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#f3e7cc" text-anchor="middle">kuu</text>
+  </g>
+
+  <!-- card 2 : asteroidit -->
+  <g>
+    <rect x="234" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="mk-slot2"></g>
+    <text id="mk-q2" x="314" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="230" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="314" y="352" font-family="Comic Sans MS, sans-serif" font-size="15" font-weight="700" fill="#f3e7cc" text-anchor="middle">asteroidit</text>
+  </g>
+
+  <!-- card 3 : planeetta -->
+  <g>
+    <rect x="430" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="mk-slot3"></g>
+    <text id="mk-q3" x="510" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="426" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="510" y="353" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#f3e7cc" text-anchor="middle">planeetta</text>
+  </g>
+
+  <!-- card 4 : tähti -->
+  <g>
+    <rect x="626" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="mk-slot4"></g>
+    <text id="mk-q4" x="706" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="622" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="706" y="353" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#f3e7cc" text-anchor="middle">tähti</text>
+  </g>
+
+  <!-- card 5 : komeetta -->
+  <g>
+    <rect x="822" y="150" width="160" height="178" rx="10" fill="#241a33" stroke="#b07a3c" stroke-width="5"/>
+    <g id="mk-slot5"></g>
+    <text id="mk-q5" x="902" y="262" font-family="Comic Sans MS, sans-serif" font-size="70" font-weight="800" fill="#7a6f86" text-anchor="middle">?</text>
+    <rect x="818" y="330" width="168" height="32" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <text x="902" y="352" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#f3e7cc" text-anchor="middle">komeetta</text>
+  </g>
+
+  <!-- NAV -->
+  <g id="mk-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+  <g id="mk-navWorkshop" class="hot">
+    <rect x="412" y="498" width="200" height="40" rx="10" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="444,518 424,518 434,506" fill="#5e3d1c"/>
+    <polygon points="434,506 434,530 424,518" fill="#5e3d1c"/>
+    <text x="520" y="526" font-family="Comic Sans MS, sans-serif" font-size="18" font-weight="700" fill="#2a2440" text-anchor="middle">pajaan</text>
+  </g>
+
+      <text id="matkaCount" x="512" y="402" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6"></text>
+    </svg>
+  </div>
+
+  <svg id="partsheet" width="0" height="0" viewBox="0 0 200 340" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <!-- ROCKET PARTS LIBRARY — shared anchor frame (local 0..200 x 0..340).
+       Body x50..150 (centre 100), y60..260. Nose anchor base = (50,60)-(150,60).
+       Fins anchor = body bottom corners (50,260)/(150,260). Flame anchor = (100,260).
+       All noses share the top anchor and all fins share the bottom anchor, so ANY
+       nose + body + fins line up exactly. Noses/fins overlap here on purpose (this is
+       a parts library, not a finished rocket) — the engine shows ONE of each. -->
+
+  <!-- ===== BODY (engine sets fill = chosen väri) ===== -->
+  <rect id="rp-body" x="50" y="60" width="100" height="200" rx="18" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+  <!-- ===== WINDOW (fixed) ===== -->
+  <g id="rp-window">
+    <circle cx="100" cy="130" r="22" fill="#7cc0ff" stroke="#fff7e6" stroke-width="5"/>
+    <circle cx="100" cy="130" r="22" fill="none" stroke="#4a4150" stroke-width="2"/>
+  </g>
+
+  <!-- ===== NOSES (base on (50,60)-(150,60)) ===== -->
+  <g id="rp-nose_terava">
+    <polygon points="50,60 150,60 100,6" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+  </g>
+  <g id="rp-nose_pyorea">
+    <path d="M50 60 A50 52 0 0 1 150 60 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+  </g>
+  <g id="rp-nose_littea">
+    <polygon points="58,60 142,60 128,30 72,30" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+  </g>
+  <g id="rp-nose_kruunu">
+    <path d="M50 60 L66 24 L84 60 L100 16 L116 60 L134 24 L150 60 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+  </g>
+  <g id="rp-nose_tahti">
+    <polygon points="50,60 150,60 100,22" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <path d="M100 2 l5 13 l14 1 l-11 9 l4 13 l-12 -8 l-12 8 l4 -13 l-11 -9 l14 -1 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="2"/>
+  </g>
+
+  <!-- ===== FINS (left+right pairs at body bottom corners) ===== -->
+  <g id="rp-fins_kolmio">
+    <polygon points="50,220 50,268 14,278" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <polygon points="150,220 150,268 186,278" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+  <g id="rp-fins_pyorea">
+    <path d="M50 222 Q16 250 44 276 L50 276 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <path d="M150 222 Q184 250 156 276 L150 276 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+  <g id="rp-fins_nuoli">
+    <polygon points="50,210 50,268 20,300 44,268" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <polygon points="150,210 150,268 180,300 156,268" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+  <g id="rp-fins_isot">
+    <polygon points="50,196 50,268 8,302" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <polygon points="150,196 150,268 192,302" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+  <g id="rp-fins_pienet">
+    <polygon points="50,246 50,268 32,282" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <polygon points="150,246 150,268 168,282" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+  </g>
+
+  <!-- ===== FLAME (hidden; engine shows at launch + emits <=24 particles from here) ===== -->
+  <g id="rp-flame" opacity="0">
+    <path d="M74 260 q26 54 52 0 q-4 44 -26 56 q-22 -12 -26 -56 Z" fill="#ff8a4c"/>
+    <path d="M84 260 q16 40 32 0 q-3 30 -16 40 q-13 -10 -16 -40 Z" fill="#ffb43d"/>
+    <path d="M92 260 q8 26 16 0 q-2 18 -8 26 q-6 -8 -8 -26 Z" fill="#ffd264"/>
+  </g>
+</svg>
+  <svg id="destsheet" width="0" height="0" viewBox="0 0 600 240" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <!-- ATLAS: 5 destinations. Each <g id="rd-dest_*"> has a local origin at its translate;
+       engine drops it into flight.svg #destinationSlot (and matkakirja #slot). Background
+       + grid are preview-only. -->
+  <rect x="0" y="0" width="600" height="240" fill="#241a33"/>
+  <line x1="200" y1="0" x2="200" y2="240" stroke="#342a4e" stroke-width="2"/>
+  <line x1="400" y1="0" x2="400" y2="240" stroke="#342a4e" stroke-width="2"/>
+  <line x1="0" y1="120" x2="600" y2="120" stroke="#342a4e" stroke-width="2"/>
+
+  <!-- #dest_kuu : smiling moon (local ~84x84) -->
+  <g id="rd-dest_kuu" transform="translate(58,16)">
+    <circle cx="42" cy="44" r="40" fill="#ffd264" stroke="#ffb43d" stroke-width="5"/>
+    <circle cx="24" cy="30" r="8" fill="#ffb43d"/>
+    <circle cx="58" cy="60" r="6" fill="#ffb43d"/>
+    <circle cx="56" cy="24" r="5" fill="#ffb43d"/>
+    <path d="M28 44 q5 5 10 0" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+    <path d="M48 44 q5 5 10 0" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+    <path d="M34 58 q9 7 18 0" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+  </g>
+
+  <!-- #dest_asteroidit : cluster of space rocks (local ~110x80) -->
+  <g id="rd-dest_asteroidit" transform="translate(242,24)">
+    <path d="M18 54 Q10 28 36 24 Q64 20 70 42 Q74 62 48 64 Q24 66 18 54 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <path d="M70 30 Q66 14 86 14 Q106 16 104 34 Q102 48 82 46 Q70 44 70 30 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <circle cx="96" cy="62" r="12" fill="#7a6f86" stroke="#4a4150" stroke-width="3"/>
+    <circle cx="34" cy="44" r="4" fill="#4a4150"/>
+    <circle cx="86" cy="28" r="3" fill="#4a4150"/>
+  </g>
+
+  <!-- #dest_planeetta : ringed planet (local ~130x90) -->
+  <g id="rd-dest_planeetta" transform="translate(432,16)">
+    <circle cx="66" cy="46" r="36" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="5"/>
+    <path d="M44 32 Q58 40 72 34 Q82 46 68 54 Q50 58 42 48 Z" fill="#3aa64a"/>
+    <ellipse cx="66" cy="46" rx="64" ry="16" fill="none" stroke="#ffd264" stroke-width="6"/>
+  </g>
+
+  <!-- #dest_tahti : big bright star (local ~84x84) -->
+  <g id="rd-dest_tahti" transform="translate(58,134)">
+    <circle cx="42" cy="44" r="42" fill="#ffd264" opacity="0.18"/>
+    <path d="M42 4 l12 26 l28 3 l-21 19 l6 28 l-25 -14 l-25 14 l6 -28 l-21 -19 l28 -3 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="4"/>
+  </g>
+
+  <!-- #dest_komeetta : comet with tail + face (local ~130x80) -->
+  <g id="rd-dest_komeetta" transform="translate(236,142)">
+    <path d="M44 40 L128 8 L120 28 L128 48 Z" fill="#7cc0ff" opacity="0.5"/>
+    <circle cx="36" cy="40" r="30" fill="#cfe8ff" stroke="#7cc0ff" stroke-width="5"/>
+    <circle cx="28" cy="34" r="4" fill="#2a2440"/>
+    <circle cx="44" cy="34" r="4" fill="#2a2440"/>
+    <path d="M26 46 q10 8 22 0" fill="none" stroke="#2a2440" stroke-width="3"/>
+  </g>
+</svg>
+  <svg id="extrasheet" width="0" height="0" viewBox="0 0 300 150" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <!-- ATLAS: chicken gag + destination sticker. Each <g id> has a local origin at its
+       translate; engine recenters. Background is preview-only. -->
+  <rect x="0" y="0" width="300" height="150" fill="#241a33"/>
+  <line x1="170" y1="0" x2="170" y2="150" stroke="#342a4e" stroke-width="2"/>
+
+  <!-- #chicken : runaway chicken gag (local ~114x108) -->
+  <g id="rx-chicken" transform="translate(24,20)">
+    <path d="M18 60 q-22 -10 -28 -32 q26 4 34 22 Z" fill="#fff7e6" stroke="#b07a3c" stroke-width="3"/>
+    <ellipse cx="46" cy="60" rx="38" ry="30" fill="#fff7e6" stroke="#b07a3c" stroke-width="4"/>
+    <path d="M44 50 q22 -6 30 10 q-14 12 -30 4 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <circle cx="78" cy="36" r="20" fill="#fff7e6" stroke="#b07a3c" stroke-width="4"/>
+    <path d="M68 18 q4 -12 10 -2 q6 -12 10 0 q6 -10 8 2 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="2"/>
+    <path d="M96 36 l16 -4 l-14 12 Z" fill="#ffb43d" stroke="#8a5a2b" stroke-width="2"/>
+    <path d="M92 48 q5 10 -4 13 q-6 -2 -4 -13 Z" fill="#e8452f"/>
+    <circle cx="82" cy="32" r="3.5" fill="#2a2440"/>
+    <line x1="40" y1="88" x2="36" y2="106" stroke="#ffb43d" stroke-width="4"/>
+    <line x1="56" y1="88" x2="60" y2="106" stroke="#ffb43d" stroke-width="4"/>
+    <path d="M36 106 l-8 4 M36 106 l8 4 M60 106 l-8 4 M60 106 l8 4" fill="none" stroke="#ffb43d" stroke-width="3"/>
+  </g>
+
+  <!-- #sticker : star reward sticker (local ~80x80) -->
+  <g id="rx-sticker" transform="translate(200,32)">
+    <path d="M40 4 l11 24 l26 3 l-19 18 l5 26 l-23 -13 l-23 13 l5 -26 l-19 -18 l26 -3 Z" fill="#ffd264" stroke="#ffffff" stroke-width="7"/>
+    <path d="M40 18 l6 14 l15 2 l-11 10 l3 15 l-13 -8 l-13 8 l3 -15 l-11 -10 l15 -2 Z" fill="#ffb43d"/>
+  </g>
+</svg>
 </div>
+
 <script src="../content/logic.js"></script>
 <script src="../engine/core.js"></script>
 <script src="../engine/anim.js"></script>
@@ -24,12 +401,163 @@
 <script>
 (function () {
   "use strict";
-  Seik.core.ready(function () {
-    Seik.core.initStage();
-    Seik.audio.setBase("../assets/audio/");
-    Seik.audio.setManifest({});
-    Seik.core.addBackButton();
-    Seik.core.addMuteButton();
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var R = Seik.logic.raketti, U = Seik.logic.util;
+
+  var sel = { nose: 0, color: 0, fins: 0 };
+  var wsFlame, flFlame, parts, busy = false, climbJob = null, emitting = false;
+
+  function clone(id) { var s = C.$(id); return s ? s.cloneNode(true) : null; }
+  function stripIds(n) { if (n.removeAttribute) n.removeAttribute("id"); var ch = n.childNodes, i; for (i = 0; i < ch.length; i++) { if (ch[i].nodeType === 1) stripIds(ch[i]); } }
+  function setText(el, t) { if (el.firstChild) el.firstChild.nodeValue = t; else el.appendChild(document.createTextNode(t)); }
+
+  /* ---------- build the rocket into a slot (compose: flame, fins, body, nose, window) ---------- */
+  function buildRocket(slot) {
+    while (slot.firstChild) slot.removeChild(slot.firstChild);
+    var flame = clone("rp-flame");
+    var fins = clone("rp-fins_" + R.fins[sel.fins].id);
+    var body = clone("rp-body"); if (body) body.setAttribute("fill", R.colors[sel.color].hex);
+    var nose = clone("rp-nose_" + R.noses[sel.nose].id);
+    var win = clone("rp-window");
+    var list = [flame, fins, body, nose, win], i;
+    for (i = 0; i < list.length; i++) { if (list[i]) { slot.appendChild(list[i]); } }
+    if (flame) { stripIds(flame); flame.setAttribute("opacity", "0"); }
+    stripIds(fins || slot); if (body) stripIds(body); if (nose) stripIds(nose); if (win) stripIds(win);
+    return flame;
+  }
+
+  /* ---------- workshop ---------- */
+  function wsHint() { setText(C.$("wsHint"), "nokka: " + R.noses[sel.nose].nimi + " · väri: " + R.colors[sel.color].nimi + " · evät: " + R.fins[sel.fins].nimi); }
+  function rebuildWs() { wsFlame = buildRocket(C.$("ws-rocketSlot")); }
+  function bounce() {
+    var slot = C.$("ws-rocketSlot");
+    A.tween({ duration: 220, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { var s = 1 + 0.05 * Math.sin(Math.PI * t); slot.setAttribute("transform", "translate(560,110) translate(100,260) scale(" + s + ") translate(-100,-260)"); },
+      onDone: function () { slot.setAttribute("transform", "translate(560,110)"); } });
+  }
+  function change(part, dir) {
+    if (busy) return;
+    var arr = (part === "nose" ? R.noses : part === "color" ? R.colors : R.fins);
+    sel[part] = (sel[part] + dir + arr.length) % arr.length;
+    rebuildWs(); AU.play("clunk"); bounce(); wsHint();
+  }
+  function launch() {
+    if (busy) return; busy = true;
+    if (wsFlame) wsFlame.setAttribute("opacity", "1");
+    AU.play("rumble"); AU.play("whoosh");
+    var i; for (i = 0; i < 12; i++) { parts.emit(660, 372, 1, { angle: Math.PI / 2 + (Math.random() - 0.5) * 0.7, speed: 2 + Math.random() * 3, life: 500, gravity: 0.05, color: U.pick(["#ff8a4c", "#ffb43d", "#ffd264"]), shape: "circle", size: 6 + Math.random() * 5 }); }
+    var slot = C.$("ws-rocketSlot");
+    A.tween({ duration: 560, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { slot.setAttribute("transform", "translate(" + (560 + 2 * Math.sin(t * Math.PI * 8)) + ",110)"); },
+      onDone: function () {
+        slot.setAttribute("transform", "translate(560,110)");
+        if (wsFlame) wsFlame.setAttribute("opacity", "0");
+        if (U.chance(1 / 6)) { chickenGag(); } else { goFlight(); }
+      } });
+  }
+  function chickenGag() {
+    var ch = clone("rx-chicken"); if (!ch) { busy = false; return; }
+    stripIds(ch);
+    var wrap = C.svg("g", { transform: "translate(579,400)" });
+    wrap.appendChild(ch); C.$("workshopscene").appendChild(wrap);
+    AU.play("pop"); setText(C.$("wsHint"), "pöö! kana karkasi!");
+    A.tween({ duration: 400, from: 0, to: 1, ease: "outBack",
+      onUpdate: function (t) { wrap.setAttribute("transform", "translate(579," + (400 - 40 * t) + ")"); },
+      onDone: function () {
+        AU.play("cluck");
+        A.tween({ duration: 1300, from: 0, to: 1, ease: "linear",
+          onUpdate: function (t) { wrap.setAttribute("transform", "translate(" + (579 + 560 * t) + "," + (360 - 10 * Math.sin(t * Math.PI * 6)) + ")"); },
+          onDone: function () { try { C.$("workshopscene").removeChild(wrap); } catch (e) {} busy = false; wsHint(); } });
+      } });
+  }
+
+  /* ---------- flight ---------- */
+  function goFlight() {
+    C.$("flight").style.display = "block";
+    C.$("workshopscene").style.display = "none";
+    setText(C.$("flHint"), "matkalla...");
+    C.$("flName").setAttribute("opacity", "0");
+    var destSlot = C.$("fl-destinationSlot"); while (destSlot.firstChild) destSlot.removeChild(destSlot.firstChild);
+    var slot = C.$("fl-rocketSlot");
+    flFlame = buildRocket(slot);
+    if (flFlame) flFlame.setAttribute("opacity", "1");
+    slot.setAttribute("transform", "translate(412,320)");
+    var field = C.$("fl-starfield");
+    emitting = true;
+    climbJob = A.tween({
+      duration: 3500, from: 0, to: 1, ease: "outCubic",
+      onUpdate: function (t) {
+        var y = 320 + (70 - 320) * t;
+        slot.setAttribute("transform", "translate(412," + y + ")");
+        if (field) field.setAttribute("transform", "translate(0," + (260 * t) + ")");
+        if (emitting && Math.random() < 0.9) { parts.emit(512, y + 258, 1, { angle: Math.PI / 2 + (Math.random() - 0.5) * 0.6, speed: 2 + Math.random() * 3, life: 450, gravity: 0.04, color: U.pick(["#ff8a4c", "#ffb43d", "#ffd264"]), shape: "circle", size: 6 + Math.random() * 4 }); }
+      },
+      onDone: function () { emitting = false; if (flFlame) flFlame.setAttribute("opacity", "0"); arrive(); }
+    });
+  }
+  function arrive() {
+    var dest = R.randomDestination();
+    var src = clone("rd-dest_" + dest.id); if (!src) { busy = false; return; }
+    stripIds(src);
+    var wrap = C.svg("g", {});
+    wrap.appendChild(src); C.$("fl-destinationSlot").appendChild(wrap);
+    A.tween({ duration: 500, from: 0, to: 1, ease: "outBack",
+      onUpdate: function (t) { var s = 0.6 + 0.4 * t; wrap.setAttribute("opacity", "" + Math.min(1, t * 2)); wrap.setAttribute("transform", "translate(512," + 120 + ") scale(" + s + ") translate(" + (-dest.ac[0]) + "," + (-dest.ac[1]) + ")"); } });
+    AU.play("success");
+    setText(C.$("flHint"), "perillä!");
+    var nm = C.$("flName"); setText(nm, dest.nimi); nm.setAttribute("opacity", "1");
+    var isNew = !loadFound()[dest.id];
+    addFound(dest.id);
+    if (isNew) { Seik.celebrate(dest.nimi + "!"); }
+    busy = false;
+  }
+  function backToWorkshop() {
+    emitting = false; if (climbJob) climbJob.cancel();
+    C.$("flight").style.display = "none"; C.$("workshopscene").style.display = "";
+    rebuildWs(); busy = false; wsHint();
+  }
+
+  /* ---------- matkakirja ---------- */
+  var KEY = "raketti_found";
+  function loadFound() { return C.store.get(KEY, {}); }
+  function addFound(id) { var f = loadFound(); f[id] = 1; C.store.set(KEY, f); }
+  function renderMatka() {
+    var f = loadFound(), i, n = 0, xs = [118, 314, 510, 706, 902];
+    for (i = 0; i < R.destinations.length; i++) {
+      var d = R.destinations[i], slot = C.$("mk-slot" + (i + 1)), q = C.$("mk-q" + (i + 1));
+      while (slot && slot.firstChild) slot.removeChild(slot.firstChild);
+      if (f[d.id]) {
+        n++; if (q) q.setAttribute("opacity", "0");
+        var src = clone("rd-dest_" + d.id);
+        if (src && slot) { stripIds(src); var g = C.svg("g", { transform: "translate(" + xs[i] + ",238) scale(0.8) translate(" + (-d.ac[0]) + "," + (-d.ac[1]) + ")" }); g.appendChild(src); slot.appendChild(g); }
+        var st = clone("rx-sticker");
+        if (st && slot) { stripIds(st); var gs = C.svg("g", { transform: "translate(" + (xs[i] + 48) + ",188) scale(0.5) translate(-40,-40)" }); gs.appendChild(st); slot.appendChild(gs); }
+      } else if (q) { q.setAttribute("opacity", "1"); }
+    }
+    setText(C.$("matkaCount"), n + " / 5 paikkaa");
+  }
+  function openMatka() { AU.play("page"); renderMatka(); C.$("matka").style.display = "block"; }
+  function closeMatka() { AU.play("page"); C.$("matka").style.display = "none"; }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["clunk", "rumble", "whoosh", "pop", "cluck", "chime", "tap", "page", "success"]);
+    C.addMuteButton();
+    parts = A.Particles({ w: 1024, h: 600, parent: C.$("stage") });
+    rebuildWs(); wsHint();
+    function tap(id, fn) { var e = C.$(id); if (e) C.tap(e, fn); }
+    tap("ws-nosePrev", function () { change("nose", -1); }); tap("ws-noseNext", function () { change("nose", 1); });
+    tap("ws-colorPrev", function () { change("color", -1); }); tap("ws-colorNext", function () { change("color", 1); });
+    tap("ws-finPrev", function () { change("fins", -1); }); tap("ws-finNext", function () { change("fins", 1); });
+    tap("ws-launch", launch);
+    tap("ws-navHome", function () { AU.play("tap"); C.hub(); });
+    tap("ws-navBook", openMatka);
+    tap("fl-navWorkshop", backToWorkshop);
+    tap("fl-navHome", function () { AU.play("tap"); C.hub(); });
+    tap("mk-navWorkshop", function () { closeMatka(); });
+    tap("mk-navHome", function () { AU.play("tap"); C.hub(); });
   });
 })();
 </script>

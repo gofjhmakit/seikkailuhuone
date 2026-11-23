@@ -463,11 +463,185 @@
     };
   })();
 
+  /* ===================== 04 · Tahtikuvio / Tahdet (constellations) ===================== */
+  var tahdet = (function () {
+    var figures = [
+      { id: "lohikaarme", nimi: "lohikäärme", closed: false, coords: [[770, 175], [685, 215], [590, 235], [515, 160], [465, 290], [360, 335], [270, 300]] },
+      { id: "dino", nimi: "dino", closed: true, coords: [[180, 370], [320, 280], [450, 245], [575, 170], [620, 205], [510, 300], [455, 440], [290, 435]] },
+      { id: "raketti", nimi: "raketti", closed: true, coords: [[512, 150], [558, 250], [612, 385], [548, 365], [512, 425], [476, 365], [412, 385], [466, 250]] },
+      { id: "laiva", nimi: "laiva", closed: true, coords: [[350, 410], [500, 420], [650, 410], [605, 365], [500, 180], [395, 365]] },
+      { id: "kissa", nimi: "kissa", closed: true, coords: [[410, 175], [465, 215], [560, 215], [615, 175], [600, 300], [512, 350], [425, 300]] },
+      { id: "kala", nimi: "kala", closed: true, coords: [[360, 290], [470, 245], [600, 215], [560, 290], [600, 365], [470, 335]] },
+      { id: "talo", nimi: "talo", closed: true, coords: [[410, 430], [614, 430], [614, 315], [650, 315], [512, 215], [374, 315], [410, 315]] },
+      { id: "sydan", nimi: "sydän", closed: true, coords: [[512, 440], [425, 360], [372, 292], [425, 232], [512, 285], [599, 232], [652, 292], [599, 360]] }
+    ];
+    function byId(id) { for (var i = 0; i < figures.length; i++) { if (figures[i].id === id) return figures[i]; } return null; }
+    function selfTest(ok, eq) {
+      var i, j, total = 0;
+      eq(figures.length, 8, "tahdet 8 figures");
+      for (i = 0; i < figures.length; i++) {
+        ok(figures[i].coords.length >= 6 && figures[i].coords.length <= 8, "fig N in range: " + figures[i].id);
+        total += figures[i].coords.length;
+        for (j = 0; j < figures[i].coords.length; j++) {
+          var p = figures[i].coords[j];
+          ok(p[0] >= 150 && p[0] <= 900 && p[1] >= 140 && p[1] <= 460, "coord in safe area: " + figures[i].id + "#" + j);
+        }
+        ok(!!figures[i].nimi, "fig has nimi: " + figures[i].id);
+      }
+      eq(total, 57, "tahdet 57 puzzle stars");
+    }
+    return { figures: figures, byId: byId, selfTest: selfTest };
+  })();
+
+  /* ===================== 07 · Rakettipaja (Rocket Workshop) ===================== */
+  var raketti = (function () {
+    var noses = [
+      { id: "terava", nimi: "terävä" }, { id: "pyorea", nimi: "pyöreä" },
+      { id: "littea", nimi: "litteä" }, { id: "kruunu", nimi: "kruunu" }, { id: "tahti", nimi: "tähti" }
+    ];
+    var colors = [
+      { hex: "#e8452f", nimi: "punainen" }, { hex: "#7cc0ff", nimi: "sininen" },
+      { hex: "#3aa64a", nimi: "vihreä" }, { hex: "#ffd264", nimi: "keltainen" }, { hex: "#46c4a8", nimi: "turkoosi" }
+    ];
+    var fins = [
+      { id: "kolmio", nimi: "kolmio" }, { id: "pyorea", nimi: "pyöreä" },
+      { id: "nuoli", nimi: "nuoli" }, { id: "isot", nimi: "isot" }, { id: "pienet", nimi: "pienet" }
+    ];
+    /* ac = atlas-centre of each destination sprite (translate + approx local centre) */
+    var destinations = [
+      { id: "kuu", nimi: "kuu", ac: [100, 60] }, { id: "asteroidit", nimi: "asteroidit", ac: [297, 68] },
+      { id: "planeetta", nimi: "planeetta", ac: [498, 62] }, { id: "tahti", nimi: "tähti", ac: [100, 178] },
+      { id: "komeetta", nimi: "komeetta", ac: [284, 182] }
+    ];
+    function randomDestination() { return util.pick(destinations); }
+    function selfTest(ok, eq) {
+      var i;
+      eq(noses.length, 5, "raketti 5 noses"); eq(fins.length, 5, "raketti 5 fins");
+      eq(colors.length, 5, "raketti 5 colors"); eq(destinations.length, 5, "raketti 5 destinations");
+      eq(noses.length * colors.length * fins.length, 125, "raketti 125 combos");
+      for (i = 0; i < colors.length; i++) { ok(/^#[0-9a-f]{6}$/.test(colors[i].hex), "color hex " + colors[i].nimi); }
+      for (i = 0; i < destinations.length; i++) { ok(destinations[i].ac.length === 2, "dest ac " + destinations[i].id); }
+    }
+    return { noses: noses, colors: colors, fins: fins, destinations: destinations, randomDestination: randomDestination, selfTest: selfTest };
+  })();
+
+  /* ===================== 06 · Salahuone (10-room point-and-click house) ===================== */
+  var salahuone = (function () {
+    var rooms = ["eteinen", "keittio", "olohuone", "kirjasto", "kasvihuone", "paja", "ullakko", "luuhuone", "kellari", "tahtitorni"];
+
+    /* navigation: room -> { hotspotBaseId: targetRoom } */
+    var nav = {
+      eteinen: { doorKeittio: "keittio", doorOlohuone: "olohuone", doorKasvihuone: "kasvihuone", stairsUp: "kirjasto", trapdoor: "kellari" },
+      keittio: { navHome: "eteinen", navDown: "kellari" },
+      olohuone: { navHome: "eteinen", navRight: "kasvihuone" },
+      kasvihuone: { navHome: "eteinen", navLeft: "olohuone" },
+      kirjasto: { navHome: "eteinen", navRight: "paja", navUp: "ullakko" },
+      paja: { navHome: "eteinen", navLeft: "kirjasto", navUp: "ullakko" },
+      ullakko: { navHome: "eteinen", navDown: "kirjasto", navUp: "tahtitorni" },
+      luuhuone: { navHome: "eteinen", navBack: "kellari" },
+      kellari: { navHome: "eteinen", navDown: "luuhuone" },
+      tahtitorni: { navHome: "eteinen", navDown: "ullakko" }
+    };
+
+    /* per-object reaction: baseId -> { s: soundName, t: Finnish line } */
+    var react = {
+      eteinen: { coatrack: { s: "rustle", t: "hattu heiluu." }, mirror: { s: "chime", t: "kuka siellä?" }, mat: { s: "rustle", t: "tervetuloa!" } },
+      keittio: { pot: { s: "boil", t: "pata kiehuu: pulp pulp." }, kettle: { s: "whistle", t: "pannu viheltää: tuut!" }, cupboard: { s: "creak", t: "kaappi narahtaa." }, fruitbowl: { s: "tap", t: "omena pyörii." }, faucet: { s: "drip", t: "vesi tippuu: tip." }, broom: { s: "clatter", t: "luuta kaatui: ratsis!" }, mousehole: { s: "chime", t: "piip! hiiri." } },
+      olohuone: { win: { s: "chime", t: "tähti tuikkii." }, fireplace: { s: "fire", t: "tuli rätisee." }, clock: { s: "cuckoo", t: "kukkuu! kukkuu." }, picture: { s: "creak", t: "taulu heilahti." }, shelf: { s: "rustle", t: "kirja putosi: kop!" }, plant: { s: "rustle", t: "lehdet kahisee." }, cat: { s: "meow", t: "miau! kissa hyppäsi." }, rug: { s: "rustle", t: "pöly! aptsiu." } },
+      kirjasto: { shelfBig: { s: "rustle", t: "kirja: kop!" }, ladder: { s: "creak", t: "tikkaat liukuu." }, globe: { s: "whir", t: "maapallo pyörii." }, owlLib: { s: "hoot", t: "huhuu, sanoo pöllö." }, candle: { s: "fire", t: "kynttilä lepattaa." }, chair: { s: "rustle", t: "pehmeä tuoli." }, secretBook: { s: "creak", t: "salainen kirja!" } },
+      kasvihuone: { bigPlant: { s: "rustle", t: "iso kasvi huojuu." }, snapPlant: { s: "chomp", t: "nam! kärpäskasvi." }, can: { s: "drip", t: "kukka kasvaa!" }, butterfly: { s: "tap", t: "perhonen lentää." }, pots: { s: "rustle", t: "kukat nyökkää." }, roof: { s: "chime", t: "aurinko paistaa." }, snail: { s: "tap", t: "etana... niin hidasta." } },
+      paja: { gears: { s: "gear", t: "rattaat pyörii: naks." }, robot: { s: "beep", t: "piip piip! robotti." }, forge: { s: "fire", t: "ahjo hehkuu." }, hammer: { s: "gear", t: "vasara: kop kop." }, toolboard: { s: "clatter", t: "työkalu heiluu." }, jack: { s: "musicbox", t: "pöö! yllätys." }, bench: { s: "creak", t: "laatikko aukeaa." } },
+      ullakko: { porthole: { s: "whoosh", t: "lepakko lensi ohi." }, owl: { s: "hoot", t: "huhuu, sanoo pöllö." }, spider: { s: "whoosh", t: "hei! sanoo hämähäkki." }, crates: { s: "creak", t: "vanhaa tavaraa." }, rockhorse: { s: "horse", t: "iihaha!" }, teddy: { s: "tap", t: "nalle vilkuttaa: piip!" }, musicbox: { s: "musicbox", t: "soittorasia soi." } },
+      luuhuone: { dino: { s: "roar", t: "karjuu: roaar!" }, sandpit: { s: "rustle", t: "harjaa hiekkaa." }, fossil: { s: "chime", t: "kivettymä! löytö." }, dinoEgg: { s: "creak", t: "muna heiluu." }, amber: { s: "tap", t: "ötökkä kivessä!" }, skull: { s: "rattle", t: "kallo kalisee." }, footprint: { s: "rustle", t: "iso jalanjälki!" } },
+      kellari: { jars: { s: "chime", t: "purkit kilisee." }, barrel: { s: "ribbit", t: "kvak! sammakko!" }, mushrooms: { s: "chime", t: "sienet hohtaa: pling." }, dragon: { s: "snore", t: "zzz... pöh." } },
+      tahtitorni: { telescope: { s: "whir", t: "näen tähden!" }, rocket: { s: "whoosh", t: "pöö! raketti." }, moonGlobe: { s: "chime", t: "kuu hohtaa." }, chart: { s: "chime", t: "lohikäärme tähdissä!" }, starJar: { s: "chime", t: "täynnä tähtösiä." }, towerDragon: { s: "snore", t: "lohikäärme odottaa." } }
+    };
+
+    /* light toggles (baseId that flips #dim) per room */
+    var lights = { eteinen: "hallLamp", olohuone: "lamp", kellari: "lantern" };
+
+    /* candidate niches where a star-stone may hide: [room, baseId] */
+    var starNiches = [
+      ["eteinen", "mat"], ["eteinen", "coatrack"], ["eteinen", "mirror"],
+      ["keittio", "cupboard"], ["keittio", "broom"],
+      ["olohuone", "picture"], ["olohuone", "rug"], ["olohuone", "plant"],
+      ["kirjasto", "secretBook"], ["kirjasto", "shelfBig"],
+      ["kasvihuone", "bigPlant"], ["kasvihuone", "pots"],
+      ["paja", "bench"], ["paja", "forge"],
+      ["ullakko", "crates"], ["ullakko", "rockhorse"],
+      ["luuhuone", "sandpit"], ["luuhuone", "skull"],
+      ["kellari", "barrel"], ["kellari", "jars"],
+      ["tahtitorni", "telescope"], ["tahtitorni", "starJar"], ["tahtitorni", "chart"]
+    ];
+    /* 8 key spots with the hall clue line + matching clue icon */
+    var keySpots = [
+      { room: "olohuone", id: "picture", clue: "avain on taulun takana.", icon: "ic_picture" },
+      { room: "olohuone", id: "rug", clue: "avain on maton alla.", icon: "ic_rug" },
+      { room: "kasvihuone", id: "pots", clue: "avain on kukan ruukussa.", icon: "ic_plant" },
+      { room: "kirjasto", id: "shelfBig", clue: "avain on kirjan takana.", icon: "ic_book" },
+      { room: "ullakko", id: "musicbox", clue: "avain on soittorasiassa.", icon: "ic_musicbox" },
+      { room: "ullakko", id: "rockhorse", clue: "avain on keinuhevosen alla.", icon: "ic_horse" },
+      { room: "kellari", id: "barrel", clue: "avain on tynnyrissä.", icon: "ic_barrel" },
+      { room: "kellari", id: "jars", clue: "avain on purkissa.", icon: "ic_jar" }
+    ];
+    /* candidate mouse niches */
+    var mouseNiches = [
+      ["keittio", "mousehole"], ["keittio", "cupboard"], ["olohuone", "shelf"], ["olohuone", "plant"],
+      ["kirjasto", "chair"], ["kasvihuone", "pots"], ["paja", "bench"], ["paja", "toolboard"],
+      ["ullakko", "crates"], ["luuhuone", "sandpit"], ["kellari", "jars"], ["eteinen", "coatrack"]
+    ];
+    var treasures = [
+      { id: "tr_coins", nimi: "kultakolikot" }, { id: "tr_starmap", nimi: "tähtikartta" },
+      { id: "tr_egg", nimi: "lohikäärmeenmuna" }, { id: "tr_hat", nimi: "hassu hattu" },
+      { id: "tr_pearl", nimi: "helmi" }, { id: "tr_ship", nimi: "lelulaiva" },
+      { id: "tr_candy", nimi: "karkkipussi" }, { id: "tr_wand", nimi: "taikasauva" }
+    ];
+
+    function key(room, id) { return room + "/" + id; }
+    /* randomly assign the 9 hidden items; returns the plan the engine drives */
+    function assignQuest() {
+      var assign = {}, i, n;
+      function add(room, id, type) { var k = key(room, id); (assign[k] = assign[k] || []).push(type); }
+      var stars = util.pickDistinct(starNiches, 5);
+      for (i = 0; i < stars.length; i++) { add(stars[i][0], stars[i][1], "star"); }
+      var ks = util.pick(keySpots); add(ks.room, ks.id, "key");
+      var mice = util.pickDistinct(mouseNiches, 3);
+      for (i = 0; i < mice.length; i++) { add(mice[i][0], mice[i][1], "mouse"); }
+      return { assign: assign, keyClue: ks.clue, keyIcon: ks.icon, treasure: util.pick(treasures) };
+    }
+
+    function selfTest(ok, eq) {
+      var i, r, b;
+      eq(rooms.length, 10, "salahuone 10 rooms");
+      /* every nav target is a real room */
+      for (r in nav) { if (!nav.hasOwnProperty(r)) continue; for (b in nav[r]) { if (!nav[r].hasOwnProperty(b)) continue; ok(rooms.indexOf(nav[r][b]) >= 0, "nav target real: " + r + "." + b); } }
+      ok(starNiches.length >= 18, ">=18 star niches (" + starNiches.length + ")");
+      eq(keySpots.length, 8, "8 key spots");
+      ok(mouseNiches.length >= 12, ">=12 mouse niches");
+      eq(treasures.length, 8, "8 treasures");
+      /* every niche references a room that exists */
+      for (i = 0; i < starNiches.length; i++) { ok(rooms.indexOf(starNiches[i][0]) >= 0, "star niche room real: " + starNiches[i][0]); }
+      /* assignQuest places exactly 5 stars, 1 key, 3 mice */
+      for (i = 0; i < 60; i++) {
+        var q = assignQuest(), stars = 0, keys = 0, mice = 0, k;
+        for (k in q.assign) { if (!q.assign.hasOwnProperty(k)) continue; var a = q.assign[k], j; for (j = 0; j < a.length; j++) { if (a[j] === "star") stars++; else if (a[j] === "key") keys++; else if (a[j] === "mouse") mice++; } }
+        eq(stars, 5, "quest 5 stars"); eq(keys, 1, "quest 1 key"); eq(mice, 3, "quest 3 mice");
+        ok(!!q.keyClue && !!q.treasure, "quest has clue + treasure");
+      }
+    }
+
+    return {
+      rooms: rooms, nav: nav, react: react, lights: lights,
+      starNiches: starNiches, keySpots: keySpots, mouseNiches: mouseNiches, treasures: treasures,
+      key: key, assignQuest: assignQuest, selfTest: selfTest
+    };
+  })();
+
   var logic = {
-    version: "0.6.0",
+    version: "1.1.0",
     util: util,
-    tulivuori: tulivuori, muna: muna, luut: luut, tahdet: null,
-    taikapata: taikapata, salahuone: null, raketti: null,
+    tulivuori: tulivuori, muna: muna, luut: luut, tahdet: tahdet,
+    taikapata: taikapata, salahuone: salahuone, raketti: raketti,
     hirviopaja: hirviopaja
   };
   return logic;

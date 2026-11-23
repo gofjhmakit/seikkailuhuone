@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- door.svg · hub door/tile for 04 Tähtikuvio · viewBox 0 0 240 240
+     Wood-framed night tile (matches the set): a little constellation (5 gold stars joined by
+     thin lines) + a big star + a crescent moon. Flat fills, thick rounded outlines, palette
+     only, no filters. Instantly "the star game" to a 5-year-old. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">
+  <g stroke-linejoin="round" stroke-linecap="round" stroke-width="4">
+    <!-- frame + night tile -->
+    <rect x="8" y="8" width="224" height="224" rx="30" fill="#8a5a2b" stroke="#5e3d1c"/>
+    <rect x="24" y="24" width="192" height="192" rx="20" fill="#241a33" stroke="#241a33"/>
+
+    <!-- crescent moon -->
+    <circle cx="186" cy="62" r="20" fill="#ffd264"/>
+    <circle cx="194" cy="56" r="16" fill="#241a33"/>
+
+    <!-- constellation: 5 stars + thin lines -->
+    <polyline points="60,150 92,116 128,140 158,104 190,150" fill="none" stroke="#ffd264" stroke-width="3" opacity="0.8"/>
+    <g fill="#ffd264" stroke="#fff7e6" stroke-width="2">
+      <circle cx="60" cy="150" r="7"/>
+      <circle cx="92" cy="116" r="7"/>
+      <circle cx="128" cy="140" r="7"/>
+      <circle cx="158" cy="104" r="7"/>
+      <circle cx="190" cy="150" r="7"/>
+    </g>
+
+    <!-- a big sparkle + a small one -->
+    <path d="M70 196 l4 12 l12 1 l-9 8 l3 12 l-10 -7 l-10 7 l3 -12 l-9 -8 l12 -1 Z" fill="#cfe8ff" stroke="none"/>
+    <circle cx="150" cy="186" r="3" fill="#cfe8ff" stroke="none"/>
+  </g>
+</svg>

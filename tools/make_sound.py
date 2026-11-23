@@ -153,6 +153,32 @@ def s_clink():   return tone(1200, 1650, 0.06, 0.16, "square", 8)           # sm
 def s_duck():    return seq(tone(650, 520, 0.08, 0.22, "saw", 6), silence(0.03), tone(560, 440, 0.08, 0.2, "saw", 6))  # rubber-duck honk
 def s_page():    return noise(0.2, 0.08, 5, 0.4)                            # soft paper/book turn
 
+# --- tahdet (constellations) ---
+def s_line():    return tone(520, 780, 0.1, 0.14, "sine", 6)                # a connecting line grows
+def s_kokeile(): return tone(360, 300, 0.14, 0.1, "sine", 4)               # gentle "try again" (not negative)
+def s_shoot():   return noise(0.3, 0.08, 4, 0.55)                          # shooting-star whoosh
+def s_seuraava():return tone(600, 920, 0.12, 0.14, "sine", 5)              # next figure
+
+# --- raketti (rocket workshop) ---
+def s_clunk():   return tone(260, 150, 0.07, 0.2, "square", 9)              # part snaps on
+def s_cluck():   return seq(tone(500, 380, 0.06, 0.2, "saw", 6), silence(0.03), tone(460, 340, 0.06, 0.18, "saw", 6))  # chicken cluck
+
+# --- salahuone (10-room house) ---
+def s_rustle():  return noise(0.22, 0.1, 6, 0.35)                           # leafy/papery puff
+def s_snore():   return seq(tone(120, 190, 0.3, 0.11, "sine", 1.5), tone(190, 110, 0.26, 0.1, "sine", 2))  # slow snore
+def s_horse():   return tone(420, 250, 0.3, 0.16, "saw", 3)                # playful neigh
+def s_musicbox():return seq(tone(1046, 1046, 0.1, 0.12, "sine", 6), tone(1318, 1318, 0.1, 0.11, "sine", 6), tone(1568, 1568, 0.1, 0.1, "sine", 6), tone(1046, 1046, 0.12, 0.1, "sine", 6))  # tiny melody
+def s_fire():    return noise(0.4, 0.08, 1.8, 0.25)                        # gentle crackle
+def s_unlock():  return seq(tone(300, 200, 0.06, 0.2, "square", 8), silence(0.04), tone(480, 720, 0.1, 0.16, "square", 6))  # clunk + turn
+def s_boil():    return noise(0.4, 0.07, 1.6, 0.5)                         # watery bubbling
+def s_whistle(): return tone(700, 1320, 0.34, 0.12, "sine", 2)            # rising kettle whistle
+def s_drip():    return tone(950, 520, 0.08, 0.18, "sine", 9)             # water drop plink
+def s_clatter(): return seq(noise(0.06, 0.14, 8, 0.2), silence(0.02), noise(0.08, 0.12, 8, 0.2))  # wooden tumble
+def s_gear():    return seq(tone(200, 160, 0.05, 0.16, "square", 10), silence(0.03), tone(200, 160, 0.05, 0.16, "square", 10))  # naks-naks
+def s_beep():    return seq(tone(880, 880, 0.06, 0.16, "square", 8), silence(0.03), tone(1100, 1100, 0.07, 0.14, "square", 7))  # robot beep
+def s_rattle():  return seq(noise(0.04, 0.1, 10, 0.6), silence(0.02), noise(0.04, 0.1, 10, 0.6), silence(0.02), noise(0.04, 0.1, 10, 0.6))  # bony rattle
+def s_whir():    return tone(300, 300, 0.3, 0.1, "saw", 2)                # spinning whir
+
 VOICE_TIMBRE = {"head": "saw", "body": "tri", "tail": "square"}
 VOICE_HZ = {
     "head-liekki": 392, "head-narsku": 262, "head-tuijo": 440, "head-nokka": 523,
@@ -201,6 +227,11 @@ SOUNDS = {
     "hoyry": s_hoyry, "kvak": s_kvak, "kimallus": s_kimallus, "sateenkaari": s_sateenkaari,
     "kutistu": s_kutistu, "jaa": s_jaa, "poh": s_poh, "kolise": s_kolise, "tyhjenna": s_tyhjenna,
     "brush": s_brush, "clink": s_clink, "duck": s_duck, "page": s_page,
+    "line": s_line, "kokeile": s_kokeile, "shoot": s_shoot, "seuraava": s_seuraava,
+    "clunk": s_clunk, "cluck": s_cluck,
+    "rustle": s_rustle, "snore": s_snore, "horse": s_horse, "musicbox": s_musicbox,
+    "fire": s_fire, "unlock": s_unlock, "boil": s_boil, "whistle": s_whistle, "drip": s_drip,
+    "clatter": s_clatter, "gear": s_gear, "beep": s_beep, "rattle": s_rattle, "whir": s_whir,
     "success": s_success,
 }
 

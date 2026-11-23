@@ -3,19 +3,1425 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Tulossa pian</title>
+<title>Salahuone</title>
 <link rel="stylesheet" href="../seikkailu.css">
+<style> .room{ position:absolute; left:0; top:0; display:none; } #hud,#fx{ position:absolute; left:0; top:0; pointer-events:none; } </style>
 </head>
 <body>
 <div id="stage">
-  <svg viewBox="0 0 1024 600" width="1024" height="600">
-    <rect x="0" y="0" width="1024" height="600" fill="#342a4e"/>
-    <text x="512" y="280" text-anchor="middle" font-family="Comic Sans MS, sans-serif"
-          font-size="56" font-weight="800" fill="#ffd264">Tulossa pian!</text>
-    <text x="512" y="350" text-anchor="middle" font-family="Comic Sans MS, sans-serif"
-          font-size="30" font-weight="700" fill="#fff7e6">T&#228;m&#228; peli rakennetaan viel&#228;.</text>
+  <svg class="room" id="scene-eteinen" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== HALL SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <line x1="0" y1="520" x2="1024" y2="520" stroke="#5e3d1c" stroke-width="3" opacity="0.5"/>
+
+  <!-- ===================== CEILING LAMP (#hallLamp / #hallGlow) ===================== -->
+  <g id="eteinen-hallLamp" class="hot">
+    <circle id="eteinen-hallGlow" cx="690" cy="150" r="72" fill="#ffd264" opacity="0"/>
+    <line x1="690" y1="0" x2="690" y2="70" stroke="#2a2440" stroke-width="4"/>
+    <path d="M658 150 L722 150 L710 104 L670 104 Z" fill="#ffb43d" stroke="#5e3d1c" stroke-width="5"/>
+    <circle cx="690" cy="150" r="9" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== DOOR → OLOHUONE (#doorOlohuone) ===================== -->
+  <g id="eteinen-doorOlohuone" class="hot">
+    <rect x="50" y="160" width="126" height="280" rx="12" fill="#5e3d1c"/>
+    <rect x="60" y="170" width="106" height="270" rx="10" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <rect x="72" y="184" width="82" height="108" rx="6" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="72" y="306" width="82" height="110" rx="6" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+    <circle cx="70" cy="304" r="6" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+    <rect x="48" y="128" width="130" height="28" rx="6" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="113" y="148" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">olohuone</text>
+  </g>
+
+  <!-- ===================== DOOR → KASVIHUONE (#doorKasvihuone) ===================== -->
+  <g id="eteinen-doorKasvihuone" class="hot">
+    <rect x="300" y="160" width="126" height="280" rx="12" fill="#5e3d1c"/>
+    <rect x="310" y="170" width="106" height="270" rx="10" fill="#46c4a8" stroke="#2b7d39" stroke-width="4"/>
+    <rect x="322" y="184" width="82" height="230" rx="8" fill="#a5d8ff" stroke="#2b7d39" stroke-width="3"/>
+    <line x1="363" y1="186" x2="363" y2="412" stroke="#2b7d39" stroke-width="3"/>
+    <line x1="324" y1="300" x2="402" y2="300" stroke="#2b7d39" stroke-width="3"/>
+    <circle cx="320" cy="304" r="6" fill="#ffd264" stroke="#2b7d39" stroke-width="2"/>
+    <rect x="296" y="128" width="134" height="28" rx="6" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="363" y="148" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">kasvihuone</text>
+  </g>
+
+  <!-- ===================== DOOR → KEITTIO (#doorKeittio) ===================== -->
+  <g id="eteinen-doorKeittio" class="hot">
+    <rect x="600" y="160" width="126" height="280" rx="12" fill="#5e3d1c"/>
+    <rect x="610" y="170" width="106" height="270" rx="10" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    <rect x="622" y="184" width="82" height="108" rx="6" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="622" y="306" width="82" height="110" rx="6" fill="none" stroke="#5e3d1c" stroke-width="3"/>
+    <circle cx="620" cy="304" r="6" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+    <rect x="598" y="128" width="130" height="28" rx="6" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="663" y="148" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">keittiö</text>
+  </g>
+
+  <!-- ===================== STAIRS UP → KIRJASTO (#stairsUp) ===================== -->
+  <g id="eteinen-stairsUp" class="hot">
+    <rect x="820" y="150" width="180" height="290" fill="#241a33"/>
+    <rect x="820" y="410" width="180" height="30" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="844" y="372" width="156" height="30" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="868" y="334" width="132" height="30" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="892" y="296" width="108" height="30" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="916" y="258" width="84" height="30" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="916" y="216" width="84" height="22" rx="4" fill="#ffd264" opacity="0.4"/>
+    <rect x="820" y="120" width="180" height="28" rx="6" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <polygon points="840,142 840,128 852,135" fill="#2b7d39"/>
+    <text x="918" y="140" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">yläkerta</text>
+  </g>
+
+  <!-- ===================== TASK BOARD (#taskBoard) ===================== -->
+  <g id="eteinen-taskBoard" class="hot">
+    <rect x="452" y="42" width="132" height="98" rx="8" fill="#5e3d1c" stroke="#4a3219" stroke-width="4"/>
+    <rect x="464" y="54" width="108" height="74" rx="4" fill="#f3e7cc"/>
+    <path d="M486 92 l5 12 l13 1 l-10 9 l4 13 l-12 -8 l-12 8 l4 -13 l-10 -9 l13 -1 Z" fill="#cfe8ff" stroke="#7cc0ff" stroke-width="2"/>
+    <line x1="512" y1="66" x2="562" y2="66" stroke="#8a5a2b" stroke-width="4"/>
+    <line x1="512" y1="80" x2="552" y2="80" stroke="#8a5a2b" stroke-width="4"/>
+    <line x1="512" y1="112" x2="556" y2="112" stroke="#8a5a2b" stroke-width="4"/>
+  </g>
+
+  <!-- ===================== CLUE NOTE (#clueNote) ===================== -->
+  <g id="eteinen-clueNote" class="hot">
+    <rect x="202" y="64" width="90" height="72" rx="6" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <circle cx="247" cy="64" r="6" fill="#e8452f" stroke="#5e3d1c" stroke-width="2"/>
+    <line x1="214" y1="86" x2="280" y2="86" stroke="#8a5a2b" stroke-width="4"/>
+    <line x1="214" y1="100" x2="268" y2="100" stroke="#8a5a2b" stroke-width="4"/>
+    <rect x="214" y="108" width="24" height="20" rx="3" fill="none" stroke="#46c4a8" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== MIRROR (#mirror / #mirrorStar) ===================== -->
+  <g id="eteinen-mirror" class="hot">
+    <rect x="738" y="178" width="64" height="124" rx="30" fill="#7cc0ff" stroke="#b07a3c" stroke-width="6"/>
+    <path d="M750 214 l18 -18" stroke="#fff7e6" stroke-width="5" opacity="0.7"/>
+    <path d="M750 244 l28 -28" stroke="#fff7e6" stroke-width="4" opacity="0.5"/>
+    <g id="eteinen-mirrorStar" opacity="0">
+      <path d="M770 236 l3 8 l9 1 l-7 6 l2 9 l-7 -5 l-7 5 l2 -9 l-7 -6 l9 -1 Z" fill="#ffd264"/>
+    </g>
+  </g>
+
+  <!-- ===================== COAT RACK (#coatrack / #hallHat) ===================== -->
+  <g id="eteinen-coatrack" class="hot">
+    <rect x="220" y="300" width="8" height="150" fill="#5e3d1c"/>
+    <ellipse cx="224" cy="452" rx="28" ry="8" fill="#4a4150"/>
+    <path d="M224 308 q-14 -4 -20 4" fill="none" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M224 308 q14 -4 20 4" fill="none" stroke="#5e3d1c" stroke-width="5"/>
+    <g id="eteinen-hallHat">
+      <ellipse cx="256" cy="322" rx="24" ry="8" fill="#3a4a7a" stroke="#241a33" stroke-width="3"/>
+      <path d="M240 322 q16 -28 32 0 Z" fill="#3a4a7a" stroke="#241a33" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== TRAPDOOR → KELLARI (#trapdoor) ===================== -->
+  <g id="eteinen-trapdoor" class="hot">
+    <polygon points="432,508 588,508 570,580 450,580" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+    <line x1="470" y1="514" x2="486" y2="574" stroke="#4a3219" stroke-width="3"/>
+    <line x1="520" y1="514" x2="524" y2="574" stroke="#4a3219" stroke-width="3"/>
+    <circle cx="510" cy="544" r="11" fill="none" stroke="#ffd264" stroke-width="5"/>
+    <rect x="452" y="470" width="116" height="28" rx="6" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <polygon points="462,478 476,478 469,490" fill="#8a5a2b"/>
+    <text x="518" y="490" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">kellari</text>
+  </g>
+
+  <!-- ===================== DOORMAT (#mat) ===================== -->
+  <g id="eteinen-mat" class="hot">
+    <ellipse cx="258" cy="566" rx="80" ry="18" fill="#46c4a8" stroke="#2b7d39" stroke-width="4"/>
+    <ellipse cx="258" cy="566" rx="50" ry="10" fill="none" stroke="#ffd264" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== DIM OVERLAY (#dim) ===================== -->
+  <rect id="eteinen-dim" x="0" y="0" width="1024" height="600" fill="#241a33" opacity="0.4" pointer-events="none"/>
+</svg>
+<svg class="room" id="scene-keittio" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== KITCHEN SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="300" width="1024" height="130" fill="#f3e7cc" opacity="0.14"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+
+  <!-- ===================== CUPBOARD (#cupboard / #cupDoorL / #cupDoorR) ===================== -->
+  <g id="keittio-cupboard" class="hot">
+    <rect x="96" y="92" width="190" height="130" rx="6" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <g id="keittio-cupDoorL">
+      <rect x="100" y="96" width="88" height="122" rx="5" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="178" cy="157" r="5" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+    </g>
+    <g id="keittio-cupDoorR">
+      <rect x="194" y="96" width="88" height="122" rx="5" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="204" cy="157" r="5" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== STOVE + POT (#stove / #pot / #potBubbles / #steam) ===================== -->
+  <g id="keittio-stove">
+    <rect x="300" y="320" width="180" height="150" rx="8" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="316" y="356" width="148" height="100" rx="4" fill="#4a4150"/>
+    <circle cx="340" cy="336" r="9" fill="#2a2440"/>
+    <circle cx="440" cy="336" r="9" fill="#2a2440"/>
+  </g>
+  <g id="keittio-pot" class="hot">
+    <g id="keittio-steam" opacity="0.8">
+      <ellipse cx="378" cy="266" rx="10" ry="14" fill="#f3e7cc" opacity="0.5"/>
+      <ellipse cx="398" cy="248" rx="9" ry="13" fill="#f3e7cc" opacity="0.4"/>
+      <ellipse cx="386" cy="230" rx="8" ry="12" fill="#f3e7cc" opacity="0.3"/>
+    </g>
+    <path d="M330 316 Q326 376 340 376 L440 376 Q454 376 450 316 Z" fill="#4a4150" stroke="#2a2440" stroke-width="5"/>
+    <g id="keittio-potBubbles">
+      <circle cx="366" cy="326" r="6" fill="#46c4a8"/>
+      <circle cx="398" cy="320" r="7" fill="#46c4a8"/>
+      <circle cx="420" cy="328" r="5" fill="#46c4a8"/>
+    </g>
+    <rect x="320" y="308" width="140" height="14" rx="6" fill="#7a6f86" stroke="#2a2440" stroke-width="4"/>
+    <rect x="300" y="300" width="20" height="8" rx="3" fill="#7a6f86" stroke="#2a2440" stroke-width="3"/>
+    <rect x="460" y="300" width="20" height="8" rx="3" fill="#7a6f86" stroke="#2a2440" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== KETTLE (#kettle / #kettleSteam) ===================== -->
+  <g id="keittio-kettle" class="hot">
+    <g id="keittio-kettleSteam" opacity="0">
+      <ellipse cx="612" cy="300" rx="7" ry="11" fill="#f3e7cc" opacity="0.5"/>
+      <ellipse cx="620" cy="284" rx="6" ry="10" fill="#f3e7cc" opacity="0.35"/>
+    </g>
+    <path d="M560 420 Q556 356 618 356 Q680 356 676 420 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <path d="M676 384 q24 -6 24 -26" fill="none" stroke="#e8452f" stroke-width="10"/>
+    <path d="M588 356 q30 -20 60 0" fill="none" stroke="#8a5a2b" stroke-width="7"/>
+    <circle cx="618" cy="346" r="7" fill="#ffd264" stroke="#8a5a2b" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== SINK + FAUCET (#faucet / #drop) ===================== -->
+  <g id="keittio-faucet" class="hot">
+    <rect x="740" y="396" width="200" height="40" rx="6" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="770" y="402" width="140" height="28" rx="6" fill="#4a4150"/>
+    <path d="M840 396 L840 350 L800 350" fill="none" stroke="#b07a3c" stroke-width="8"/>
+    <circle id="keittio-drop" cx="800" cy="364" r="5" fill="#7cc0ff" opacity="0"/>
+    <rect x="852" y="344" width="10" height="20" rx="3" fill="#8a5a2b"/>
+  </g>
+
+  <!-- ===================== FRUIT BOWL (#fruitbowl / #apple) ===================== -->
+  <g id="keittio-fruitbowl" class="hot">
+    <path d="M744 388 Q790 418 836 388 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    <g id="keittio-apple">
+      <circle cx="776" cy="380" r="13" fill="#e8452f" stroke="#8a5a2b" stroke-width="3"/>
+      <path d="M776 368 q4 -8 10 -6" fill="none" stroke="#2b7d39" stroke-width="3"/>
+    </g>
+    <circle cx="804" cy="382" r="12" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== BROOM (#broom / #broomBody) ===================== -->
+  <g id="keittio-broom" class="hot">
+    <g id="keittio-broomBody">
+      <line x1="978" y1="300" x2="958" y2="470" stroke="#b07a3c" stroke-width="7"/>
+      <path d="M948 462 L968 462 L980 500 L936 500 Z" fill="#ffb43d" stroke="#8a5a2b" stroke-width="4"/>
+      <line x1="946" y1="476" x2="940" y2="500" stroke="#8a5a2b" stroke-width="2"/>
+      <line x1="958" y1="474" x2="958" y2="500" stroke="#8a5a2b" stroke-width="2"/>
+      <line x1="970" y1="476" x2="976" y2="500" stroke="#8a5a2b" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== MOUSE HOLE (#mousehole / #mouseK) ===================== -->
+  <g id="keittio-mousehole" class="hot">
+    <path d="M120 440 Q120 404 150 404 Q180 404 180 440 Z" fill="#241a33" stroke="#4a3219" stroke-width="4"/>
+    <g id="keittio-mouseK" opacity="0">
+      <circle cx="150" cy="430" r="11" fill="#7a6f86" stroke="#4a4150" stroke-width="3"/>
+      <circle cx="143" cy="423" r="5" fill="#7a6f86" stroke="#4a4150" stroke-width="2"/>
+      <circle cx="146" cy="430" r="2" fill="#2a2440"/>
+    </g>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="keittio-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: DOWN → KELLARI (#navDown) ===================== -->
+  <g id="keittio-navDown" class="hot">
+    <rect x="452" y="548" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="500" y="570" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">kellari</text>
+    <circle cx="556" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="542,532 570,532 556,552" fill="#5e3d1c"/>
+  </g>
+</svg>
+<svg class="room" id="scene-olohuone" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== ROOM SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <line x1="0" y1="502" x2="1024" y2="502" stroke="#5e3d1c" stroke-width="3" opacity="0.5"/>
+  <line x1="0" y1="556" x2="1024" y2="556" stroke="#5e3d1c" stroke-width="3" opacity="0.5"/>
+
+  <!-- ===================== WINDOW (#win / #winstar) ===================== -->
+  <g id="olohuone-win" class="hot">
+    <rect x="46" y="66" width="184" height="170" rx="6" fill="#241a33"/>
+    <circle cx="92" cy="112" r="22" fill="#ffd264"/>
+    <circle cx="150" cy="92" r="2.5" fill="#cfe8ff"/>
+    <circle cx="200" cy="120" r="2.5" fill="#cfe8ff"/>
+    <circle cx="80" cy="202" r="2.5" fill="#cfe8ff"/>
+    <g id="olohuone-winstar">
+      <path d="M182 150 l6 15 l16 1 l-12 10 l4 16 l-14 -9 l-14 9 l4 -16 l-12 -10 l16 -1 Z" fill="#cfe8ff" stroke="#7cc0ff" stroke-width="3"/>
+    </g>
+    <rect x="40" y="60" width="190" height="182" rx="8" fill="none" stroke="#5e3d1c" stroke-width="12"/>
+    <rect x="131" y="66" width="8" height="170" fill="#5e3d1c"/>
+    <rect x="46" y="147" width="184" height="8" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== STANDING LAMP (#lamp / #lampGlow) ===================== -->
+  <g id="olohuone-lamp" class="hot">
+    <circle id="olohuone-lampGlow" cx="300" cy="300" r="74" fill="#ffd264" opacity="0"/>
+    <rect x="295" y="300" width="10" height="150" fill="#4a4150"/>
+    <ellipse cx="300" cy="452" rx="34" ry="10" fill="#4a4150"/>
+    <path d="M266 300 L334 300 L320 250 L280 250 Z" fill="#ffb43d" stroke="#5e3d1c" stroke-width="5"/>
+    <circle cx="300" cy="300" r="9" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== FIREPLACE (#fireplace / #flames / #marsh) ===================== -->
+  <g id="olohuone-fireplace" class="hot">
+    <rect x="386" y="258" width="196" height="196" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="376" y="244" width="216" height="22" rx="4" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="416" y="300" width="136" height="154" fill="#241a33"/>
+    <rect x="438" y="420" width="92" height="20" rx="10" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <rect x="450" y="404" width="68" height="18" rx="9" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    <g id="olohuone-flames">
+      <path d="M484 418 q-30 -40 -4 -82 q6 28 22 32 q-12 -32 6 -52 q24 36 10 70 q12 -8 10 -28 q20 32 -8 60 Z" fill="#ff8a4c"/>
+      <path d="M484 416 q-18 -30 0 -58 q16 22 6 42 q12 -8 8 -24 q14 24 -6 46 Z" fill="#ffb43d"/>
+      <path d="M482 412 q-10 -20 2 -36 q10 14 2 26 q8 -4 6 -14 q8 16 -4 30 Z" fill="#ffd264"/>
+    </g>
+    <g id="olohuone-marsh" opacity="0">
+      <line x1="568" y1="358" x2="472" y2="392" stroke="#b07a3c" stroke-width="4"/>
+      <circle cx="472" cy="392" r="12" fill="#fff7e6" stroke="#b07a3c" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== CUCKOO CLOCK (#clock / #clockDoor / #clockBird) ===================== -->
+  <g id="olohuone-clock" class="hot">
+    <polygon points="636,86 690,52 744,86" fill="#5e3d1c"/>
+    <rect x="640" y="84" width="100" height="134" rx="10" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <circle cx="690" cy="156" r="34" fill="#f3e7cc" stroke="#5e3d1c" stroke-width="4"/>
+    <line x1="690" y1="156" x2="690" y2="134" stroke="#2a2440" stroke-width="4"/>
+    <line x1="690" y1="156" x2="706" y2="162" stroke="#2a2440" stroke-width="4"/>
+    <rect id="olohuone-clockDoor" x="668" y="92" width="44" height="34" rx="4" fill="#5e3d1c" stroke="#4a3219" stroke-width="2"/>
+    <g id="olohuone-clockBird" opacity="0">
+      <ellipse cx="690" cy="108" rx="15" ry="11" fill="#ffd264"/>
+      <circle cx="683" cy="104" r="3" fill="#2a2440"/>
+      <polygon points="676,108 664,111 676,114" fill="#ff8a4c"/>
+    </g>
+  </g>
+
+  <!-- ===================== PICTURE (#picture / #pictureFrame) ===================== -->
+  <g id="olohuone-picture" class="hot">
+    <circle cx="786" cy="100" r="4" fill="#4a4150"/>
+    <g id="olohuone-pictureFrame">
+      <rect x="780" y="96" width="150" height="120" rx="6" fill="#b07a3c" stroke="#5e3d1c" stroke-width="8"/>
+      <rect x="794" y="110" width="122" height="92" fill="#a5d8ff"/>
+      <polygon points="794,202 840,150 870,178 900,138 916,164 916,202" fill="#3aa64a"/>
+      <circle cx="896" cy="140" r="12" fill="#ffd264"/>
+    </g>
+  </g>
+
+  <!-- ===================== BOOKSHELF (#shelf / #book1) ===================== -->
+  <g id="olohuone-shelf" class="hot">
+    <rect x="892" y="150" width="112" height="250" rx="6" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <line x1="898" y1="246" x2="998" y2="246" stroke="#5e3d1c" stroke-width="5"/>
+    <line x1="898" y1="332" x2="998" y2="332" stroke="#5e3d1c" stroke-width="5"/>
+    <rect id="olohuone-book1" x="906" y="186" width="18" height="58" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="928" y="192" width="16" height="52" rx="2" fill="#e8452f" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="948" y="184" width="18" height="60" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+    <rect x="908" y="276" width="16" height="54" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="928" y="272" width="18" height="58" rx="2" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="952" y="280" width="16" height="50" rx="2" fill="#ff8a4c" stroke="#e8452f" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== PLANT (#plant / #plantLeaves) ===================== -->
+  <g id="olohuone-plant" class="hot">
+    <path d="M118 452 L188 452 L180 512 L126 512 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="112" y="444" width="82" height="14" rx="4" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <g id="olohuone-plantLeaves">
+      <path d="M153 448 q-40 -20 -30 -66 q34 10 36 64 Z" fill="#2b7d39"/>
+      <path d="M153 448 q40 -20 30 -66 q-34 10 -36 64 Z" fill="#3aa64a"/>
+      <path d="M153 450 q-6 -54 0 -84 q8 30 2 84 Z" fill="#3aa64a"/>
+    </g>
+  </g>
+
+  <!-- ===================== RUG (#rug / #rugCorner) ===================== -->
+  <g id="olohuone-rug" class="hot">
+    <ellipse cx="560" cy="552" rx="180" ry="40" fill="#46c4a8" stroke="#2b7d39" stroke-width="5"/>
+    <ellipse cx="560" cy="552" rx="118" ry="24" fill="none" stroke="#ffd264" stroke-width="5"/>
+    <g id="olohuone-rugCorner">
+      <path d="M390 560 q26 -16 54 -8 q-22 20 -54 20 Z" fill="#2b7d39" stroke="#1f5a2a" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== CAT (#cat) ===================== -->
+  <g id="olohuone-cat" class="hot">
+    <path d="M464 550 q-28 -4 -34 -34" fill="none" stroke="#4a4150" stroke-width="12"/>
+    <ellipse cx="530" cy="536" rx="58" ry="34" fill="#4a4150"/>
+    <circle cx="570" cy="500" r="28" fill="#4a4150"/>
+    <polygon points="552,478 558,456 572,476" fill="#4a4150"/>
+    <polygon points="588,478 582,456 568,476" fill="#4a4150"/>
+    <circle cx="562" cy="498" r="4.5" fill="#ffd264"/>
+    <circle cx="578" cy="498" r="4.5" fill="#ffd264"/>
+    <path d="M566 507 l4 5 l4 -5" fill="none" stroke="#241a33" stroke-width="2.5"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="olohuone-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: RIGHT → KASVIHUONE (#navRight) ===================== -->
+  <g id="olohuone-navRight" class="hot">
+    <rect x="828" y="548" width="130" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="890" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">kasvihuone</text>
+    <circle cx="978" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="970,526 992,540 970,554" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== DIM OVERLAY (#dim) — lamp off ===================== -->
+  <rect id="olohuone-dim" x="0" y="0" width="1024" height="600" fill="#241a33" opacity="0.45" pointer-events="none"/>
+</svg>
+<svg class="room" id="scene-kirjasto" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== LIBRARY SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <line x1="0" y1="520" x2="1024" y2="520" stroke="#5e3d1c" stroke-width="3" opacity="0.5"/>
+
+  <!-- ===================== BIG BOOKSHELF (#shelfBig / #book1) ===================== -->
+  <g id="kirjasto-shelfBig" class="hot">
+    <rect x="96" y="96" width="320" height="344" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+    <line x1="104" y1="196" x2="408" y2="196" stroke="#4a3219" stroke-width="5"/>
+    <line x1="104" y1="296" x2="408" y2="296" stroke="#4a3219" stroke-width="5"/>
+    <line x1="104" y1="396" x2="408" y2="396" stroke="#4a3219" stroke-width="5"/>
+    <rect id="kirjasto-book1" x="116" y="132" width="20" height="60" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="140" y="138" width="18" height="54" rx="2" fill="#e8452f" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="162" y="128" width="20" height="64" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+    <rect x="186" y="136" width="18" height="56" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="320" y="134" width="20" height="58" rx="2" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="344" y="130" width="18" height="62" rx="2" fill="#ff8a4c" stroke="#e8452f" stroke-width="3"/>
+    <rect x="120" y="232" width="20" height="60" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="144" y="236" width="18" height="56" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+    <rect x="340" y="234" width="20" height="58" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="364" y="232" width="18" height="60" rx="2" fill="#e8452f" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="120" y="332" width="20" height="60" rx="2" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+    <rect x="144" y="336" width="18" height="56" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="352" y="334" width="20" height="58" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== SLIDING LADDER (#ladder) ===================== -->
+  <g id="kirjasto-ladder" class="hot">
+    <line x1="356" y1="100" x2="356" y2="436" stroke="#b07a3c" stroke-width="8"/>
+    <line x1="392" y1="100" x2="392" y2="436" stroke="#b07a3c" stroke-width="8"/>
+    <line x1="356" y1="150" x2="392" y2="150" stroke="#b07a3c" stroke-width="6"/>
+    <line x1="356" y1="220" x2="392" y2="220" stroke="#b07a3c" stroke-width="6"/>
+    <line x1="356" y1="290" x2="392" y2="290" stroke="#b07a3c" stroke-width="6"/>
+    <line x1="356" y1="360" x2="392" y2="360" stroke="#b07a3c" stroke-width="6"/>
+  </g>
+
+  <!-- ===================== READING OWL (#owlLib / #owlHead) ===================== -->
+  <g id="kirjasto-owlLib" class="hot">
+    <ellipse cx="230" cy="76" rx="26" ry="28" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <g id="kirjasto-owlHead">
+      <polygon points="212,52 222,66 206,64" fill="#8a5a2b"/>
+      <polygon points="248,52 238,66 254,64" fill="#8a5a2b"/>
+      <circle cx="230" cy="58" r="22" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+      <circle cx="221" cy="56" r="7" fill="#fff7e6"/>
+      <circle cx="239" cy="56" r="7" fill="#fff7e6"/>
+      <circle id="kirjasto-owlEyeL" cx="221" cy="56" r="3" fill="#2a2440"/>
+      <circle id="kirjasto-owlEyeR" cx="239" cy="56" r="3" fill="#2a2440"/>
+      <polygon points="225,64 235,64 230,72" fill="#ffb43d"/>
+    </g>
+  </g>
+
+  <!-- ===================== GLOBE (#globe / #globeBall) ===================== -->
+  <g id="kirjasto-globe" class="hot">
+    <path d="M470 470 L486 406 L554 406 L570 470 Z" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <ellipse cx="520" cy="470" rx="54" ry="10" fill="#5e3d1c"/>
+    <path d="M520 316 a44 48 0 0 1 0 96" fill="none" stroke="#b07a3c" stroke-width="7"/>
+    <g id="kirjasto-globeBall">
+      <circle cx="520" cy="364" r="46" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="4"/>
+      <path d="M494 338 q24 10 40 -2 q10 20 -6 36 q-28 4 -40 -10 Z" fill="#3aa64a"/>
+      <path d="M538 384 q14 -4 20 6 q-6 12 -20 8 Z" fill="#3aa64a"/>
+    </g>
+  </g>
+
+  <!-- ===================== CANDLE (#candle / #candleFlame) ===================== -->
+  <g id="kirjasto-candle" class="hot">
+    <rect x="612" y="372" width="120" height="16" rx="5" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    <rect x="658" y="320" width="26" height="54" rx="4" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <g id="kirjasto-candleFlame">
+      <path d="M671 320 q-12 -16 0 -34 q12 18 0 34 Z" fill="#ffb43d"/>
+      <path d="M671 318 q-6 -10 0 -22 q6 12 0 22 Z" fill="#ffd264"/>
+    </g>
+  </g>
+
+  <!-- ===================== SECRET SHELF (#secretShelf / #secretBook / #secretNiche) ===================== -->
+  <g id="kirjasto-secretShelf" class="hot">
+    <rect x="770" y="150" width="150" height="180" rx="6" fill="#241a33"/>
+    <rect id="kirjasto-secretNiche" x="786" y="166" width="118" height="148" fill="#241a33"/>
+    <g id="kirjasto-secretPanel">
+      <rect x="770" y="150" width="150" height="180" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+      <rect x="782" y="162" width="20" height="58" rx="2" fill="#e8452f" stroke="#5e3d1c" stroke-width="3"/>
+      <rect x="806" y="158" width="18" height="62" rx="2" fill="#46c4a8" stroke="#2b7d39" stroke-width="3"/>
+      <rect x="828" y="164" width="20" height="56" rx="2" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+      <rect id="kirjasto-secretBook" x="852" y="156" width="20" height="64" rx="2" fill="#ffd264" stroke="#8a5a2b" stroke-width="3"/>
+      <rect x="878" y="160" width="18" height="60" rx="2" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+      <rect x="782" y="252" width="110" height="18" rx="2" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== COMFY CHAIR (#chair) ===================== -->
+  <g id="kirjasto-chair" class="hot">
+    <path d="M812 470 L812 356 Q812 336 832 336 L942 336 Q962 336 962 356 L962 470 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <rect x="800" y="396" width="26" height="74" rx="8" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <rect x="948" y="396" width="26" height="74" rx="8" fill="#e8452f" stroke="#8a5a2b" stroke-width="5"/>
+    <ellipse cx="887" cy="402" rx="58" ry="18" fill="#ff8a4c" stroke="#8a5a2b" stroke-width="4"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="kirjasto-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: UP → ULLAKKO (#navUp) ===================== -->
+  <g id="kirjasto-navUp" class="hot">
+    <rect x="452" y="20" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="500" y="42" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">ullakko</text>
+    <circle cx="556" cy="58" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="542,66 570,66 556,46" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== NAV: RIGHT → PAJA (#navRight) ===================== -->
+  <g id="kirjasto-navRight" class="hot">
+    <rect x="860" y="548" width="90" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="905" y="570" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">paja</text>
+    <circle cx="978" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="970,526 992,540 970,554" fill="#5e3d1c"/>
+  </g>
+</svg>
+<svg class="room" id="scene-kasvihuone" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== GREENHOUSE SHELL (glass, bright) ===================== -->
+  <rect x="0" y="0" width="1024" height="452" fill="#a5d8ff"/>
+  <rect x="0" y="452" width="1024" height="148" fill="#5e3d1c"/>
+  <rect x="0" y="444" width="1024" height="12" fill="#4a3219"/>
+  <!-- glass frame beams -->
+  <line x1="256" y1="0" x2="256" y2="452" stroke="#46c4a8" stroke-width="5" opacity="0.7"/>
+  <line x1="512" y1="0" x2="512" y2="452" stroke="#46c4a8" stroke-width="5" opacity="0.7"/>
+  <line x1="768" y1="0" x2="768" y2="452" stroke="#46c4a8" stroke-width="5" opacity="0.7"/>
+  <line x1="0" y1="150" x2="1024" y2="150" stroke="#46c4a8" stroke-width="5" opacity="0.7"/>
+
+  <!-- ===================== GLASS ROOF + SUN (#roof / #sun / #sunGlow) ===================== -->
+  <g id="kasvihuone-roof" class="hot">
+    <circle id="kasvihuone-sunGlow" cx="150" cy="96" r="78" fill="#ffd264" opacity="0.22"/>
+    <circle id="kasvihuone-sun" cx="150" cy="96" r="40" fill="#ffd264" stroke="#ffb43d" stroke-width="5"/>
+  </g>
+
+  <!-- ===================== BIG PLANT (#bigPlant / #bigLeaves) ===================== -->
+  <g id="kasvihuone-bigPlant" class="hot">
+    <path d="M120 452 L214 452 L202 540 L132 540 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="112" y="440" width="110" height="16" rx="4" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <g id="kasvihuone-bigLeaves">
+      <path d="M167 444 q-60 -26 -48 -110 q54 16 56 108 Z" fill="#2b7d39"/>
+      <path d="M167 444 q60 -26 48 -110 q-54 16 -56 108 Z" fill="#3aa64a"/>
+      <path d="M167 446 q-8 -84 2 -132 q12 48 2 132 Z" fill="#3aa64a"/>
+      <path d="M167 446 q34 -70 86 -84 q-22 50 -70 82 Z" fill="#2b7d39"/>
+    </g>
+  </g>
+
+  <!-- ===================== SNAPPING PLANT (#snapPlant / #snapMouth) ===================== -->
+  <g id="kasvihuone-snapPlant" class="hot">
+    <path d="M470 540 L558 540 L548 598 L480 598 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M514 540 q-16 -70 0 -120" fill="none" stroke="#2b7d39" stroke-width="10"/>
+    <path d="M500 452 q-30 2 -40 -14" fill="none" stroke="#2b7d39" stroke-width="8"/>
+    <g id="kasvihuone-snapMouth">
+      <path d="M514 420 q-46 -6 -52 -40 q40 10 52 24 Z" fill="#3aa64a" stroke="#2b7d39" stroke-width="4"/>
+      <path d="M514 420 q46 -6 52 -40 q-40 10 -52 24 Z" fill="#46c4a8" stroke="#2b7d39" stroke-width="4"/>
+      <polygon points="470,392 478,404 486,390" fill="#fff7e6"/>
+      <polygon points="542,390 550,404 558,392" fill="#fff7e6"/>
+      <circle cx="498" cy="386" r="6" fill="#fff7e6" stroke="#2b7d39" stroke-width="2"/>
+      <circle cx="530" cy="386" r="6" fill="#fff7e6" stroke="#2b7d39" stroke-width="2"/>
+      <circle cx="498" cy="386" r="2.5" fill="#2a2440"/>
+      <circle cx="530" cy="386" r="2.5" fill="#2a2440"/>
+    </g>
+  </g>
+
+  <!-- ===================== WATERING CAN (#can / #canBody / #flowerBloom) ===================== -->
+  <g id="kasvihuone-can" class="hot">
+    <g id="kasvihuone-canBody">
+      <path d="M840 452 L940 452 L930 530 L850 530 Z" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="5"/>
+      <path d="M840 470 L792 500 L800 512 L846 486 Z" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="5"/>
+      <path d="M940 466 q24 6 22 40" fill="none" stroke="#7cc0ff" stroke-width="10"/>
+      <ellipse cx="787" cy="504" rx="12" ry="7" fill="#3a4a7a"/>
+    </g>
+    <g id="kasvihuone-flowerBloom" opacity="0">
+      <line x1="800" y1="560" x2="800" y2="520" stroke="#2b7d39" stroke-width="5"/>
+      <circle cx="800" cy="512" r="12" fill="#ffd264"/>
+      <circle cx="786" cy="512" r="9" fill="#e8452f"/>
+      <circle cx="814" cy="512" r="9" fill="#e8452f"/>
+      <circle cx="800" cy="500" r="9" fill="#e8452f"/>
+      <circle cx="800" cy="524" r="9" fill="#e8452f"/>
+    </g>
+  </g>
+
+  <!-- ===================== BUTTERFLY (#butterfly) ===================== -->
+  <g id="kasvihuone-butterfly" class="hot">
+    <ellipse cx="640" cy="200" rx="5" ry="16" fill="#2a2440"/>
+    <path d="M636 194 q-40 -30 -36 6 q4 24 36 6 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="3"/>
+    <path d="M644 194 q40 -30 36 6 q-4 24 -36 6 Z" fill="#ffb43d" stroke="#e8452f" stroke-width="3"/>
+    <path d="M636 206 q-30 18 -26 40 q20 2 30 -28 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="3"/>
+    <path d="M644 206 q30 18 26 40 q-20 2 -30 -28 Z" fill="#ffb43d" stroke="#e8452f" stroke-width="3"/>
+    <path d="M640 186 q-6 -12 -14 -14 M640 186 q6 -12 14 -14" fill="none" stroke="#2a2440" stroke-width="2.5"/>
+  </g>
+
+  <!-- ===================== FLOWERPOT ROW (#pots) ===================== -->
+  <g id="kasvihuone-pots" class="hot">
+    <path d="M300 540 L350 540 L344 592 L306 592 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+    <line x1="325" y1="540" x2="325" y2="500" stroke="#2b7d39" stroke-width="5"/>
+    <circle cx="325" cy="492" r="14" fill="#ffd264" stroke="#ffb43d" stroke-width="3"/>
+    <path d="M360 540 L410 540 L404 592 L366 592 Z" fill="#ffb43d" stroke="#8a5a2b" stroke-width="4"/>
+    <line x1="385" y1="540" x2="385" y2="504" stroke="#2b7d39" stroke-width="5"/>
+    <circle cx="385" cy="496" r="14" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+    <path d="M420 540 L470 540 L464 592 L426 592 Z" fill="#46c4a8" stroke="#2b7d39" stroke-width="4"/>
+    <line x1="445" y1="540" x2="445" y2="502" stroke="#2b7d39" stroke-width="5"/>
+    <circle cx="445" cy="494" r="14" fill="#e8452f" stroke="#8a5a2b" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== SNAIL (#snail) ===================== -->
+  <g id="kasvihuone-snail" class="hot">
+    <path d="M636 572 q-10 -18 8 -26 q40 -16 48 20 q6 30 -26 30 Z" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    <circle cx="672" cy="562" r="20" fill="#ffb43d" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="672" cy="562" r="11" fill="none" stroke="#8a5a2b" stroke-width="3"/>
+    <path d="M636 580 q-20 2 -22 -8" fill="none" stroke="#b07a3c" stroke-width="8"/>
+    <line x1="618" y1="572" x2="612" y2="556" stroke="#5e3d1c" stroke-width="3"/>
+    <line x1="626" y1="572" x2="624" y2="554" stroke="#5e3d1c" stroke-width="3"/>
+    <circle cx="612" cy="554" r="3" fill="#2a2440"/>
+    <circle cx="624" cy="553" r="3" fill="#2a2440"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="kasvihuone-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: LEFT → OLOHUONE (#navLeft) ===================== -->
+  <g id="kasvihuone-navLeft" class="hot">
+    <rect x="70" y="548" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="130" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">olohuone</text>
+    <circle cx="46" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="54,526 32,540 54,554" fill="#5e3d1c"/>
+  </g>
+</svg>
+<svg class="room" id="scene-paja" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== WORKSHOP SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+
+  <!-- ===================== FORGE (#forge / #forgeFire / #forgeGlow) ===================== -->
+  <g id="paja-forge" class="hot">
+    <circle id="paja-forgeGlow" cx="150" cy="330" r="92" fill="#ff8a4c" opacity="0"/>
+    <rect x="60" y="300" width="180" height="160" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="52" y="286" width="196" height="22" rx="4" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="88" y="340" width="124" height="120" fill="#241a33"/>
+    <g id="paja-forgeFire">
+      <path d="M150 452 q-28 -36 -4 -74 q6 24 20 28 q-10 -28 6 -46 q22 32 10 62 q10 -8 8 -24 q18 28 -6 54 Z" fill="#ff8a4c"/>
+      <path d="M150 450 q-16 -26 0 -50 q14 18 6 36 q10 -6 8 -20 q12 20 -6 40 Z" fill="#ffb43d"/>
+      <path d="M148 446 q-8 -16 2 -30 q8 12 2 22 q6 -4 6 -12 q6 14 -4 26 Z" fill="#ffd264"/>
+    </g>
+  </g>
+
+  <!-- ===================== GEARS (#gears / #gearA / #gearB) ===================== -->
+  <g id="paja-gears" class="hot">
+    <g id="paja-gearA">
+      <circle cx="440" cy="160" r="48" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+      <line x1="440" y1="104" x2="440" y2="216" stroke="#5e3d1c" stroke-width="10"/>
+      <line x1="384" y1="160" x2="496" y2="160" stroke="#5e3d1c" stroke-width="10"/>
+      <line x1="401" y1="121" x2="479" y2="199" stroke="#5e3d1c" stroke-width="10"/>
+      <line x1="479" y1="121" x2="401" y2="199" stroke="#5e3d1c" stroke-width="10"/>
+      <circle cx="440" cy="160" r="30" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="440" cy="160" r="8" fill="#5e3d1c"/>
+    </g>
+    <g id="paja-gearB">
+      <circle cx="540" cy="212" r="36" fill="#ffb43d" stroke="#8a5a2b" stroke-width="5"/>
+      <line x1="540" y1="170" x2="540" y2="254" stroke="#8a5a2b" stroke-width="9"/>
+      <line x1="498" y1="212" x2="582" y2="212" stroke="#8a5a2b" stroke-width="9"/>
+      <line x1="510" y1="182" x2="570" y2="242" stroke="#8a5a2b" stroke-width="9"/>
+      <line x1="570" y1="182" x2="510" y2="242" stroke="#8a5a2b" stroke-width="9"/>
+      <circle cx="540" cy="212" r="22" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="540" cy="212" r="6" fill="#5e3d1c"/>
+    </g>
+  </g>
+
+  <!-- ===================== TOOL BOARD (#toolboard / #wrench) ===================== -->
+  <g id="paja-toolboard" class="hot">
+    <rect x="760" y="80" width="190" height="150" rx="6" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+    <path d="M800 108 L800 180 M786 108 L814 108" fill="none" stroke="#7a6f86" stroke-width="7"/>
+    <path d="M860 108 q24 0 24 24 q0 24 -24 24 L860 180" fill="none" stroke="#7a6f86" stroke-width="7"/>
+    <g id="paja-wrench">
+      <line x1="916" y1="104" x2="916" y2="180" stroke="#7a6f86" stroke-width="7"/>
+      <path d="M916 104 q-14 -2 -14 -14 q14 -6 20 4 q6 -2 8 4 q-4 10 -14 6 Z" fill="#7a6f86" stroke="#4a4150" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== ROBOT (#robot / #robotArm / #robotEye) ===================== -->
+  <g id="paja-robot" class="hot">
+    <rect x="836" y="360" width="104" height="100" rx="12" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <rect x="860" y="320" width="56" height="44" rx="8" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <circle id="paja-robotEye" cx="888" cy="342" r="10" fill="#ffd264" stroke="#5e3d1c" stroke-width="3"/>
+    <line x1="888" y1="320" x2="888" y2="306" stroke="#4a4150" stroke-width="4"/>
+    <circle cx="888" cy="302" r="6" fill="#e8452f"/>
+    <rect x="852" y="396" width="16" height="22" rx="3" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="908" y="396" width="16" height="22" rx="3" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="852" y="460" width="24" height="24" rx="4" fill="#4a4150"/>
+    <rect x="900" y="460" width="24" height="24" rx="4" fill="#4a4150"/>
+    <g id="paja-robotArm">
+      <rect x="936" y="378" width="46" height="14" rx="6" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+      <circle cx="984" cy="385" r="10" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== WORKBENCH + DRAWER (#bench / #benchDrawer) ===================== -->
+  <g id="paja-bench" class="hot">
+    <rect x="300" y="438" width="420" height="22" rx="4" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="312" y="460" width="396" height="80" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <g id="paja-benchDrawer">
+      <rect x="520" y="470" width="170" height="60" rx="4" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <rect x="588" y="494" width="34" height="10" rx="4" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== HAMMER (#hammer / #hammerHead) ===================== -->
+  <g id="paja-hammer" class="hot">
+    <g id="paja-hammerHead">
+      <line x1="372" y1="438" x2="372" y2="392" stroke="#b07a3c" stroke-width="8"/>
+      <rect x="352" y="378" width="40" height="20" rx="4" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    </g>
+    <rect x="356" y="430" width="16" height="10" fill="#ffd264" stroke="#8a5a2b" stroke-width="2"/>
+  </g>
+
+  <!-- ===================== JACK-IN-THE-BOX (#jack / #jackLid / #jackPop) ===================== -->
+  <g id="paja-jack" class="hot">
+    <g id="paja-jackPop" opacity="0">
+      <line x1="612" y1="432" x2="612" y2="396" stroke="#46c4a8" stroke-width="7"/>
+      <circle cx="612" cy="386" r="18" fill="#ffd264" stroke="#e8452f" stroke-width="4"/>
+      <circle cx="606" cy="383" r="2.5" fill="#2a2440"/>
+      <circle cx="618" cy="383" r="2.5" fill="#2a2440"/>
+      <path d="M605 391 q7 6 14 0" fill="none" stroke="#2a2440" stroke-width="2.5"/>
+    </g>
+    <rect x="582" y="434" width="64" height="4" fill="#5e3d1c"/>
+    <rect x="584" y="438" width="60" height="42" rx="4" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+    <g id="paja-jackLid">
+      <rect x="580" y="426" width="68" height="12" rx="3" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="paja-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: UP → ULLAKKO (#navUp) ===================== -->
+  <g id="paja-navUp" class="hot">
+    <rect x="452" y="20" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="500" y="42" font-family="Comic Sans MS, sans-serif" font-size="17" font-weight="700" fill="#2a2440" text-anchor="middle">ullakko</text>
+    <circle cx="556" cy="58" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="542,66 570,66 556,46" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== NAV: LEFT → KIRJASTO (#navLeft) ===================== -->
+  <g id="paja-navLeft" class="hot">
+    <rect x="70" y="548" width="120" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="130" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">kirjasto</text>
+    <circle cx="46" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="54,526 32,540 54,554" fill="#5e3d1c"/>
+  </g>
+</svg>
+<svg class="room" id="scene-ullakko" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== ATTIC SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#342a4e"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#8a5a2b"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#5e3d1c"/>
+  <line x1="0" y1="512" x2="1024" y2="512" stroke="#5e3d1c" stroke-width="3" opacity="0.5"/>
+  <polygon points="0,0 0,214 214,0" fill="#5e3d1c"/>
+  <polygon points="1024,0 1024,214 810,0" fill="#5e3d1c"/>
+  <line x1="24" y1="0" x2="0" y2="120" stroke="#4a3219" stroke-width="3"/>
+  <line x1="1000" y1="0" x2="1024" y2="120" stroke="#4a3219" stroke-width="3"/>
+  <rect x="150" y="172" width="724" height="18" fill="#5e3d1c"/>
+  <rect x="150" y="172" width="12" height="40" fill="#5e3d1c"/>
+  <rect x="862" y="172" width="12" height="40" fill="#5e3d1c"/>
+
+  <!-- ===================== ROUND WINDOW (#porthole / #bat) ===================== -->
+  <g id="ullakko-porthole" class="hot">
+    <circle cx="420" cy="96" r="52" fill="#241a33"/>
+    <circle cx="404" cy="80" r="15" fill="#ffd264"/>
+    <circle cx="442" cy="70" r="2.5" fill="#cfe8ff"/>
+    <circle cx="448" cy="110" r="2.5" fill="#cfe8ff"/>
+    <circle cx="394" cy="116" r="2.5" fill="#cfe8ff"/>
+    <g id="ullakko-bat" opacity="0">
+      <path d="M420 92 q-14 -12 -24 -4 q10 2 10 12 q-10 -2 -8 8 q10 -8 22 -4 q12 -4 22 4 q2 -10 -8 -8 q0 -10 10 -12 q-10 -8 -24 4 Z" fill="#2a2440"/>
+    </g>
+    <circle cx="420" cy="96" r="52" fill="none" stroke="#5e3d1c" stroke-width="10"/>
+    <circle cx="420" cy="44" r="4" fill="#4a3219"/>
+    <circle cx="420" cy="148" r="4" fill="#4a3219"/>
+    <circle cx="368" cy="96" r="4" fill="#4a3219"/>
+    <circle cx="472" cy="96" r="4" fill="#4a3219"/>
+  </g>
+
+  <!-- ===================== OWL (#owl / #owlHead) ===================== -->
+  <g id="ullakko-owl" class="hot">
+    <ellipse cx="250" cy="150" rx="30" ry="34" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M226 150 q-14 10 -4 28" fill="none" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M274 150 q14 10 4 28" fill="none" stroke="#5e3d1c" stroke-width="5"/>
+    <line x1="242" y1="186" x2="242" y2="196" stroke="#ffb43d" stroke-width="4"/>
+    <line x1="258" y1="186" x2="258" y2="196" stroke="#ffb43d" stroke-width="4"/>
+    <g id="ullakko-owlHead">
+      <polygon points="230,96 240,112 224,110" fill="#8a5a2b"/>
+      <polygon points="270,96 260,112 276,110" fill="#8a5a2b"/>
+      <circle cx="250" cy="118" r="28" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+      <circle cx="240" cy="116" r="9" fill="#fff7e6"/>
+      <circle cx="260" cy="116" r="9" fill="#fff7e6"/>
+      <circle id="ullakko-owlEyeL" cx="240" cy="116" r="4" fill="#2a2440"/>
+      <circle id="ullakko-owlEyeR" cx="260" cy="116" r="4" fill="#2a2440"/>
+      <polygon points="244,124 256,124 250,134" fill="#ffb43d"/>
+    </g>
+  </g>
+
+  <!-- ===================== SPIDER (#spider / #thread / #spiderBody) ===================== -->
+  <g id="ullakko-spider" class="hot">
+    <path d="M1024 36 L956 70 M1024 70 L950 92 M980 30 L958 96" stroke="#7a6f86" stroke-width="2" fill="none" opacity="0.6"/>
+    <path d="M958 50 q34 6 50 36 M958 50 q6 34 -6 54" stroke="#7a6f86" stroke-width="2" fill="none" opacity="0.6"/>
+    <line id="ullakko-thread" x1="958" y1="50" x2="958" y2="150" stroke="#7a6f86" stroke-width="2"/>
+    <g id="ullakko-spiderBody">
+      <path d="M940 150 q-14 10 -18 2 M940 162 q-16 6 -20 0 M940 174 q-14 12 -18 8" stroke="#2a2440" stroke-width="3" fill="none"/>
+      <path d="M976 150 q14 10 18 2 M976 162 q16 6 20 0 M976 174 q14 12 18 8" stroke="#2a2440" stroke-width="3" fill="none"/>
+      <circle cx="958" cy="164" r="20" fill="#4a4150" stroke="#241a33" stroke-width="3"/>
+      <circle cx="951" cy="160" r="6" fill="#fff7e6"/>
+      <circle cx="965" cy="160" r="6" fill="#fff7e6"/>
+      <circle cx="951" cy="161" r="2.5" fill="#2a2440"/>
+      <circle cx="965" cy="161" r="2.5" fill="#2a2440"/>
+      <path d="M951 172 q7 6 14 0" fill="none" stroke="#241a33" stroke-width="2.5"/>
+    </g>
+  </g>
+
+  <!-- ===================== CRATES (#crates / #crateLid / #toyPeek) ===================== -->
+  <g id="ullakko-crates" class="hot">
+    <rect x="78" y="366" width="150" height="106" rx="6" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <line x1="88" y1="374" x2="218" y2="464" stroke="#5e3d1c" stroke-width="3"/>
+    <line x1="218" y1="374" x2="88" y2="464" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="98" y="300" width="112" height="70" rx="5" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <g id="ullakko-toyPeek" opacity="0">
+      <circle cx="154" cy="300" r="14" fill="#f3e7cc" stroke="#5e3d1c" stroke-width="3"/>
+      <circle cx="149" cy="298" r="2.5" fill="#2a2440"/>
+      <circle cx="159" cy="298" r="2.5" fill="#2a2440"/>
+    </g>
+    <rect id="ullakko-crateLid" x="92" y="290" width="124" height="16" rx="4" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== ROCKING HORSE (#rockhorse) ===================== -->
+  <g id="ullakko-rockhorse" class="hot">
+    <path d="M404 498 q96 26 192 0" fill="none" stroke="#b07a3c" stroke-width="10"/>
+    <rect x="470" y="436" width="14" height="60" fill="#8a5a2b"/>
+    <rect x="516" y="436" width="14" height="60" fill="#8a5a2b"/>
+    <ellipse cx="500" cy="420" rx="70" ry="30" fill="#ffb43d" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M556 416 q40 -6 40 -44 q6 24 -6 40 q14 0 20 10 l-8 16 q-18 2 -30 -4 Z" fill="#ffb43d" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M560 378 q20 -2 28 8 q-14 2 -20 10 q-6 -10 -8 -18 Z" fill="#e8452f"/>
+    <path d="M450 398 q-10 -16 -24 -14 q8 8 8 20 Z" fill="#e8452f"/>
+    <circle cx="582" cy="392" r="3.5" fill="#2a2440"/>
+    <path d="M444 420 q-28 6 -34 30" fill="none" stroke="#e8452f" stroke-width="8"/>
+  </g>
+
+  <!-- ===================== TEDDY IN TOY BOX (#teddy / #teddyBody / #teddyArm) ===================== -->
+  <g id="ullakko-teddy" class="hot">
+    <g id="ullakko-teddyBody">
+      <circle cx="680" cy="420" r="24" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="680" cy="392" r="17" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+      <circle cx="669" cy="380" r="6" fill="#8a5a2b"/>
+      <circle cx="691" cy="380" r="6" fill="#8a5a2b"/>
+      <circle cx="674" cy="390" r="2.5" fill="#2a2440"/>
+      <circle cx="686" cy="390" r="2.5" fill="#2a2440"/>
+      <circle cx="680" cy="397" r="3" fill="#2a2440"/>
+    </g>
+    <g id="ullakko-teddyArm">
+      <ellipse cx="710" cy="408" rx="10" ry="16" fill="#b07a3c" stroke="#5e3d1c" stroke-width="4"/>
+    </g>
+    <rect x="622" y="432" width="116" height="54" rx="6" fill="#e8452f" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="618" y="424" width="124" height="12" rx="4" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="3"/>
+  </g>
+
+  <!-- ===================== MUSIC BOX (#musicbox / #musicLid / #dancer) ===================== -->
+  <g id="ullakko-musicbox" class="hot">
+    <g id="ullakko-dancer" opacity="0">
+      <circle cx="800" cy="400" r="7" fill="#f3e7cc" stroke="#5e3d1c" stroke-width="2"/>
+      <path d="M800 407 L790 432 L810 432 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="2"/>
+    </g>
+    <rect x="732" y="432" width="140" height="42" rx="6" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    <rect x="750" y="446" width="26" height="22" rx="3" fill="none" stroke="#ffd264" stroke-width="3"/>
+    <g id="ullakko-musicLid">
+      <rect x="728" y="416" width="148" height="18" rx="5" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    </g>
+    <circle cx="886" cy="452" r="6" fill="#ffd264" stroke="#5e3d1c" stroke-width="2"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="ullakko-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: UP → TAHTITORNI (#navUp) ===================== -->
+  <g id="ullakko-navUp" class="hot">
+    <rect x="600" y="20" width="128" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="652" y="42" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">tähtitorni</text>
+    <circle cx="712" cy="58" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="698,66 726,66 712,46" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== NAV: DOWN → KIRJASTO (#navDown) ===================== -->
+  <g id="ullakko-navDown" class="hot">
+    <rect x="860" y="548" width="100" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="910" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">kirjasto</text>
+    <circle cx="978" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="964,532 992,532 978,552" fill="#5e3d1c"/>
+  </g>
+</svg>
+<svg class="room" id="scene-luuhuone" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== DINO ROOM SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#4a4150"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#5e3d1c"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#4a3219"/>
+  <line x1="0" y1="150" x2="1024" y2="150" stroke="#342a4e" stroke-width="3" opacity="0.6"/>
+  <line x1="0" y1="300" x2="1024" y2="300" stroke="#342a4e" stroke-width="3" opacity="0.6"/>
+
+  <!-- ===================== DINO EGG IN NEST (#dinoEgg / #eggBody) ===================== -->
+  <g id="luuhuone-dinoEgg" class="hot">
+    <path d="M92 230 q58 22 116 0 q-10 16 -58 16 q-48 0 -58 -16 Z" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <g id="luuhuone-eggBody">
+      <ellipse cx="150" cy="196" rx="34" ry="44" fill="#46c4a8" stroke="#2b7d39" stroke-width="5"/>
+      <circle cx="140" cy="182" r="6" fill="#ffd264"/>
+      <circle cx="160" cy="204" r="5" fill="#ffd264"/>
+      <circle cx="152" cy="168" r="4" fill="#ffd264"/>
+    </g>
+  </g>
+
+  <!-- ===================== FOSSIL (#fossil / #fossilGlow) ===================== -->
+  <g id="luuhuone-fossil" class="hot">
+    <circle id="luuhuone-fossilGlow" cx="820" cy="150" r="48" fill="#ffd264" opacity="0"/>
+    <circle cx="820" cy="150" r="34" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <path d="M820 150 q0 -22 22 -16 q18 6 10 24 q-8 14 -24 8 q-14 -6 -8 -18 q6 -8 14 -4" fill="none" stroke="#f3e7cc" stroke-width="5"/>
+  </g>
+
+  <!-- ===================== AMBER (#amber / #amberBug) ===================== -->
+  <g id="luuhuone-amber" class="hot">
+    <path d="M900 134 q40 -8 48 30 q6 40 -34 44 q-40 2 -42 -40 q0 -28 28 -34 Z" fill="#ffb43d" stroke="#8a5a2b" stroke-width="4"/>
+    <g id="luuhuone-amberBug">
+      <ellipse cx="922" cy="176" rx="11" ry="8" fill="#5e3d1c"/>
+      <circle cx="910" cy="172" r="6" fill="#5e3d1c"/>
+      <line x1="922" y1="168" x2="918" y2="160" stroke="#5e3d1c" stroke-width="2"/>
+      <line x1="926" y1="168" x2="930" y2="160" stroke="#5e3d1c" stroke-width="2"/>
+    </g>
+  </g>
+
+  <!-- ===================== DINO SKELETON (#dino / #dinoHead / #dinoJaw) ===================== -->
+  <g id="luuhuone-dino" class="hot">
+    <path d="M700 452 q96 14 158 -18" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+    <path d="M444 404 q118 -62 256 22" fill="none" stroke="#f3e7cc" stroke-width="10"/>
+    <ellipse cx="572" cy="432" rx="128" ry="60" fill="none" stroke="#f3e7cc" stroke-width="13"/>
+    <path d="M512 378 q-6 52 6 100 M552 372 q-6 56 6 108 M596 372 q6 56 -6 108 M636 380 q6 50 -6 98" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+    <line x1="500" y1="488" x2="492" y2="558" stroke="#f3e7cc" stroke-width="14"/>
+    <line x1="572" y1="494" x2="568" y2="560" stroke="#f3e7cc" stroke-width="14"/>
+    <line x1="642" y1="488" x2="650" y2="558" stroke="#f3e7cc" stroke-width="14"/>
+    <path d="M458 408 q-62 -44 -74 -158" fill="none" stroke="#f3e7cc" stroke-width="14"/>
+    <g id="luuhuone-dinoHead">
+      <path d="M384 250 q-40 -4 -42 -30 q36 -14 58 0 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+      <circle cx="372" cy="232" r="5" fill="#4a4150"/>
+      <g id="luuhuone-dinoJaw">
+        <path d="M344 238 q-10 14 10 20 l40 -4" fill="none" stroke="#f3e7cc" stroke-width="7"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===================== SAND PIT (#sandpit / #sandTiles / #buriedBone) ===================== -->
+  <g id="luuhuone-sandpit" class="hot">
+    <rect x="58" y="470" width="268" height="120" rx="8" fill="#5e3d1c" stroke="#4a3219" stroke-width="5"/>
+    <g id="luuhuone-buriedBone">
+      <rect x="132" y="518" width="94" height="16" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+      <circle cx="132" cy="526" r="12" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+      <circle cx="226" cy="526" r="12" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    </g>
+    <g id="luuhuone-sandTiles">
+      <rect x="64" y="476" width="64" height="55" fill="#ffd264"/>
+      <rect x="130" y="476" width="64" height="55" fill="#ffb43d"/>
+      <rect x="196" y="476" width="64" height="55" fill="#ffd264"/>
+      <rect x="262" y="476" width="58" height="55" fill="#ffb43d"/>
+      <rect x="64" y="533" width="64" height="51" fill="#ffb43d"/>
+      <rect x="130" y="533" width="64" height="51" fill="#ffd264"/>
+      <rect x="196" y="533" width="64" height="51" fill="#ffb43d"/>
+      <rect x="262" y="533" width="58" height="51" fill="#ffd264"/>
+    </g>
+  </g>
+
+  <!-- ===================== SKULL ON PEDESTAL (#skull / #skullBody / #skullJaw) ===================== -->
+  <g id="luuhuone-skull" class="hot">
+    <rect x="852" y="470" width="84" height="110" fill="#7a6f86" stroke="#4a4150" stroke-width="5"/>
+    <g id="luuhuone-skullBody">
+      <path d="M860 446 q34 -40 68 0 q6 20 -10 30 l0 14 l-48 0 l0 -14 q-16 -10 -10 -30 Z" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+      <circle cx="878" cy="440" r="7" fill="#4a4150"/>
+      <circle cx="910" cy="440" r="7" fill="#4a4150"/>
+      <g id="luuhuone-skullJaw">
+        <path d="M878 476 l6 10 l6 -10 l6 10 l6 -10 l6 10 l6 -10" fill="none" stroke="#b07a3c" stroke-width="3"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===================== FOOTPRINT (#footprint) ===================== -->
+  <g id="luuhuone-footprint" class="hot">
+    <ellipse cx="470" cy="560" rx="40" ry="24" fill="#4a3219"/>
+    <path d="M444 540 q-6 -16 8 -18 M470 536 q0 -16 0 -18 M496 540 q6 -16 -8 -18" fill="none" stroke="#4a3219" stroke-width="12"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="luuhuone-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: BACK → KELLARI (#navBack) ===================== -->
+  <g id="luuhuone-navBack" class="hot">
+    <rect x="898" y="548" width="100" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="948" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">kellari</text>
+    <circle cx="968" cy="516" r="22" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="954,510 982,510 968,530" fill="#5e3d1c"/>
+  </g>
+</svg>
+<svg class="room" id="scene-kellari" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== CELLAR SHELL ===================== -->
+  <rect x="0" y="0" width="1024" height="440" fill="#4a4150"/>
+  <rect x="0" y="440" width="1024" height="160" fill="#5e3d1c"/>
+  <rect x="0" y="430" width="1024" height="14" fill="#4a3219"/>
+  <line x1="0" y1="150" x2="1024" y2="150" stroke="#342a4e" stroke-width="3" opacity="0.7"/>
+  <line x1="0" y1="290" x2="1024" y2="290" stroke="#342a4e" stroke-width="3" opacity="0.7"/>
+  <line x1="700" y1="0" x2="700" y2="150" stroke="#342a4e" stroke-width="3" opacity="0.7"/>
+  <line x1="520" y1="150" x2="520" y2="290" stroke="#342a4e" stroke-width="3" opacity="0.7"/>
+  <line x1="880" y1="150" x2="880" y2="290" stroke="#342a4e" stroke-width="3" opacity="0.7"/>
+  <path d="M1024 20 L956 60 M1024 60 L970 96 M1000 16 L980 86" stroke="#7a6f86" stroke-width="2" fill="none" opacity="0.4"/>
+
+  <!-- ===================== HANGING LANTERN (#lantern / #lanternGlow) ===================== -->
+  <g id="kellari-lantern" class="hot">
+    <circle id="kellari-lanternGlow" cx="548" cy="150" r="120" fill="#ffd264" opacity="0"/>
+    <line x1="548" y1="0" x2="548" y2="86" stroke="#2a2440" stroke-width="4"/>
+    <path d="M526 96 L570 96 L564 150 L532 150 Z" fill="#8a5a2b" stroke="#4a3219" stroke-width="5"/>
+    <rect x="532" y="104" width="32" height="40" rx="3" fill="#ffd264"/>
+    <circle cx="548" cy="92" r="7" fill="#4a3219"/>
+  </g>
+
+  <!-- ===================== JAM JARS (#jars / #firefly) ===================== -->
+  <g id="kellari-jars" class="hot">
+    <rect x="252" y="250" width="186" height="12" rx="3" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    <rect x="268" y="200" width="40" height="50" rx="8" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+    <rect x="266" y="190" width="44" height="12" rx="4" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="326" y="204" width="40" height="46" rx="8" fill="#46c4a8" stroke="#2b7d39" stroke-width="4"/>
+    <rect x="324" y="194" width="44" height="12" rx="4" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="384" y="200" width="40" height="50" rx="8" fill="#241a33" stroke="#7a6f86" stroke-width="4"/>
+    <rect x="382" y="190" width="44" height="12" rx="4" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <circle id="kellari-firefly" cx="404" cy="228" r="5" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== BARREL (#barrel / #barrelLid / #frog) ===================== -->
+  <g id="kellari-barrel" class="hot">
+    <path d="M848 500 Q834 430 848 364 L968 364 Q982 430 968 500 Z" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="5"/>
+    <path d="M840 392 Q908 400 976 392" fill="none" stroke="#b07a3c" stroke-width="7"/>
+    <path d="M838 470 Q908 478 978 470" fill="none" stroke="#b07a3c" stroke-width="7"/>
+    <line x1="886" y1="366" x2="886" y2="498" stroke="#5e3d1c" stroke-width="2"/>
+    <line x1="922" y1="366" x2="922" y2="498" stroke="#5e3d1c" stroke-width="2"/>
+    <g id="kellari-frog" opacity="0">
+      <ellipse cx="908" cy="340" rx="30" ry="22" fill="#3aa64a" stroke="#2b7d39" stroke-width="4"/>
+      <circle cx="894" cy="322" r="9" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+      <circle cx="922" cy="322" r="9" fill="#3aa64a" stroke="#2b7d39" stroke-width="3"/>
+      <circle cx="894" cy="321" r="3.5" fill="#2a2440"/>
+      <circle cx="922" cy="321" r="3.5" fill="#2a2440"/>
+      <path d="M894 348 q14 8 28 0" fill="none" stroke="#2b7d39" stroke-width="3"/>
+    </g>
+    <g id="kellari-barrelLid">
+      <ellipse cx="908" cy="364" rx="60" ry="14" fill="#b07a3c" stroke="#5e3d1c" stroke-width="5"/>
+    </g>
+  </g>
+
+  <!-- ===================== GLOWING MUSHROOMS (#mushrooms / #mushGlow) ===================== -->
+  <g id="kellari-mushrooms" class="hot">
+    <ellipse id="kellari-mushGlow" cx="195" cy="536" rx="110" ry="54" fill="#46c4a8" opacity="0.22"/>
+    <rect x="150" y="534" width="16" height="44" rx="6" fill="#fff7e6" stroke="#b07a3c" stroke-width="3"/>
+    <path d="M132 536 q26 -34 52 0 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="4"/>
+    <circle cx="150" cy="524" r="3" fill="#fff7e6"/>
+    <circle cx="168" cy="528" r="3" fill="#fff7e6"/>
+    <rect x="206" y="520" width="18" height="58" rx="7" fill="#fff7e6" stroke="#b07a3c" stroke-width="3"/>
+    <path d="M184 522 q31 -40 62 0 Z" fill="#ffb43d" stroke="#e8452f" stroke-width="4"/>
+    <circle cx="206" cy="508" r="3.5" fill="#fff7e6"/>
+    <circle cx="228" cy="512" r="3.5" fill="#fff7e6"/>
+    <rect x="256" y="540" width="14" height="38" rx="6" fill="#fff7e6" stroke="#b07a3c" stroke-width="3"/>
+    <path d="M240 542 q23 -30 46 0 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="4"/>
+  </g>
+
+  <!-- ===================== TREASURE CHEST — SUB-GOAL (#bigchest / #chestLid / #chestGlow) ===================== -->
+  <g id="kellari-bigchest" class="hot">
+    <ellipse id="kellari-chestGlow" cx="548" cy="430" rx="150" ry="120" fill="#ffd264" opacity="0"/>
+    <rect x="438" y="432" width="220" height="96" rx="10" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="6"/>
+    <rect x="470" y="432" width="18" height="96" fill="#ffb43d" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="608" y="432" width="18" height="96" fill="#ffb43d" stroke="#5e3d1c" stroke-width="3"/>
+    <rect x="534" y="458" width="28" height="40" rx="4" fill="#ffd264" stroke="#5e3d1c" stroke-width="4"/>
+    <circle cx="548" cy="474" r="5" fill="#2a2440"/>
+    <rect x="544" y="474" width="8" height="16" fill="#2a2440"/>
+    <g id="kellari-chestLid">
+      <path d="M432 436 Q432 376 548 376 Q664 376 664 436 Z" fill="#5e3d1c" stroke="#4a3219" stroke-width="6"/>
+      <path d="M470 384 Q470 400 470 436 M626 384 Q626 400 626 436" fill="none" stroke="#ffb43d" stroke-width="12"/>
+    </g>
+  </g>
+
+  <!-- ===================== SLEEPING BABY DRAGON (#dragon ...) ===================== -->
+  <g id="kellari-dragon" class="hot">
+    <ellipse id="kellari-dragonBelly" cx="862" cy="548" rx="150" ry="46" fill="#3aa64a"/>
+    <ellipse cx="862" cy="560" rx="120" ry="28" fill="#ffd264" opacity="0.35"/>
+    <polygon points="772,512 786,476 804,512" fill="#2b7d39"/>
+    <polygon points="824,506 840,468 858,506" fill="#2b7d39"/>
+    <polygon points="880,508 896,474 912,508" fill="#2b7d39"/>
+    <path d="M980 548 q50 -6 36 -52 q-6 34 -34 30 Z" fill="#3aa64a" stroke="#2b7d39" stroke-width="4"/>
+    <path d="M900 520 q46 -30 92 -8 q-38 6 -40 36 Z" fill="#2b7d39"/>
+    <circle cx="742" cy="536" r="52" fill="#3aa64a" stroke="#2b7d39" stroke-width="5"/>
+    <polygon points="724,492 714,462 740,486" fill="#ffd264" stroke="#2b7d39" stroke-width="3"/>
+    <path d="M700 548 q-20 2 -30 -8 q18 -2 22 -14 Z" fill="#3aa64a" stroke="#2b7d39" stroke-width="4"/>
+    <path id="kellari-dragonEye" d="M720 524 q12 8 24 0" fill="none" stroke="#2a2440" stroke-width="4"/>
+    <circle id="kellari-dragonEyeOpen" cx="732" cy="520" r="7" fill="#2a2440" opacity="0"/>
+    <circle cx="700" cy="536" r="4" fill="#2b7d39"/>
+    <circle id="kellari-smokeRing" cx="688" cy="520" r="10" fill="none" stroke="#cfe8ff" stroke-width="4" opacity="0"/>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="kellari-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: DOWN/TUNNEL → LUUHUONE (#navDown) ===================== -->
+  <g id="kellari-navDown" class="hot">
+    <path d="M40 430 V300 a52 52 0 0 1 104 0 V430 Z" fill="#241a33" stroke="#7a6f86" stroke-width="8"/>
+    <rect x="30" y="118" width="128" height="28" rx="6" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="94" y="139" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">luuhuone</text>
+    <circle cx="92" cy="360" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="78,352 106,352 92,372" fill="#5e3d1c"/>
+  </g>
+
+  <!-- ===================== DIM OVERLAY (#dim) — lantern off ===================== -->
+  <rect id="kellari-dim" x="0" y="0" width="1024" height="600" fill="#241a33" opacity="0.5" pointer-events="none"/>
+</svg>
+<svg class="room" id="scene-tahtitorni" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round" style="display:none">
+  <!-- ===================== TOWER SHELL (night) ===================== -->
+  <rect x="0" y="0" width="1024" height="452" fill="#241a33"/>
+  <rect x="0" y="452" width="1024" height="148" fill="#4a4150"/>
+  <rect x="0" y="444" width="1024" height="12" fill="#342a4e"/>
+  <circle cx="120" cy="120" r="2.5" fill="#cfe8ff"/>
+  <circle cx="860" cy="70" r="2.5" fill="#cfe8ff"/>
+  <circle cx="940" cy="150" r="2.5" fill="#cfe8ff"/>
+  <circle cx="60" cy="300" r="2.5" fill="#cfe8ff"/>
+
+  <!-- ===================== SKY DOME — MAIN GOAL (#skyDome / #domeSlots / #domeBurst) ===================== -->
+  <g id="tahtitorni-skyDome" class="hot">
+    <path d="M296 200 A216 178 0 0 1 728 200 Z" fill="#14122a" stroke="#7a6f86" stroke-width="8"/>
+    <line x1="512" y1="24" x2="512" y2="200" stroke="#7a6f86" stroke-width="5" opacity="0.6"/>
+    <line x1="360" y1="70" x2="664" y2="70" stroke="#7a6f86" stroke-width="5" opacity="0.6"/>
+    <path d="M400 46 A150 130 0 0 1 624 46" fill="none" stroke="#7a6f86" stroke-width="5" opacity="0.6"/>
+    <circle cx="430" cy="110" r="2.5" fill="#cfe8ff"/>
+    <circle cx="560" cy="86" r="2.5" fill="#cfe8ff"/>
+    <circle cx="600" cy="140" r="2.5" fill="#cfe8ff"/>
+    <g id="tahtitorni-domeBurst" opacity="0">
+      <path d="M512 120 l10 26 l28 2 l-21 18 l7 27 l-24 -15 l-24 15 l7 -27 l-21 -18 l28 -2 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="3"/>
+    </g>
+    <g id="tahtitorni-domeSlots">
+      <circle cx="360" cy="168" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+      <circle cx="436" cy="150" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+      <circle cx="512" cy="144" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+      <circle cx="588" cy="150" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+      <circle cx="664" cy="168" r="11" fill="#241a33" stroke="#ffd264" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== MOON GLOBE (#moonGlobe / #moonGlow) ===================== -->
+  <g id="tahtitorni-moonGlobe" class="hot">
+    <circle id="tahtitorni-moonGlow" cx="150" cy="380" r="74" fill="#ffd264" opacity="0.18"/>
+    <rect x="144" y="420" width="12" height="46" fill="#7a6f86"/>
+    <ellipse cx="150" cy="468" rx="36" ry="10" fill="#4a4150"/>
+    <circle cx="150" cy="380" r="46" fill="#ffd264" stroke="#ffb43d" stroke-width="4"/>
+    <circle cx="134" cy="366" r="8" fill="#ffb43d"/>
+    <circle cx="166" cy="392" r="6" fill="#ffb43d"/>
+    <circle cx="156" cy="356" r="5" fill="#ffb43d"/>
+  </g>
+
+  <!-- ===================== STAR JAR (#starJar) ===================== -->
+  <g id="tahtitorni-starJar" class="hot">
+    <path d="M268 470 Q262 402 300 402 Q338 402 332 470 Z" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="5" opacity="0.6"/>
+    <rect x="276" y="392" width="48" height="12" rx="4" fill="#ffb43d" stroke="#8a5a2b" stroke-width="3"/>
+    <path d="M292 440 l4 9 l10 1 l-7 7 l2 10 l-9 -5 l-9 5 l2 -10 l-7 -7 l10 -1 Z" fill="#ffd264"/>
+    <circle cx="312" cy="428" r="4" fill="#ffd264"/>
+    <circle cx="286" cy="420" r="3" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== TELESCOPE (#telescope / #scope) ===================== -->
+  <g id="tahtitorni-telescope" class="hot">
+    <line x1="520" y1="470" x2="480" y2="516" stroke="#5e3d1c" stroke-width="8"/>
+    <line x1="520" y1="470" x2="560" y2="516" stroke="#5e3d1c" stroke-width="8"/>
+    <line x1="520" y1="470" x2="520" y2="520" stroke="#5e3d1c" stroke-width="8"/>
+    <g id="tahtitorni-scope">
+      <rect x="470" y="356" width="120" height="40" rx="14" fill="#7a6f86" stroke="#4a4150" stroke-width="5" transform="rotate(-28 530 376)"/>
+      <ellipse cx="582" cy="328" rx="16" ry="22" fill="#7cc0ff" stroke="#4a4150" stroke-width="5" transform="rotate(-28 582 328)"/>
+      <circle cx="520" cy="470" r="12" fill="#5e3d1c" stroke="#4a3219" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- ===================== CONSTELLATION CHART (#chart / #chartLines) ===================== -->
+  <g id="tahtitorni-chart" class="hot">
+    <rect x="800" y="80" width="190" height="210" rx="8" fill="#14122a" stroke="#b07a3c" stroke-width="6"/>
+    <g id="tahtitorni-chartLines">
+      <line x1="828" y1="150" x2="876" y2="128" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <line x1="876" y1="128" x2="918" y2="150" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <line x1="918" y1="150" x2="948" y2="196" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <line x1="876" y1="128" x2="892" y2="196" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <line x1="892" y1="196" x2="856" y2="240" stroke="#7cc0ff" stroke-width="3" opacity="0.5"/>
+      <circle cx="828" cy="150" r="4" fill="#cfe8ff"/>
+      <circle cx="876" cy="128" r="4" fill="#cfe8ff"/>
+      <circle cx="918" cy="150" r="4" fill="#cfe8ff"/>
+      <circle cx="948" cy="196" r="4" fill="#cfe8ff"/>
+      <circle cx="892" cy="196" r="4" fill="#cfe8ff"/>
+      <circle cx="856" cy="240" r="4" fill="#cfe8ff"/>
+    </g>
+  </g>
+
+  <!-- ===================== MODEL ROCKET (#rocket / #rocketBody / #rocketFlame) ===================== -->
+  <g id="tahtitorni-rocket" class="hot">
+    <ellipse cx="880" cy="500" rx="46" ry="10" fill="#4a4150"/>
+    <g id="tahtitorni-rocketBody">
+      <path d="M880 360 Q906 392 906 452 L854 452 Q854 392 880 360 Z" fill="#f3e7cc" stroke="#8a5a2b" stroke-width="5"/>
+      <path d="M880 360 Q890 378 894 398 L866 398 Q870 378 880 360 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+      <circle cx="880" cy="420" r="11" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="4"/>
+      <path d="M854 452 L836 484 L854 484 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+      <path d="M906 452 L924 484 L906 484 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+      <g id="tahtitorni-rocketFlame" opacity="0">
+        <path d="M866 484 q14 30 28 0 q-4 18 -14 22 q-10 -4 -14 -22 Z" fill="#ff8a4c"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- ===================== BABY DRAGON (waiting) (#towerDragon / #towerDragonFlame) ===================== -->
+  <g id="tahtitorni-towerDragon" class="hot">
+    <ellipse cx="230" cy="548" rx="86" ry="36" fill="#3aa64a" stroke="#2b7d39" stroke-width="5"/>
+    <ellipse cx="230" cy="558" rx="60" ry="18" fill="#ffd264" opacity="0.35"/>
+    <polygon points="198,518 210,490 224,518" fill="#2b7d39"/>
+    <polygon points="232,516 246,486 260,516" fill="#2b7d39"/>
+    <path d="M276 536 q40 -28 76 -6 q-32 4 -34 32 Z" fill="#2b7d39"/>
+    <circle cx="168" cy="512" r="34" fill="#3aa64a" stroke="#2b7d39" stroke-width="5"/>
+    <polygon points="156,476 148,452 172,472" fill="#ffd264" stroke="#2b7d39" stroke-width="3"/>
+    <circle cx="156" cy="506" r="6" fill="#fff7e6"/>
+    <circle cx="156" cy="506" r="3" fill="#2a2440"/>
+    <path d="M136 524 q-18 2 -26 -6 q16 -2 20 -12 Z" fill="#3aa64a" stroke="#2b7d39" stroke-width="4"/>
+    <circle cx="134" cy="520" r="3" fill="#2b7d39"/>
+    <g id="tahtitorni-towerDragonFlame" opacity="0">
+      <path d="M112 520 q-30 -4 -44 6 q24 2 24 10 q-20 0 -4 10 q14 -8 30 -6 Z" fill="#ff8a4c"/>
+    </g>
+  </g>
+
+  <!-- ===================== NAV: HOME (#navHome) ===================== -->
+  <g id="tahtitorni-navHome" class="hot">
+    <rect x="16" y="18" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="28,48 47,30 66,48" fill="#5e3d1c"/>
+    <rect x="37" y="48" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="43" y="54" width="8" height="12" fill="#ffd264"/>
+  </g>
+
+  <!-- ===================== NAV: DOWN → ULLAKKO (#navDown) ===================== -->
+  <g id="tahtitorni-navDown" class="hot">
+    <rect x="860" y="548" width="100" height="30" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="3"/>
+    <text x="910" y="570" font-family="Comic Sans MS, sans-serif" font-size="16" font-weight="700" fill="#2a2440" text-anchor="middle">ullakko</text>
+    <circle cx="978" cy="540" r="24" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="964,532 992,532 978,552" fill="#5e3d1c"/>
+  </g>
+</svg>
+
+  <svg id="fx" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round"></svg>
+
+  <svg id="hud" viewBox="0 0 1024 600" width="1024" height="600">
+    <rect x="356" y="6" width="312" height="40" rx="14" fill="#241a33" opacity="0.82" stroke="#ffd264" stroke-width="3"/>
+    <text id="hudStars" x="512" y="34" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">tähtikiviä 0/5</text>
+    <rect x="252" y="560" width="520" height="36" rx="14" fill="#241a33" opacity="0.78" stroke="#8a5a2b" stroke-width="2"/>
+    <text id="hudHint" x="512" y="585" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6">tutki taloa — koske kaikkea!</text>
   </svg>
+
+  <svg id="sprsheet" width="0" height="0" viewBox="0 0 480 480" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <!-- ATLAS of overlay sprites. Each sprite is a <g id> with a local origin at its
+       translate offset. Engine: take the inner markup, drop/adjust the translate,
+       place where needed. Background + labels are preview-only (engine ignores). -->
+  <rect x="0" y="0" width="480" height="480" fill="#241a33"/>
+  <line x1="160" y1="0" x2="160" y2="480" stroke="#342a4e" stroke-width="2"/>
+  <line x1="320" y1="0" x2="320" y2="480" stroke="#342a4e" stroke-width="2"/>
+  <line x1="0" y1="160" x2="480" y2="160" stroke="#342a4e" stroke-width="2"/>
+  <line x1="0" y1="320" x2="480" y2="320" stroke="#342a4e" stroke-width="2"/>
+
+  <!-- #spr_key : golden key (local box ~90x44) -->
+  <g id="sp-spr_key" transform="translate(32,56)">
+    <circle cx="20" cy="20" r="17" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="20" cy="20" r="6" fill="#241a33"/>
+    <rect x="33" y="15" width="54" height="10" rx="3" fill="#ffd264" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="72" y="25" width="9" height="15" rx="1" fill="#ffd264" stroke="#8a5a2b" stroke-width="3"/>
+    <rect x="58" y="25" width="9" height="12" rx="1" fill="#ffd264" stroke="#8a5a2b" stroke-width="3"/>
+  </g>
+
+  <!-- #spr_mouse : little mouse (local box ~76x52) -->
+  <g id="sp-spr_mouse" transform="translate(196,56)">
+    <path d="M54 38 q18 -2 22 -16" fill="none" stroke="#7a6f86" stroke-width="5"/>
+    <ellipse cx="34" cy="34" rx="26" ry="18" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <circle cx="14" cy="26" r="13" fill="#7a6f86" stroke="#4a4150" stroke-width="4"/>
+    <circle cx="22" cy="14" r="9" fill="#7a6f86" stroke="#4a4150" stroke-width="3"/>
+    <circle cx="22" cy="14" r="4" fill="#ff8a4c"/>
+    <circle cx="9" cy="26" r="3" fill="#2a2440"/>
+    <circle cx="3" cy="30" r="3" fill="#ff8a4c"/>
+  </g>
+
+  <!-- #spr_cheese : cheese wedge, mice reward (local box ~64x40) -->
+  <g id="sp-spr_cheese" transform="translate(356,64)">
+    <path d="M4 38 L60 10 L60 38 Z" fill="#ffd264" stroke="#b07a3c" stroke-width="4"/>
+    <circle cx="30" cy="30" r="4" fill="#b07a3c"/>
+    <circle cx="46" cy="24" r="3" fill="#b07a3c"/>
+    <circle cx="19" cy="33" r="2.5" fill="#b07a3c"/>
+  </g>
+
+  <!-- #spr_star : glowing star-stone, the main collectible (local box ~60x60) -->
+  <g id="sp-spr_star" transform="translate(50,206)">
+    <circle cx="30" cy="30" r="30" fill="#7cc0ff" opacity="0.2"/>
+    <path d="M30 2 l9 18 l20 3 l-15 14 l4 20 l-18 -10 l-18 10 l4 -20 l-15 -14 l20 -3 Z" fill="#cfe8ff" stroke="#7cc0ff" stroke-width="3"/>
+    <circle cx="30" cy="30" r="6" fill="#ffd264"/>
+  </g>
+
+  <!-- #spr_smokering : dragon smoke ring (local box ~40x40) -->
+  <g id="sp-spr_smokering" transform="translate(220,220)">
+    <circle cx="20" cy="20" r="16" fill="none" stroke="#cfe8ff" stroke-width="5" opacity="0.8"/>
+  </g>
+
+  <!-- #spr_cluecard : enlarged readable clue card (local box ~130x96).
+       Engine draws the Finnish line over the two guide lines and drops a
+       matching clue-icon into the slot. -->
+  <g id="sp-spr_cluecard" transform="translate(336,200)">
+    <rect x="0" y="0" width="130" height="96" rx="8" fill="#f3e7cc" stroke="#b07a3c" stroke-width="5"/>
+    <rect x="5" y="5" width="120" height="86" rx="6" fill="none" stroke="#b07a3c" stroke-width="2" opacity="0.5"/>
+    <line x1="16" y1="26" x2="114" y2="26" stroke="#8a5a2b" stroke-width="5"/>
+    <line x1="16" y1="44" x2="90" y2="44" stroke="#8a5a2b" stroke-width="5"/>
+    <rect x="44" y="56" width="42" height="32" rx="4" fill="#fff7e6" stroke="#46c4a8" stroke-width="4"/>
+  </g>
+
+  <!-- #spr_arrow : round directional nav button, points right (local box 64x64).
+       Engine rotates for up/down/left. -->
+  <g id="sp-spr_arrow" transform="translate(48,370)">
+    <circle cx="32" cy="32" r="30" fill="#ffd264" stroke="#8a5a2b" stroke-width="5"/>
+    <polygon points="24,16 48,32 24,48" fill="#5e3d1c"/>
+  </g>
+
+  <!-- #spr_home : house button → back to the hall (local box 62x56) -->
+  <g id="sp-spr_home" transform="translate(208,372)">
+    <rect x="0" y="0" width="62" height="56" rx="12" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <polygon points="12,30 31,12 50,30" fill="#5e3d1c"/>
+    <rect x="21" y="30" width="20" height="18" fill="#5e3d1c"/>
+    <rect x="27" y="36" width="8" height="12" fill="#ffd264"/>
+  </g>
+</svg>
+  <svg id="trsheet" width="0" height="0" viewBox="0 0 560 280" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+  <!-- ATLAS: 8 chest treasures, one per 140x140 cell. Each <g id> has a local origin
+       at its translate; engine recenters over the open chest. Random 1 of 8 per win. -->
+  <rect x="0" y="0" width="560" height="280" fill="#241a33"/>
+  <line x1="140" y1="0" x2="140" y2="280" stroke="#342a4e" stroke-width="2"/>
+  <line x1="280" y1="0" x2="280" y2="280" stroke="#342a4e" stroke-width="2"/>
+  <line x1="420" y1="0" x2="420" y2="280" stroke="#342a4e" stroke-width="2"/>
+  <line x1="0" y1="140" x2="560" y2="140" stroke="#342a4e" stroke-width="2"/>
+
+  <!-- #tr_coins : kultakolikot -->
+  <g id="tr-tr_coins" transform="translate(20,20)">
+    <ellipse cx="50" cy="96" rx="48" ry="16" fill="#ffb43d" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="30" cy="70" r="20" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="66" cy="66" r="20" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="48" cy="46" r="18" fill="#ffd264" stroke="#8a5a2b" stroke-width="4"/>
+    <circle cx="30" cy="70" r="7" fill="none" stroke="#8a5a2b" stroke-width="2"/>
+    <circle cx="48" cy="46" r="6" fill="none" stroke="#8a5a2b" stroke-width="2"/>
+  </g>
+
+  <!-- #tr_starmap : tähtikartta -->
+  <g id="tr-tr_starmap" transform="translate(180,30)">
+    <rect x="16" y="18" width="72" height="56" rx="4" fill="#f3e7cc" stroke="#b07a3c" stroke-width="4"/>
+    <ellipse cx="16" cy="46" rx="8" ry="30" fill="#b07a3c" stroke="#8a5a2b" stroke-width="3"/>
+    <ellipse cx="88" cy="46" rx="8" ry="30" fill="#b07a3c" stroke="#8a5a2b" stroke-width="3"/>
+    <path d="M52 32 l4 10 l11 1 l-8 7 l3 11 l-10 -6 l-10 6 l3 -11 l-8 -7 l11 -1 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="2"/>
+  </g>
+
+  <!-- #tr_egg : lohikäärmeenmuna -->
+  <g id="tr-tr_egg" transform="translate(340,14)">
+    <ellipse cx="40" cy="62" rx="34" ry="46" fill="#46c4a8" stroke="#2b7d39" stroke-width="5"/>
+    <circle cx="30" cy="48" r="6" fill="#ffd264"/>
+    <circle cx="52" cy="68" r="5" fill="#ffd264"/>
+    <circle cx="44" cy="34" r="4" fill="#ffd264"/>
+  </g>
+
+  <!-- #tr_hat : hassu hattu -->
+  <g id="tr-tr_hat" transform="translate(478,20)">
+    <polygon points="20,96 90,96 55,14" fill="#3a4a7a" stroke="#241a33" stroke-width="5"/>
+    <ellipse cx="55" cy="96" rx="48" ry="12" fill="#342a4e" stroke="#241a33" stroke-width="4"/>
+    <path d="M55 46 l4 10 l11 1 l-8 7 l3 11 l-10 -6 l-10 6 l3 -11 l-8 -7 l11 -1 Z" fill="#ffd264"/>
+  </g>
+
+  <!-- #tr_pearl : helmi -->
+  <g id="tr-tr_pearl" transform="translate(24,168)">
+    <path d="M50 86 Q6 86 10 46 Q50 20 90 46 Q94 86 50 86 Z" fill="#ff8a4c" stroke="#e8452f" stroke-width="4"/>
+    <path d="M50 86 L30 50 M50 86 L50 44 M50 86 L70 50" fill="none" stroke="#e8452f" stroke-width="3"/>
+    <circle cx="50" cy="70" r="12" fill="#fff7e6" stroke="#b07a3c" stroke-width="2"/>
+  </g>
+
+  <!-- #tr_ship : lelulaiva -->
+  <g id="tr-tr_ship" transform="translate(180,160)">
+    <path d="M10 70 L90 70 L78 96 L22 96 Z" fill="#8a5a2b" stroke="#5e3d1c" stroke-width="4"/>
+    <line x1="50" y1="70" x2="50" y2="16" stroke="#b07a3c" stroke-width="5"/>
+    <path d="M50 20 L82 44 L50 60 Z" fill="#fff7e6" stroke="#3a4a7a" stroke-width="3"/>
+    <path d="M50 24 L24 44 L50 58 Z" fill="#7cc0ff" stroke="#3a4a7a" stroke-width="3"/>
+  </g>
+
+  <!-- #tr_candy : karkkipussi -->
+  <g id="tr-tr_candy" transform="translate(340,160)">
+    <path d="M18 36 Q40 20 62 36 L58 96 L22 96 Z" fill="#e8452f" stroke="#8a5a2b" stroke-width="4"/>
+    <path d="M18 36 L40 48 L62 36" fill="none" stroke="#8a5a2b" stroke-width="3"/>
+    <circle cx="34" cy="64" r="7" fill="#ffd264"/>
+    <circle cx="48" cy="76" r="7" fill="#7cc0ff"/>
+    <circle cx="34" cy="84" r="6" fill="#46c4a8"/>
+  </g>
+
+  <!-- #tr_wand : taikasauva -->
+  <g id="tr-tr_wand" transform="translate(498,160)">
+    <line x1="28" y1="96" x2="66" y2="40" stroke="#b07a3c" stroke-width="7"/>
+    <path d="M70 18 l7 16 l17 2 l-13 11 l4 17 l-15 -9 l-15 9 l4 -17 l-13 -11 l17 -2 Z" fill="#ffd264" stroke="#ffb43d" stroke-width="2"/>
+  </g>
+</svg>
 </div>
+
 <script src="../content/logic.js"></script>
 <script src="../engine/core.js"></script>
 <script src="../engine/anim.js"></script>
@@ -24,12 +1430,159 @@
 <script>
 (function () {
   "use strict";
-  Seik.core.ready(function () {
-    Seik.core.initStage();
-    Seik.audio.setBase("../assets/audio/");
-    Seik.audio.setManifest({});
-    Seik.core.addBackButton();
-    Seik.core.addMuteButton();
+  var C = Seik.core, A = Seik.anim, AU = Seik.audio;
+  var S = Seik.logic.salahuone, U = Seik.logic.util;
+
+  var quest = S.assignQuest();
+  var got = {};                  /* "room/id" -> {star:1,key:1,mouse:1} collected there */
+  var starCount = 0, mouseCount = 0, hasKey = false, chestOpen = false, domeDone = false;
+  var cur = "eteinen", busy = false, dimState = {};
+  var hudStars, hudHint;
+  /* sprite centre offsets (after stripping the atlas translate) */
+  var SPR = { spr_star: [30, 30], spr_key: [45, 22], spr_mouse: [38, 26], spr_cheese: [32, 24] };
+
+  function setHint(t) { if (hudHint.firstChild) hudHint.firstChild.nodeValue = t; else hudHint.appendChild(document.createTextNode(t)); }
+  function setStars() { var t = "tähtikiviä " + starCount + "/5"; if (hudStars.firstChild) hudStars.firstChild.nodeValue = t; else hudStars.appendChild(document.createTextNode(t)); }
+  function id(room, base) { return room + "-" + base; }
+
+  function centerOf(el) {
+    try { var b = el.getBBox(); return { x: b.x + b.width / 2, y: b.y + b.height / 2 }; }
+    catch (e) { return { x: 512, y: 300 }; }
+  }
+  function pop(el) {
+    var c; try { c = centerOf(el); } catch (e) { return; }
+    A.tween({ duration: 220, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { var s = 1 + 0.06 * Math.sin(Math.PI * t); el.setAttribute("transform", "translate(" + c.x + "," + c.y + ") scale(" + s + ") translate(" + (-c.x) + "," + (-c.y) + ")"); },
+      onDone: function () { el.setAttribute("transform", ""); } });
+  }
+
+  /* ---------- fly / reveal a sprite in the #fx layer ---------- */
+  function flySprite(sprId, from, to, snd, stay) {
+    var src = C.$("sp-" + sprId); if (!src) return;
+    var cl = src.cloneNode(true); cl.removeAttribute("transform");
+    var off = SPR[sprId] || [20, 20];
+    var g = C.svg("g", {});
+    g.appendChild(cl); C.$("fx").appendChild(g);
+    function place(x, y, sc) { g.setAttribute("transform", "translate(" + (x - off[0] * sc) + "," + (y - off[1] * sc) + ") scale(" + sc + ")"); }
+    place(from.x, from.y, 1);
+    if (snd) AU.play(snd);
+    A.tween({ duration: 850, from: 0, to: 1, ease: "outCubic",
+      onUpdate: function (t) { place(from.x + (to.x - from.x) * t, from.y + (to.y - from.y) * t, 1 - 0.4 * t); g.setAttribute("opacity", "" + (1 - 0.15 * t)); },
+      onDone: function () { try { C.$("fx").removeChild(g); } catch (e) {} } });
+  }
+  function peekSprite(sprId, at, snd) {
+    var src = C.$("sp-" + sprId); if (!src) return;
+    var cl = src.cloneNode(true); cl.removeAttribute("transform");
+    var off = SPR[sprId] || [20, 20];
+    var g = C.svg("g", {}); g.appendChild(cl); C.$("fx").appendChild(g);
+    if (snd) AU.play(snd);
+    A.tween({ duration: 1200, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) { var dy = -16 * Math.sin(Math.PI * t); g.setAttribute("transform", "translate(" + (at.x - off[0]) + "," + (at.y - off[1] + dy) + ")"); g.setAttribute("opacity", "" + (t < 0.2 ? t / 0.2 : (t > 0.8 ? (1 - t) / 0.2 : 1))); },
+      onDone: function () { try { C.$("fx").removeChild(g); } catch (e) {} } });
+  }
+
+  /* ---------- a hotspot was tapped ---------- */
+  function onReact(room, base, r, el) {
+    if (r) { AU.play(r.s); setHint(r.t); }
+    pop(el);
+    checkNiche(room, base, el);
+  }
+  function checkNiche(room, base, el) {
+    var k = S.key(room, base), items = quest.assign[k]; if (!items) return;
+    got[k] = got[k] || {};
+    var c = centerOf(el), i;
+    for (i = 0; i < items.length; i++) {
+      var type = items[i]; if (got[k][type]) continue; got[k][type] = 1;
+      if (type === "star") {
+        starCount++; setStars(); flySprite("spr_star", c, { x: 512, y: 26 }, "chime");
+        setHint(starCount >= 5 ? "kaikki 5! vie ne tähtitorniin!" : "tähtikivi! (" + starCount + "/5)");
+      } else if (type === "key") {
+        hasKey = true; flySprite("spr_key", c, { x: 90, y: 560 }, "chime"); setHint("löysit avaimen!");
+      } else if (type === "mouse") {
+        mouseCount++; peekSprite("spr_mouse", c, "chime");
+        if (mouseCount >= 3) { peekSprite("spr_cheese", { x: 512, y: 300 }, "chime"); setHint("kolme hiirtä löytyi!"); }
+        else { setHint("piip! hiiri (" + mouseCount + "/3)"); }
+      }
+    }
+  }
+
+  /* ---------- specials ---------- */
+  function onTaskBoard(el) { AU.play("tap"); pop(el); setHint("etsi 5 tähtikiveä! (" + starCount + "/5)"); }
+  function onClue(el) { AU.play("tap"); pop(el); setHint(quest.keyClue); }
+  function onChest(el) {
+    if (chestOpen) { pop(el); return; }
+    if (!hasKey) { AU.play("creak"); pop(el); setHint("lukossa. tarvitaan avain."); return; }
+    chestOpen = true; AU.play("unlock"); pop(el);
+    var c = centerOf(el);
+    peekSprite("spr_star", c, null); /* little sparkle placeholder */
+    setHint("avain sopii! " + quest.treasure.nimi + "!");
+    var src = C.$("tr-" + quest.treasure.id);
+    if (src) { var cl = src.cloneNode(true); cl.removeAttribute("transform"); var g = C.svg("g", {}); g.appendChild(cl); C.$("fx").appendChild(g);
+      A.tween({ duration: 700, from: 0, to: 1, ease: "outCubic",
+        onUpdate: function (t) { g.setAttribute("transform", "translate(" + (c.x - 50) + "," + (c.y - 40 - 50 * t) + ")"); g.setAttribute("opacity", "" + Math.min(1, t * 2)); } }); }
+    Seik.celebrate("löysit aarteen!");
+  }
+  function onDome(el) {
+    if (domeDone) { pop(el); return; }
+    if (starCount < 5) { AU.play("chime"); pop(el); setHint("löydä ensin 5 tähtikiveä."); return; }
+    domeDone = true; pop(el);
+    var cvs = A.Particles({ w: 1024, h: 600, parent: C.$("stage") }), i;
+    for (i = 0; i < 24; i++) { cvs.emit(300 + Math.random() * 424, 120 + Math.random() * 120, 1, { angle: Math.random() * Math.PI * 2, speed: 1 + Math.random() * 3, life: 1400 + Math.random() * 600, gravity: -0.01, color: U.pick(["#ffd264", "#cfe8ff", "#7cc0ff", "#fff7e6"]), shape: "circle", size: 6 + Math.random() * 6 }); }
+    setHint("lohikäärme lentää! katso ylös!");
+    Seik.celebrate("sinä löysit kaikki tähtikivet!");
+  }
+
+  /* ---------- light toggle ---------- */
+  function toggleLight(room, el) {
+    var dim = C.$(id(room, "dim")); if (!dim) { pop(el); return; }
+    dimState[room] = !dimState[room];
+    dim.setAttribute("opacity", dimState[room] ? "0.45" : "0");
+    AU.play("tap"); pop(el);
+    setHint(dimState[room] ? "pimeää." : "valo syttyi!");
+  }
+
+  /* ---------- navigation ---------- */
+  function showRoom(slug, fade) {
+    var el = C.$("scene-" + slug); if (!el) return;
+    el.style.display = "block";
+    if (fade) { el.style.opacity = "0"; A.tween({ duration: 380, from: 0, to: 1, ease: "linear", onUpdate: function (v) { el.style.opacity = "" + v; } }); }
+    else { el.style.opacity = "1"; }
+    cur = slug;
+  }
+  function navTo(target) {
+    if (busy || target === cur) return; busy = true;
+    AU.play("creak");
+    var old = C.$("scene-" + cur);
+    A.tween({ duration: 300, from: 1, to: 0, ease: "linear",
+      onUpdate: function (v) { if (old) old.style.opacity = "" + v; },
+      onDone: function () { if (old) old.style.display = "none"; showRoom(target, true); busy = false; } });
+  }
+
+  /* ---------- wire a room's hotspots ---------- */
+  function wireRoom(slug) {
+    var navmap = S.nav[slug] || {}, b;
+    for (b in navmap) { if (!navmap.hasOwnProperty(b)) continue; (function (base, target) { var e = C.$(id(slug, base)); if (e) C.tap(e, function () { navTo(target); }); })(b, navmap[b]); }
+    var rr = S.react[slug] || {};
+    for (b in rr) { if (!rr.hasOwnProperty(b)) continue; (function (base, r) { var e = C.$(id(slug, base)); if (e) C.tap(e, function () { onReact(slug, base, r, e); }); })(b, rr[b]); }
+    if (S.lights[slug]) { var le = C.$(id(slug, S.lights[slug])); if (le) C.tap(le, function () { toggleLight(slug, le); }); }
+  }
+
+  /* ---------- boot ---------- */
+  C.ready(function () {
+    C.initStage();
+    AU.setBase("../assets/audio/");
+    AU.setSounds(["tap", "creak", "chime", "rustle", "meow", "cuckoo", "ribbit", "snore", "hoot",
+      "horse", "musicbox", "fire", "unlock", "boil", "whistle", "drip", "clatter", "gear", "beep",
+      "roar", "rattle", "chomp", "whir", "whoosh", "success"]);
+    C.addMuteButton();
+    hudStars = C.$("hudStars"); hudHint = C.$("hudHint");
+    var i; for (i = 0; i < S.rooms.length; i++) { wireRoom(S.rooms[i]); }
+    /* specials */
+    var tb = C.$(id("eteinen", "taskBoard")); if (tb) C.tap(tb, function () { onTaskBoard(tb); });
+    var cn = C.$(id("eteinen", "clueNote")); if (cn) C.tap(cn, function () { onClue(cn); });
+    var ch = C.$(id("kellari", "bigchest")); if (ch) C.tap(ch, function () { onChest(ch); });
+    var dm = C.$(id("tahtitorni", "skyDome")); if (dm) C.tap(dm, function () { onDome(dm); });
+    showRoom("eteinen", false);
   });
 })();
 </script>
