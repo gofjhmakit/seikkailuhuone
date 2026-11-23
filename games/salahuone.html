@@ -1449,10 +1449,20 @@
     try { var b = el.getBBox(); return { x: b.x + b.width / 2, y: b.y + b.height / 2 }; }
     catch (e) { return { x: 512, y: 300 }; }
   }
-  function pop(el) {
+  /* a reaction with some variety — each tap picks one of a few gentle styles */
+  function pop(el, style) {
     var c; try { c = centerOf(el); } catch (e) { return; }
-    A.tween({ duration: 220, from: 0, to: 1, ease: "linear",
-      onUpdate: function (t) { var s = 1 + 0.06 * Math.sin(Math.PI * t); el.setAttribute("transform", "translate(" + c.x + "," + c.y + ") scale(" + s + ") translate(" + (-c.x) + "," + (-c.y) + ")"); },
+    if (style == null) style = Math.floor(Math.random() * 4);
+    var about = "translate(" + c.x + "," + c.y + ") ", back = " translate(" + (-c.x) + "," + (-c.y) + ")";
+    A.tween({ duration: 240 + Math.random() * 120, from: 0, to: 1, ease: "linear",
+      onUpdate: function (t) {
+        var s = Math.sin(Math.PI * t), tr;
+        if (style === 1) { tr = about + "rotate(" + (7 * s) + ")" + back; }            /* wobble */
+        else if (style === 2) { tr = about + "scale(1," + (1 - 0.1 * s) + ")" + back; } /* squash */
+        else if (style === 3) { tr = "translate(" + (4 * s) + ",0)"; }                  /* nudge */
+        else { tr = about + "scale(" + (1 + 0.07 * s) + ")" + back; }                   /* pop */
+        el.setAttribute("transform", tr);
+      },
       onDone: function () { el.setAttribute("transform", ""); } });
   }
 
