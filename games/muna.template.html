@@ -45,7 +45,14 @@
 
   var phase = "egg", taps = 0, crackStage = 0, feeds = 0, growth = 1, sleeping = false, busy = false;
   var cur = null, refs = {};
-  var hintEl;
+  var hintEl, uniBtn = null;
+
+  /* food + uni only make sense once a dragon has hatched; hide them during the
+     egg phase so a tap on them never silently does nothing. */
+  function setCareControls(on) {
+    var tray = C.$("tray"); if (tray) tray.style.display = on ? "" : "none";
+    if (uniBtn) uniBtn.style.display = on ? "" : "none";
+  }
 
   function setHint(t) { if (hintEl.firstChild) hintEl.firstChild.nodeValue = t; else hintEl.appendChild(document.createTextNode(t)); }
 
@@ -135,6 +142,7 @@
         addToKirja(cur);
         if (bot) A.tween({ duration: 900, from: 1, to: 0, onUpdate: function (v) { bot.setAttribute("opacity", "" + v); } });
         phase = "care"; busy = false; feeds = 0; growth = 1;
+        setCareControls(true);
         setHint("silitä ja ruoki lohikäärmettä!");
       } });
   }
@@ -203,6 +211,7 @@
   function newEgg() {
     AU.play("pop"); phase = "egg"; taps = 0; crackStage = 0; sleeping = false; busy = false;
     C.$("dragon").style.display = "none";
+    setCareControls(false);
     showCracks(0);
     C.$("egg-whole").setAttribute("opacity", "1");
     var top = C.$("egg-shell-top"), bot = C.$("egg-shell-bottom");
@@ -240,7 +249,8 @@
   function buildControls() {
     var ctr = C.$("controls");
     ctr.appendChild(button(848, 20, 150, 50, "kirja", 22, openKirja));
-    ctr.appendChild(button(40, 512, 72, 72, "uni", 22, sleepToggle));
+    uniBtn = button(40, 512, 72, 72, "uni", 22, sleepToggle);
+    ctr.appendChild(uniBtn);
     ctr.appendChild(button(848, 520, 160, 56, "uusi muna", 20, newEgg));
   }
 
@@ -279,6 +289,7 @@
     C.addBackButton(); C.addMuteButton();
     hintEl = C.$("hint");
     buildTray(); buildControls(); buildKirjaControls();
+    setCareControls(false);
     showCracks(0);
     C.tap(C.$("egg"), warmEgg);
     C.tap(C.$("dragon"), petDragon);
