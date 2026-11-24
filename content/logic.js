@@ -106,6 +106,28 @@
         { id: sel.tail, hz: voiceHz[sel.tail], timbre: voiceTimbre.tail, dur: 0.22 }
       ];
     }
+    /* HUUDA shout patterns: reorder / repeat the 3 base notes (0=head, 1=body,
+       2=tail) at different tempos, so the same monster can shout in several ways.
+       The variety is in the PATTERN (which notes fire, order, count, rhythm) — that
+       is what's audible on the Acer, whose pre-baked per-part WAVs can't change
+       pitch. `gap` is the ms between note onsets for that pattern. */
+    var shoutPatterns = [
+      { seq: [0, 1, 2],    gap: 185 },   /* perus: pää, keho, häntä */
+      { seq: [2, 1, 0],    gap: 185 },   /* takaperin */
+      { seq: [0, 0, 1, 2], gap: 125 },   /* änkytys (nopea alku) */
+      { seq: [0, 1, 2, 2], gap: 150 },   /* tuplaloppu */
+      { seq: [1, 1, 2],    gap: 235 },   /* matala murina */
+      { seq: [2, 0, 2, 0], gap: 110 }    /* kikatus */
+    ];
+    function shout(sel, idx) {
+      var base = voice(sel), n = shoutPatterns.length;
+      var p = shoutPatterns[((idx % n) + n) % n], out = [], i, b;
+      for (i = 0; i < p.seq.length; i++) {
+        b = base[p.seq[i]];
+        out.push({ id: b.id, hz: b.hz, timbre: b.timbre, dur: b.dur, gap: p.gap });
+      }
+      return out;
+    }
 
     function selfTest(ok, eq) {
       var s, i, k, arr, name;
@@ -140,13 +162,32 @@
       /* cycle wraps correctly */
       eq(cycle("head", options.head[0], -1), options.head[options.head.length - 1], "cycle wraps back");
       eq(cycle("head", options.head[options.head.length - 1], 1), options.head[0], "cycle wraps fwd");
+      /* shout: several distinct patterns, each a valid reshuffle of the 3 base notes */
+      ok(shoutPatterns.length >= 4, "hirvio has several shout patterns");
+      s = randomSel();
+      var base = voice(s), si, p, notes, j;
+      for (si = 0; si < shoutPatterns.length; si++) {
+        p = shoutPatterns[si];
+        ok(p.seq.length >= 3, "shout pattern " + si + " has notes");
+        ok(p.gap > 0, "shout pattern " + si + " has a tempo");
+        notes = shout(s, si);
+        eq(notes.length, p.seq.length, "shout " + si + " length matches seq");
+        for (j = 0; j < p.seq.length; j++) {
+          ok(p.seq[j] >= 0 && p.seq[j] <= 2, "shout " + si + " seq index in range");
+          eq(notes[j].id, base[p.seq[j]].id, "shout " + si + " note " + j + " = base note");
+          ok(notes[j].hz > 0, "shout " + si + " note " + j + " has pitch");
+        }
+      }
+      /* idx wraps both ways so a random index is always safe */
+      eq(shout(s, shoutPatterns.length).length, shout(s, 0).length, "shout idx wraps high");
+      eq(shout(s, -1).length, shout(s, shoutPatterns.length - 1).length, "shout idx wraps low");
     }
 
     return {
       slots: slots, zOrder: zOrder, options: options, labels: labels,
       piece: piece, adjectives: adjectives, voiceHz: voiceHz, voiceTimbre: voiceTimbre,
-      defaults: defaults,
-      makeName: makeName, randomSel: randomSel, cycle: cycle, voice: voice,
+      defaults: defaults, shoutPatterns: shoutPatterns,
+      makeName: makeName, randomSel: randomSel, cycle: cycle, voice: voice, shout: shout,
       selfTest: selfTest
     };
   })();

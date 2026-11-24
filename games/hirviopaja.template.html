@@ -27,7 +27,7 @@
       <rect x="0" y="0" width="1024" height="600" fill="#2b2140"/>
       <text x="512" y="50" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="32" font-weight="800" fill="#ffd264">galleria</text>
       <g id="galMonster" transform="translate(312,95)"><g id="galInner"></g></g>
-      <text id="galname" x="512" y="548" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="30" font-weight="800" fill="#ffd264"></text>
+      <text id="galname" x="512" y="90" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="28" font-weight="800" fill="#ffd264"></text>
       <text id="galempty" x="512" y="300" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="26" font-weight="700" fill="#fff7e6" style="display:none;">Ei viel&#228; otuksia. Tee ja tallenna!</text>
       <g id="galControls"></g>
     </svg>
@@ -96,18 +96,23 @@
     });
   }
 
-  /* ---------- the 3-note voice (pre-baked WAV notes; synth fallback on modern) ---------- */
-  function playVoice(s) {
-    var notes = G.voice(s), i;
+  /* ---------- the monster voice (pre-baked WAV notes; synth fallback on modern) ----------
+     Each call picks a random shout pattern, so the same monster sounds different
+     every time you press HUUDA (or tap it). The variety is in the pattern + tempo,
+     which is audible on the Acer too — its fixed WAVs can't change pitch. */
+  function playVoice(s, idx) {
+    if (idx == null) { idx = Math.floor(Math.random() * G.shoutPatterns.length); }
+    var notes = G.shout(s, idx), i, delay = 0;
     for (i = 0; i < notes.length; i++) {
-      (function (n, delay) {
+      (function (n, d) {
         setTimeout(function () {
           AU.playOnce("voice_" + n.id, {
             f0: n.hz, f1: n.hz * (n.timbre === "tri" ? 1.12 : 0.85),
             type: TIMBRE[n.timbre], dur: n.dur, vol: 0.18
           });
-        }, delay);
-      })(notes[i], i * 185);
+        }, d);
+      })(notes[i], delay);
+      delay += notes[i].gap;
     }
   }
 
@@ -154,15 +159,17 @@
     return g;
   }
 
+  /* ay sits 42px below the label baseline (ly) so the arrow circles clear the
+     label text; labels stay put so the top row keeps its gap under the shelf. */
   var CYC = [
-    { slot: "head", lx: 85, ly: 120, px: 48, nx: 124, ay: 150 },
-    { slot: "body", lx: 85, ly: 228, px: 48, nx: 124, ay: 258 },
-    { slot: "leg",  lx: 85, ly: 336, px: 48, nx: 124, ay: 366 },
-    { slot: "pat",  lx: 85, ly: 444, px: 48, nx: 124, ay: 474 },
-    { slot: "tail", lx: 939, ly: 120, px: 900, nx: 976, ay: 150 },
-    { slot: "wing", lx: 939, ly: 228, px: 900, nx: 976, ay: 258 },
-    { slot: "horn", lx: 939, ly: 336, px: 900, nx: 976, ay: 366 },
-    { slot: "hat",  lx: 939, ly: 444, px: 900, nx: 976, ay: 474 }
+    { slot: "head", lx: 85, ly: 120, px: 48, nx: 124, ay: 162 },
+    { slot: "body", lx: 85, ly: 228, px: 48, nx: 124, ay: 270 },
+    { slot: "leg",  lx: 85, ly: 336, px: 48, nx: 124, ay: 378 },
+    { slot: "pat",  lx: 85, ly: 444, px: 48, nx: 124, ay: 486 },
+    { slot: "tail", lx: 939, ly: 120, px: 900, nx: 976, ay: 162 },
+    { slot: "wing", lx: 939, ly: 228, px: 900, nx: 976, ay: 270 },
+    { slot: "horn", lx: 939, ly: 336, px: 900, nx: 976, ay: 378 },
+    { slot: "hat",  lx: 939, ly: 444, px: 900, nx: 976, ay: 486 }
   ];
 
   function buildControls() {
