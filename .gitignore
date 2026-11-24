@@ -4,6 +4,11 @@
 # Node (test suite is zero-dependency, but just in case)
 node_modules/
 
+# Android build outputs & generated sources
+app/build/
+app/obj/
+app/gen/
+
 # Signing keys — NEVER publish these
 *.keystore
 *.jks

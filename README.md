@@ -46,14 +46,31 @@ scaled with `transform`; **no SVG filters/blur** (too slow on the SGX531);
 - `tools/build_*.py` — bundle each game's design SVGs into its page
 - `tests/run-tests.js` — zero-dependency node tests for the generators
 - `design/<game>/` — the UX design docs + SVG art each game is built from
+- `app/` — a tiny fullscreen WebView wrapper that runs the offline app on the Acer
 
 ## Build & test
 ```sh
 python3 tools/make_sound.py        # (re)generate assets/audio/*.wav
 python3 tools/build_<game>.py      # (re)build a game page from its design art
+python3 tools/make_web_icons.py    # (re)generate the web/app icons from the door art
 node tests/run-tests.js            # run the generator tests
 ```
 Open `index.html` in a browser to play.
+
+## On the Acer tablet (offline app)
+`app/` wraps the web app in a minimal fullscreen Android `WebView` (no address bar,
+no tabs, screen kept awake, landscape-locked). `MainActivity.java` loads the app from
+the SD card: `file:///storage/sdcard1/seikkailuhuone/index.html` — adjust that path for
+a different device/mount. Targets **Android 4.1 (SDK 16)**.
+
+```sh
+bash app/build.sh    # build + sign app/build/seikkailuhuone.apk (needs the Android
+                     # command-line tools: aapt2, d8, zipalign, apksigner, + a JDK)
+bash app/deploy.sh   # build, copy the web app to the SD card, install + launch (adb)
+```
+`deploy.sh` needs the tablet connected over USB with debugging on. The signing key
+(`app/debug.keystore`) and build outputs (`app/build/…`) are **git-ignored** — the key
+is generated on first build and must never be published.
 
 ## License
 [PolyForm Noncommercial 1.0.0](LICENSE.md) — free for noncommercial use;
