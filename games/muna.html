@@ -326,7 +326,10 @@
     var ov = [r.puff, r.eyesClosed, r.zzz, r.hearts], i;
     for (i = 0; i < ov.length; i++) { if (ov[i]) target.appendChild(ov[i]); }
     recolour(target, M.schemes[d.scheme]);
-    stripIds(target);
+    /* strip ids from the cloned parts only — keep the container's own id
+       (e.g. #dragonInner) so later lookups by id still find it. */
+    var kid = target.firstChild;
+    while (kid) { if (kid.nodeType === 1) stripIds(kid); kid = kid.nextSibling; }
     return r;
   }
   function setInner(s) {

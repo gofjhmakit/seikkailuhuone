@@ -38,24 +38,29 @@
     }
   }
 
-  /* ---- unified tap: one handler for mouse + touch, de-duped, audio-unlock ---- */
+  /* ---- unified tap: one handler for mouse + touch, de-ghosted ----
+     The ghost click Android fires ~300ms after touchstart is suppressed with a
+     GLOBAL timestamp, not a per-element flag: a tap can swap the element under the
+     finger (e.g. opening an overlay whose button lands exactly where the tapped
+     button was), and a per-element flag wouldn't stop that new element's ghost
+     click. Real touches always arrive as touchstart, so none are lost; a pure
+     mouse never fires touchstart, so desktop clicks are unaffected. */
+  var lastTouchAt = 0;
   function tap(el, fn) {
     if (!el) return;
-    var touched = false, lastT = 0;
     function fire(ev) {
       if (window.Seik.audio && window.Seik.audio.unlock) { window.Seik.audio.unlock(); }
       fn.call(el, ev);
     }
     if (el.addEventListener) {
       el.addEventListener("touchstart", function (ev) {
-        touched = true; lastT = (Date.now ? Date.now() : +new Date());
+        lastTouchAt = (Date.now ? Date.now() : +new Date());
         /* don't preventDefault globally - lets the stage still scroll-lock via CSS */
         fire(ev);
       }, false);
       el.addEventListener("click", function (ev) {
         var nowT = (Date.now ? Date.now() : +new Date());
-        if (touched && (nowT - lastT) < 700) { return; }  /* ignore ghost click */
-        touched = false;
+        if (nowT - lastTouchAt < 700) { return; }  /* ghost click after any touch */
         fire(ev);
       }, false);
     } else if (el.attachEvent) {

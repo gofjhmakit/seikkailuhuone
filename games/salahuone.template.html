@@ -7,19 +7,25 @@
 <link rel="stylesheet" href="../seikkailu.css">
 <link rel="icon" type="image/svg+xml" href="../icons/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="../icons/icon-32.png">
-<style> .room{ position:absolute; left:0; top:0; display:none; } #hud,#fx{ position:absolute; left:0; top:0; pointer-events:none; } </style>
+<style> .room{ position:absolute; left:0; top:0; display:none; } </style>
 </head>
 <body>
 <div id="stage">
   <!--ROOMS-->
 
-  <svg id="fx" viewBox="0 0 1024 600" width="1024" height="600" stroke-linejoin="round" stroke-linecap="round"></svg>
-
-  <svg id="hud" viewBox="0 0 1024 600" width="1024" height="600">
-    <rect x="356" y="6" width="312" height="40" rx="14" fill="#241a33" opacity="0.82" stroke="#ffd264" stroke-width="3"/>
-    <text id="hudStars" x="512" y="34" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">tähtikiviä 0/5</text>
-    <rect x="252" y="560" width="520" height="36" rx="14" fill="#241a33" opacity="0.78" stroke="#8a5a2b" stroke-width="2"/>
-    <text id="hudHint" x="512" y="585" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6">tutki taloa — koske kaikkea!</text>
+  <!-- fx + hud live as plain SVG groups; at run time they are moved INTO the
+       active room's <svg> so they draw on top but, being transparent groups (not
+       a positioned <svg> box), let taps pass through to the room's hotspots.
+       Android 4.1 WebKit ignores pointer-events:none for touch, so a separate
+       overlay <svg> would swallow every tap — hence this. -->
+  <svg id="overlaysheet" viewBox="0 0 1024 600" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <g id="fx" pointer-events="none" stroke-linejoin="round" stroke-linecap="round"></g>
+    <g id="hud" pointer-events="none">
+      <rect x="356" y="6" width="312" height="40" rx="14" fill="#241a33" opacity="0.82" stroke="#ffd264" stroke-width="3"/>
+      <text id="hudStars" x="512" y="34" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="22" font-weight="800" fill="#ffd264">tähtikiviä 0/5</text>
+      <rect x="252" y="560" width="520" height="36" rx="14" fill="#241a33" opacity="0.78" stroke="#8a5a2b" stroke-width="2"/>
+      <text id="hudHint" x="512" y="585" text-anchor="middle" font-family="Comic Sans MS, sans-serif" font-size="20" font-weight="700" fill="#fff7e6">tutki taloa — koske kaikkea!</text>
+    </g>
   </svg>
 
   <svg id="sprsheet" width="0" height="0" viewBox="0 0 480 480" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true"><!--SPRSHEET--></svg>
@@ -158,6 +164,10 @@
   /* ---------- navigation ---------- */
   function showRoom(slug, fade) {
     var el = C.$("scene-" + slug); if (!el) return;
+    /* move the fx + hud groups on top of THIS room (they follow the active room) */
+    var fxEl = C.$("fx"), hudEl = C.$("hud");
+    if (fxEl) el.appendChild(fxEl);
+    if (hudEl) el.appendChild(hudEl);
     el.style.display = "block";
     if (fade) { el.style.opacity = "0"; A.tween({ duration: 380, from: 0, to: 1, ease: "linear", onUpdate: function (v) { el.style.opacity = "" + v; } }); }
     else { el.style.opacity = "1"; }
