@@ -23,7 +23,14 @@
   function fitStage() {
     var st = $("stage");
     if (!st) return;
-    var s = Math.min(window.innerWidth / STAGE_W, window.innerHeight / STAGE_H);
+    var w = window.innerWidth || 0, h = window.innerHeight || 0;
+    var de = document.documentElement;        /* fallback: innerWidth can be stale */
+    if (de) {
+      if (de.clientWidth > w) { w = de.clientWidth; }
+      if (de.clientHeight > h) { h = de.clientHeight; }
+    }
+    if (w < 1 || h < 1) { return; }            /* viewport not laid out yet */
+    var s = Math.min(w / STAGE_W, h / STAGE_H);
     var t = "translate(-50%,-50%) scale(" + s + ")";
     st.style.webkitTransform = t;
     st.style.transform = t;
@@ -33,9 +40,15 @@
     if (window.addEventListener) {
       window.addEventListener("resize", fitStage, false);
       window.addEventListener("orientationchange", fitStage, false);
+      window.addEventListener("load", fitStage, false);
     } else {
       window.onresize = fitStage;
     }
+    /* Old WebViews report stale / too-small viewport dimensions during the first
+       layout + landscape lock, which can leave the stage scaled tiny with no
+       resize event afterwards to correct it. Re-fit a few times as it settles. */
+    var delays = [50, 200, 500, 1000, 2000], k;
+    for (k = 0; k < delays.length; k++) { setTimeout(fitStage, delays[k]); }
   }
 
   /* ---- unified tap: one handler for mouse + touch, de-ghosted ----
