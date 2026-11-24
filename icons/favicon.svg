@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Seikkailuhuone">
+  <!-- indigo room backdrop (full-bleed; the OS rounds it) -->
+  <rect width="64" height="64" fill="#342a4e"/>
+  <!-- little star dots -->
+  <circle cx="13" cy="15" r="2" fill="#ffd264"/>
+  <circle cx="51" cy="19" r="1.8" fill="#cfe8ff"/>
+  <circle cx="22" cy="10.5" r="1.4" fill="#ffd264"/>
+  <!-- wooden arched door -->
+  <path d="M18 54 L18 24 A14 14 0 0 1 46 24 L46 54 Z" fill="#5e3d1c"/>
+  <path d="M21 51 L21 25 A11 11 0 0 1 43 25 L43 51 Z" fill="#8a5a2b"/>
+  <!-- gold knob -->
+  <circle cx="40" cy="39" r="2.8" fill="#ffd264"/>
+</svg>

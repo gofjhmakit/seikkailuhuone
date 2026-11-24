@@ -34,8 +34,8 @@ jobs:
       - name: Stage the playable app into _site
         run: |
           mkdir -p _site/games
-          cp index.html seikkailu.css _site/
-          cp -r engine content assets _site/
+          cp index.html seikkailu.css manifest.webmanifest _site/
+          cp -r engine content assets icons _site/
           cp games/*.html _site/games/
           # drop the source template + stub pages (keep only built game pages)
           rm -f _site/games/*.template.html _site/games/_stub.html
