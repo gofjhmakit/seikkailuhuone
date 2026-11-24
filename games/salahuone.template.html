@@ -201,6 +201,12 @@
     C.addBackButton(); C.addMuteButton();
     hudStars = C.$("hudStars"); hudHint = C.$("hudHint");
     var i; for (i = 0; i < S.rooms.length; i++) { wireRoom(S.rooms[i]); }
+    /* nudge each room's navHome (→ entrance) button down so it clears the fixed
+       "← huone" (→ hub) button that sits in the top-left corner */
+    for (i = 0; i < S.rooms.length; i++) {
+      var nh = C.$(id(S.rooms[i], "navHome"));
+      if (nh) nh.setAttribute("transform", "translate(0,42)");
+    }
     /* specials */
     var tb = C.$(id("eteinen", "taskBoard")); if (tb) C.tap(tb, function () { onTaskBoard(tb); });
     var cn = C.$(id("eteinen", "clueNote")); if (cn) C.tap(cn, function () { onClue(cn); });
